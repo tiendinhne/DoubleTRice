@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36511.14 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleTRice", "DoubleTRice.csproj", "{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6ABFC886-C99F-46C6-AAD2-90004AC4F93A}
+	EndGlobalSection
+EndGlobal
