@@ -29,7 +29,7 @@ namespace DoubleTRice.DAO
                 DataProvider.instance = value;
             }
         }
-        private string connStr = "Data Source=E14G3;Initial Catalog=db1;Integrated Security=True; TrustServerCertificate=True;";
+        private string connStr = "Data Source=E14G3;Initial Catalog=QuanLyBanGao;Integrated Security=True; TrustServerCertificate=True;";
         private string masterConnStr = "Data Source=E14G3;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
         private DataProvider() { }
         public DataTable ExecuteQuery(string query, object[] parameters = null, bool isStoredProc = false)

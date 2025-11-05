@@ -53,6 +53,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\ProviderData.cs" />
+    <Compile Include="DT\CustomerPayments.cs" />
+    <Compile Include="DT\Customers.cs" />
+    <Compile Include="DT\GoodReceipts.cs" />
+    <Compile Include="DT\GoodsReceiptDetails.cs" />
+    <Compile Include="DT\PriceList.cs" />
+    <Compile Include="DT\ProductInvertory.cs" />
+    <Compile Include="DT\Products.cs" />
+    <Compile Include="DT\ProductUnitConversions.cs" />
+    <Compile Include="DT\SalesInvoiceDetails.cs" />
+    <Compile Include="DT\SalesInvoices.cs" />
+    <Compile Include="DT\StockAdjustments.cs" />
+    <Compile Include="DT\SupplierPayments.cs" />
+    <Compile Include="DT\Suppliers.cs" />
+    <Compile Include="DT\Units.cs" />
+    <Compile Include="DT\Users.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\CaiDatUI.cs">
@@ -137,7 +152,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DT\" />
     <Folder Include="LOGIC\" />
   </ItemGroup>
   <ItemGroup>
