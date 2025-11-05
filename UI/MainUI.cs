@@ -16,7 +16,7 @@ namespace DoubleTRice.UI
         {
             InitializeComponent();
         }
-        public private void panel5_Paint(object sender, PaintEventArgs e)
+        private void panelLogo_Paint(object sender, PaintEventArgs e)
         {
 
         }
@@ -37,6 +37,37 @@ namespace DoubleTRice.UI
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+            Application.Exit();
+        }
+
+        private void panelStatus_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelNav_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void guna2ImageButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelMenu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelInf_Paint(object sender, PaintEventArgs e)
         {
 
         }
