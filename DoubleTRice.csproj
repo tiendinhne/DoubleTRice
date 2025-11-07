@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProviderData.cs" />
     <Compile Include="DT\CustomerPayments.cs" />
     <Compile Include="DT\Customers.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="DT\Users.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="testDAO.cs" />
     <Compile Include="UI\CaiDatUI.cs">
       <SubType>Form</SubType>
     </Compile>

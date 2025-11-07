@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoubleTRice.DAO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -70,6 +71,14 @@ namespace DoubleTRice.UI
         private void panelInf_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+
+        // test productDAO
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var list = ProductDAO.Instance.GetAllProducts();
+            MessageBox.Show("Số lượng sản phẩm: " + list.Count.ToString());
         }
     }
 }

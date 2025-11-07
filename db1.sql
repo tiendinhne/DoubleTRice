@@ -46,6 +46,16 @@ CREATE TABLE Units (
     TenDVT NVARCHAR(50) NOT NULL -- Ví dụ: 'kg', 'Bao 10kg', 'Bao 25kg'
 );
 
+INSERT INTO Units (TenDVT)
+VALUES 
+(N'Kg'),
+(N'Tạ'),
+(N'Tấn'),
+(N'Bao 25kg'),
+(N'Bao 50kg');
+
+
+
 CREATE TABLE Products (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     TenSanPham NVARCHAR(255) NOT NULL,
@@ -53,6 +63,77 @@ CREATE TABLE Products (
     TonKhoToiThieu FLOAT DEFAULT 0,
     CONSTRAINT FK_Products_BaseUnit FOREIGN KEY (BaseUnitID) REFERENCES Units(UnitID)
 );
+
+INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
+VALUES 
+(N'Gạo ST25', 1, 50),
+(N'Gạo Lài Sữa', 1, 30),
+(N'Gạo Nàng Hương Chợ Đào', 1, 20),
+(N'Gạo Tám Thơm Hải Hậu', 1, 40),
+(N'Gạo Bắc Hương', 1, 25),
+(N'Gạo Nhật Sushi', 1, 15),
+(N'Gạo Thơm Jasmine', 1, 35),
+(N'Gạo Nếp Cái Hoa Vàng', 1, 20);
+--select * from Products;
+
+--------------------Tạo Stored Procedure cho Product
+
+--xem
+CREATE PROCEDURE sp_GetAllProducts
+AS
+BEGIN
+    SELECT * FROM Products;
+END
+GO
+
+--them
+CREATE PROCEDURE sp_InsertProduct
+    @TenSanPham NVARCHAR(255),
+    @BaseUnitID INT,
+    @TonKhoToiThieu FLOAT
+AS
+BEGIN
+    INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
+    VALUES (@TenSanPham, @BaseUnitID, @TonKhoToiThieu);
+END
+GO
+
+-- sua
+CREATE PROCEDURE sp_UpdateProduct
+    @ProductID INT,
+    @TenSanPham NVARCHAR(255),
+    @BaseUnitID INT,
+    @TonKhoToiThieu FLOAT
+AS
+BEGIN
+    UPDATE Products
+    SET TenSanPham = @TenSanPham,
+        BaseUnitID = @BaseUnitID,
+        TonKhoToiThieu = @TonKhoToiThieu
+    WHERE ProductID = @ProductID;
+END
+GO
+
+-- xoa
+CREATE PROCEDURE sp_DeleteProduct
+    @ProductID INT
+AS
+BEGIN
+    DELETE FROM Products
+    WHERE ProductID = @ProductID;
+END
+GO
+
+--tim keim theo ten
+CREATE PROCEDURE sp_SearchProducts
+    @Keyword NVARCHAR(255)
+AS
+BEGIN
+    SELECT * FROM Products
+    WHERE TenSanPham LIKE '%' + @Keyword + '%';
+END
+GO
+
 
 CREATE TABLE ProductUnitConversions (
     ConversionID INT IDENTITY(1,1) PRIMARY KEY,

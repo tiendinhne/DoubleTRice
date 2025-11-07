@@ -14,6 +14,7 @@ namespace DoubleTRice.DAO
     {
         private static DataProvider instance;
 
+        //instance dùng chung
         public static DataProvider Instance
         {
             get
@@ -30,8 +31,10 @@ namespace DoubleTRice.DAO
             }
         }
         private string connStr = "Data Source=E14G3;Initial Catalog=QuanLyBanGao;Integrated Security=True; TrustServerCertificate=True;";
-        private string masterConnStr = "Data Source=E14G3;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
+       // private string masterConnStr = "Data Source=E14G3;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
         private DataProvider() { }
+
+        // ham dung cho select
         public DataTable ExecuteQuery(string query, object[] parameters = null, bool isStoredProc = false)
         {
             DataTable data = new DataTable();
@@ -75,6 +78,7 @@ namespace DoubleTRice.DAO
             }
             return data;
         }
+        //dùng cho INSERT, UPDATE, DELETE
         public int ExecuteNonQuery(string query, object[] parameters)
         {
             int data = 0;
@@ -102,6 +106,7 @@ namespace DoubleTRice.DAO
             }
             return data;
         }
+        //dùng khi chỉ cần 1 giá trị (ô duy nhất)
         public object ExecuteScalar(string query, Dictionary<string, object> parameters = null, bool isStoredProcedure = false)
         {
             object data = null;
@@ -123,6 +128,8 @@ namespace DoubleTRice.DAO
             }
             return data;
         }
+
+        //dùng cho Stored Procedure có tham số OUTPUT
         public object ExecuteProcedureWithOutput(string procName, Dictionary<string, object> inputParams, string outputParamName)
         {
             object outputValue = null;
