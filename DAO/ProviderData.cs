@@ -78,6 +78,7 @@ namespace DoubleTRice.DAO
             }
             return data;
         }
+
         //dùng cho INSERT, UPDATE, DELETE
         public int ExecuteNonQuery(string query, object[] parameters)
         {

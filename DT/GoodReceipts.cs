@@ -21,13 +21,13 @@ namespace DoubleTRice.DTO
 
         public GoodsReceipts(int receiptID, string maPhieuNhap, int supplierID, int userID, DateTime? ngayNhap, decimal? tongTien = null, string ghiChu = null)
         {
-            ReceiptID = receiptID;
-            MaPhieuNhap = maPhieuNhap;
-            SupplierID = supplierID;
-            UserID = userID;
-            NgayNhap = ngayNhap;
-            TongTien = tongTien;
-            GhiChu = ghiChu;
+            this.ReceiptID = receiptID;
+            this.MaPhieuNhap = maPhieuNhap;
+            this.SupplierID = supplierID;
+            this.UserID = userID;
+            this.NgayNhap = ngayNhap;
+            this.TongTien = tongTien;
+            this.GhiChu = ghiChu;
         }
 
         public GoodsReceipts(DataRow row)

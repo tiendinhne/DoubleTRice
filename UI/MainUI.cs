@@ -16,6 +16,19 @@ namespace DoubleTRice.UI
         public MainUI()
         {
             InitializeComponent();
+            AdjustFormSize();
+        }
+
+        private void AdjustFormSize()
+        {
+            // Lấy kích thước màn hình hiện tại
+            var screen = Screen.PrimaryScreen.WorkingArea;
+            int width = (int)(screen.Width * 0.85);   // Form chiếm 85% chiều ngang
+            int height = (int)(screen.Height * 0.85); // Form chiếm 85% chiều dọc
+
+            // Cập nhật kích thước form
+            this.Size = new Size(width, height);
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
         private void panelLogo_Paint(object sender, PaintEventArgs e)
         {
@@ -79,6 +92,11 @@ namespace DoubleTRice.UI
         {
             var list = ProductDAO.Instance.GetAllProducts();
             MessageBox.Show("Số lượng sản phẩm: " + list.Count.ToString());
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
