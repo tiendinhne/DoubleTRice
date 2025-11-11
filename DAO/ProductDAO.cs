@@ -28,7 +28,7 @@ namespace DoubleTRice.DAO
         // constructor private để tránh tạo mới bên ngoài
         private ProductDAO() { }
 
-        // 🟢 1️⃣ Lấy danh sách toàn bộ sản phẩm
+        // Lấy danh sách toàn bộ sản phẩm
         public List<Products> GetAllProducts()
         {
             string query = "EXEC sp_GetAllProducts";

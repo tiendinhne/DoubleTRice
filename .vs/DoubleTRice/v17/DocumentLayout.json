@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -11,64 +15,12 @@
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\caidatui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\caidatui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\danhmucui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\danhmucui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\logoutui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\logoutui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\signupui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\signupui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\trangchuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\trangchuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dao\\providerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dao\\providerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dao\\productdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dao\\productdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dt\\goodreceipts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\goodreceipts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dt\\customerpayments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\customerpayments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dt\\products.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\products.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\testdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:testdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\trangchuui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\trangchuui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -99,32 +51,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MainUI.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
-              "RelativeDocumentMoniker": "UI\\MainUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
-              "RelativeToolTip": "UI\\MainUI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:24:45.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "MainUI.Designer.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
               "RelativeDocumentMoniker": "UI\\MainUI.Designer.cs",
               "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
               "RelativeToolTip": "UI\\MainUI.Designer.cs",
-              "ViewState": "AgIAAM4BAAAAAAAAAAAAwPcBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAPgBAAAAAAAAAAAIwOABAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T16:28:08.012Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainUI.cs [Design]",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
               "RelativeDocumentMoniker": "UI\\MainUI.cs",
@@ -136,167 +75,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LogoutUI.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LogoutUI.cs",
-              "RelativeDocumentMoniker": "UI\\LogoutUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LogoutUI.cs [Design]",
-              "RelativeToolTip": "UI\\LogoutUI.cs [Design]",
+              "DocumentIndex": 0,
+              "Title": "MainUI.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
+              "RelativeDocumentMoniker": "UI\\MainUI.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
+              "RelativeToolTip": "UI\\MainUI.cs",
+              "ViewState": "AgIAACsBAAAAAAAAAAAAwDYBAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:30:48.278Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "App.config",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\App.config",
-              "RelativeDocumentMoniker": "App.config",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\App.config",
-              "RelativeToolTip": "App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-11-06T16:40:51.089Z",
+              "WhenOpened": "2025-11-06T16:24:45.795Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "SignupUI.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\SignupUI.cs",
-              "RelativeDocumentMoniker": "UI\\SignupUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\SignupUI.cs [Design]",
-              "RelativeToolTip": "UI\\SignupUI.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:46:02.366Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "packages.config",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\packages.config",
-              "RelativeDocumentMoniker": "packages.config",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\packages.config",
-              "RelativeToolTip": "packages.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-11-08T15:12:55.654Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CaiDatUI.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\CaiDatUI.cs",
-              "RelativeDocumentMoniker": "UI\\CaiDatUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\CaiDatUI.cs [Design]",
-              "RelativeToolTip": "UI\\CaiDatUI.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:30:19.232Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DanhMucUI.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\DanhMucUI.cs",
-              "RelativeDocumentMoniker": "UI\\DanhMucUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\DanhMucUI.cs [Design]",
-              "RelativeToolTip": "UI\\DanhMucUI.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:30:24.07Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TrangChuUI.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.cs",
-              "RelativeDocumentMoniker": "UI\\TrangChuUI.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.cs [Design]",
-              "RelativeToolTip": "UI\\TrangChuUI.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:45:59.634Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GoodReceipts.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\GoodReceipts.cs",
-              "RelativeDocumentMoniker": "DT\\GoodReceipts.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\GoodReceipts.cs",
-              "RelativeToolTip": "DT\\GoodReceipts.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABsAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:33:22.64Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "CustomerPayments.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\CustomerPayments.cs",
-              "RelativeDocumentMoniker": "DT\\CustomerPayments.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\CustomerPayments.cs",
-              "RelativeToolTip": "DT\\CustomerPayments.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T06:33:20.873Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ProductDAO.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\ProductDAO.cs",
-              "RelativeDocumentMoniker": "DAO\\ProductDAO.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\ProductDAO.cs",
-              "RelativeToolTip": "DAO\\ProductDAO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T15:34:55.215Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProviderData.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\ProviderData.cs",
-              "RelativeDocumentMoniker": "DAO\\ProviderData.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\ProviderData.cs",
-              "RelativeToolTip": "DAO\\ProviderData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T14:15:16.065Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "testDAO.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\testDAO.cs",
-              "RelativeDocumentMoniker": "testDAO.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\testDAO.cs",
-              "RelativeToolTip": "testDAO.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwC8AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T15:42:11.147Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Products.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Products.cs",
-              "RelativeDocumentMoniker": "DT\\Products.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Products.cs",
-              "RelativeToolTip": "DT\\Products.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T13:28:49.973Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
               "Title": "Program.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAkwCEAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T15:44:01.068Z"
+              "WhenOpened": "2025-11-06T15:44:01.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TrangChuUI.Designer.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\TrangChuUI.Designer.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.Designer.cs",
+              "RelativeToolTip": "UI\\TrangChuUI.Designer.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAgwF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T13:37:28.694Z",
+              "EditorCaption": ""
             }
           ]
         },

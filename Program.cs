@@ -33,8 +33,16 @@ namespace DoubleTRice
             //        MessageBoxButtons.OK, MessageBoxIcon.Error);
             //    return; // dừng chương trình nếu chưa kết nối được
             //}
-            Application.Run(new MainUI());
+            //Application.Run(new MainUI());
             //testDAO.runtest();
+            // Trong Program.cs hoặc LoginForm
+            MainUI mainForm = new MainUI();
+            mainForm.SetUserInfo("Nguyễn Văn A", "Admin");
+            mainForm.SetMenuVisibility("Admin");
+            mainForm.Show();
+
+            // Để load module cụ thể
+            //mainForm.LoadUserControl(new ProductManagementUC());
         }
     }
 }

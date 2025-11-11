@@ -48,7 +48,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(416, 109);
+            this.label1.Location = new System.Drawing.Point(442, 94);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(142, 20);
             this.label1.TabIndex = 1;
@@ -58,7 +58,7 @@
             // guna2HtmlLabel1
             // 
             this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(333, 172);
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(341, 188);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
             this.guna2HtmlLabel1.Size = new System.Drawing.Size(366, 22);
             this.guna2HtmlLabel1.TabIndex = 3;
@@ -67,7 +67,7 @@
             // guna2HtmlLabel2
             // 
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(391, 658);
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(433, 646);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             this.guna2HtmlLabel2.Size = new System.Drawing.Size(180, 22);
             this.guna2HtmlLabel2.TabIndex = 4;
