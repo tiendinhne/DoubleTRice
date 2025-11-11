@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Guna.UI2.WinForms;
@@ -37,60 +36,61 @@ namespace DoubleTRice.UI
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
             LoadDashboard();
+            lblSubNavbarTitle.Text = "Dashboard";
         }
 
         private void BtnProducts_Click(object sender, EventArgs e)
         {
-            // TODO: Load Products UserControl
             LoadUserControl(CreatePlaceholder("Module Quản lý Sản phẩm"));
+            lblSubNavbarTitle.Text = "Sản phẩm";
         }
 
         private void BtnSuppliers_Click(object sender, EventArgs e)
         {
-            // TODO: Load Suppliers UserControl
             LoadUserControl(CreatePlaceholder("Module Quản lý Nhà cung cấp"));
+            lblSubNavbarTitle.Text = "Nhà cung cấp";
         }
 
         private void BtnCustomers_Click(object sender, EventArgs e)
         {
-            // TODO: Load Customers UserControl
             LoadUserControl(CreatePlaceholder("Module Quản lý Khách hàng"));
+            lblSubNavbarTitle.Text = "Khách hàng";
         }
 
         private void BtnGoodsReceipt_Click(object sender, EventArgs e)
         {
-            // TODO: Load GoodsReceipt UserControl
             LoadUserControl(CreatePlaceholder("Module Nhập hàng"));
+            lblSubNavbarTitle.Text = "Nhập hàng";
         }
 
         private void BtnSalesInvoice_Click(object sender, EventArgs e)
         {
-            // TODO: Load SalesInvoice UserControl
             LoadUserControl(CreatePlaceholder("Module Bán hàng"));
+            lblSubNavbarTitle.Text = "Bán hàng";
         }
 
         private void BtnInventory_Click(object sender, EventArgs e)
         {
-            // TODO: Load Inventory UserControl
             LoadUserControl(CreatePlaceholder("Module Tồn kho"));
+            lblSubNavbarTitle.Text = "Tồn kho";
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
-            // TODO: Load Reports UserControl
             LoadUserControl(CreatePlaceholder("Module Báo cáo"));
+            lblSubNavbarTitle.Text = "Báo cáo";
         }
 
         private void BtnUsers_Click(object sender, EventArgs e)
         {
-            // TODO: Load Users UserControl
             LoadUserControl(CreatePlaceholder("Module Quản lý Người dùng"));
+            lblSubNavbarTitle.Text = "Người dùng";
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            // TODO: Load Help UserControl
             LoadUserControl(CreatePlaceholder("Module Trợ giúp"));
+            lblSubNavbarTitle.Text = "Trợ giúp";
         }
         #endregion
 
@@ -99,21 +99,17 @@ namespace DoubleTRice.UI
         {
             isSidebarExpanded = !isSidebarExpanded;
             pnlSidebar.Width = isSidebarExpanded ? SIDEBAR_WIDTH_EXPANDED : SIDEBAR_WIDTH_COLLAPSED;
-
-            // Cập nhật vị trí các control trên navbar
             UpdateNavbarControlsPosition();
         }
 
         private void BtnNotification_Click(object sender, EventArgs e)
         {
-            // TODO: Hiển thị thông báo
             MessageBox.Show("Bạn có 3 thông báo mới!", "Thông báo",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-            // TODO: Mở form Settings
             MessageBox.Show("Chức năng Cài đặt đang được phát triển", "Thông báo",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -130,8 +126,6 @@ namespace DoubleTRice.UI
             if (result == DialogResult.Yes)
             {
                 statusTimer?.Stop();
-                // TODO: Clear session data
-                // TODO: Return to LoginForm
                 Application.Exit();
             }
         }
@@ -152,82 +146,42 @@ namespace DoubleTRice.UI
             lblUsername.Location = new Point(rightX + 150, 18);
             lblRole.Location = new Point(rightX + 150, 38);
 
-            // Cập nhật vị trí toggle button
             btnToggleSidebar.Location = new Point(pnlSidebar.Width + 20, 15);
             txtSearch.Location = new Point(pnlSidebar.Width + 80, 15);
         }
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Load UserControl vào body panel
-        /// </summary>
-        /// <param name="control">UserControl cần load</param>
-        public void LoadUserControl(Control control)
-        {
-            // Dispose tất cả controls cũ để giải phóng handles
-            foreach (Control oldControl in pnlBody.Controls)
-            {
-                oldControl.Dispose();  // Giải phóng resources
-            }
-            pnlBody.Controls.Clear();
-
-            control.Dock = DockStyle.Fill;
-            pnlBody.Controls.Add(control);
-        }
-        /// <summary>
-        /// Cập nhật thông tin người dùng trên navbar
-        /// </summary>
         public void SetUserInfo(string username, string role, Image avatar = null)
         {
             lblUsername.Text = username;
             lblRole.Text = role;
-            lblStatusUser.Text = $"👤 Đăng nhập: {username} ({role})";
-
-            if (avatar != null)
-                picAvatar.Image = avatar;
-            else
-                CreateDefaultAvatar();
+            if (avatar != null) picAvatar.Image = avatar;
+            else CreateDefaultAvatar();
         }
 
-        /// <summary>
-        /// Hiển thị/ẩn các menu theo role
-        /// </summary>
         public void SetMenuVisibility(string role)
         {
-            // Reset tất cả về visible
             ResetMenuVisibility();
 
             switch (role.ToUpper())
             {
                 case "ADMIN":
-                    // Admin xem được tất cả
                     break;
-
                 case "THU NGÂN":
-                    // Chỉ cho phép bán hàng và xem khách hàng
                     btnGoodsReceipt.Visible = false;
-                   // btnUsers.Visible = false;
                     btnReports.Visible = false;
                     btnSuppliers.Visible = false;
                     btnInventory.Visible = false;
                     break;
-
                 case "THỦ KHO":
-                    // Chỉ cho phép nhập hàng, tồn kho, sản phẩm
                     btnSalesInvoice.Visible = false;
-                    //btnUsers.Visible = false;
                     btnCustomers.Visible = false;
                     btnReports.Visible = false;
                     break;
-
                 case "KẾ TOÁN":
-                    // Cho phép xem báo cáo, khách hàng, nhà cung cấp
-                    //btnUsers.Visible = false;
                     break;
-
                 default:
-                    // Nếu role không xác định, chỉ hiển thị dashboard
                     HideAllMenuExceptDashboard();
                     break;
             }
@@ -277,6 +231,15 @@ namespace DoubleTRice.UI
             LoadUserControl(dashboardPanel);
         }
 
+        private void LoadUserControl(Control control)
+        {
+            pnlBody.Controls.Clear();
+            pnlBody.Controls.Add(subNavbar); // Giữ navbar phụ
+            control.Dock = DockStyle.Fill;
+            pnlBody.Controls.Add(control);
+            control.BringToFront();
+        }
+
         private Control CreatePlaceholder(string moduleName)
         {
             var placeholder = new Label
@@ -293,7 +256,6 @@ namespace DoubleTRice.UI
 
         private void CreateDefaultAvatar()
         {
-            // Tạo avatar mặc định với chữ cái đầu
             Bitmap bmp = new Bitmap(40, 40);
             using (Graphics g = Graphics.FromImage(bmp))
             {
@@ -318,9 +280,6 @@ namespace DoubleTRice.UI
             btnSalesInvoice.Visible = true;
             btnInventory.Visible = true;
             btnReports.Visible = true;
-            //btnUsers.Visible = true;
-            //btnHelp.Visible = true;
-            //btnLogout.Visible = true;
         }
 
         private void HideAllMenuExceptDashboard()
@@ -332,7 +291,6 @@ namespace DoubleTRice.UI
             btnSalesInvoice.Visible = false;
             btnInventory.Visible = false;
             btnReports.Visible = false;
-            //btnUsers.Visible = false;
         }
         #endregion
 

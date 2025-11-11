@@ -19,11 +19,11 @@ namespace DoubleTRice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.ThreadException += (s, e) =>
-            {
-                File.AppendAllText("error.log", $"Error: {e.Exception.Message}\nStack Trace: {e.Exception.StackTrace}\n");
-                MessageBox.Show("An error occurred. Check error.log for details.");
-            };
+            //Application.ThreadException += (s, e) =>
+            //{
+            //    File.AppendAllText("error.log", $"Error: {e.Exception.Message}\nStack Trace: {e.Exception.StackTrace}\n");
+            //    MessageBox.Show("An error occurred. Check error.log for details.");
+            //};
             Application.Run(new MainUI());
         }
     }
