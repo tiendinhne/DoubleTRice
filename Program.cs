@@ -19,30 +19,12 @@ namespace DoubleTRice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new LoginUI());
-            //// 🔍 Test kết nối SQL trước khi mở form
-            //if (DataProvider.Instance.TestConnection())
-            //{
-            //    MessageBox.Show("✅ Kết nối cơ sở dữ liệu thành công!", "Thông báo",
-            //        MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("❌ Không thể kết nối đến SQL Server!\n" +
-            //        "Vui lòng kiểm tra lại connection string.", "Lỗi",
-            //        MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return; // dừng chương trình nếu chưa kết nối được
-            //}
-            //Application.Run(new MainUI());
-            //testDAO.runtest();
-            // Trong Program.cs hoặc LoginForm
-            MainUI mainForm = new MainUI();
-            mainForm.SetUserInfo("Nguyễn Văn A", "Admin");
-            mainForm.SetMenuVisibility("Admin");
-            mainForm.Show();
-
-            // Để load module cụ thể
-            //mainForm.LoadUserControl(new ProductManagementUC());
+            Application.ThreadException += (s, e) =>
+            {
+                File.AppendAllText("error.log", $"Error: {e.Exception.Message}\nStack Trace: {e.Exception.StackTrace}\n");
+                MessageBox.Show("An error occurred. Check error.log for details.");
+            };
+            Application.Run(new MainUI());
         }
     }
 }

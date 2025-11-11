@@ -1,12 +1,6 @@
-﻿using DoubleTRice.DAO;
+﻿
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Guna.UI2.WinForms;
 
@@ -14,23 +8,32 @@ namespace DoubleTRice.UI
 {
     public partial class MainUI : Form
     {
+        #region Fields
         private bool isSidebarExpanded = true;
         private const int SIDEBAR_WIDTH_EXPANDED = 250;
         private const int SIDEBAR_WIDTH_COLLAPSED = 70;
         private Timer statusTimer;
+        #endregion
+
+        #region Constructor
         public MainUI()
         {
             InitializeComponent();
-            //AdjustFormSize();
             InitializeStatusTimer();
             LoadDashboard(); // Load trang chủ mặc định
         }
+        #endregion
+
+        #region Initialization
         private void InitializeStatusTimer()
         {
             statusTimer = new Timer { Interval = 1000 };
             statusTimer.Tick += (s, e) => lblStatusDate.Text = $"📅 {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
             statusTimer.Start();
         }
+        #endregion
+
+        #region Event Handlers - Sidebar Menu
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
             LoadDashboard();
@@ -89,7 +92,9 @@ namespace DoubleTRice.UI
             // TODO: Load Help UserControl
             LoadUserControl(CreatePlaceholder("Module Trợ giúp"));
         }
+        #endregion
 
+        #region Event Handlers - Navbar
         private void BtnToggleSidebar_Click(object sender, EventArgs e)
         {
             isSidebarExpanded = !isSidebarExpanded;
@@ -130,6 +135,7 @@ namespace DoubleTRice.UI
                 Application.Exit();
             }
         }
+        #endregion
 
         #region Event Handlers - Resize
         private void PnlNavbar_Resize(object sender, EventArgs e)
@@ -159,11 +165,16 @@ namespace DoubleTRice.UI
         /// <param name="control">UserControl cần load</param>
         public void LoadUserControl(Control control)
         {
+            // Dispose tất cả controls cũ để giải phóng handles
+            foreach (Control oldControl in pnlBody.Controls)
+            {
+                oldControl.Dispose();  // Giải phóng resources
+            }
             pnlBody.Controls.Clear();
+
             control.Dock = DockStyle.Fill;
             pnlBody.Controls.Add(control);
         }
-
         /// <summary>
         /// Cập nhật thông tin người dùng trên navbar
         /// </summary>
@@ -196,7 +207,7 @@ namespace DoubleTRice.UI
                 case "THU NGÂN":
                     // Chỉ cho phép bán hàng và xem khách hàng
                     btnGoodsReceipt.Visible = false;
-                    btnUsers.Visible = false;
+                   // btnUsers.Visible = false;
                     btnReports.Visible = false;
                     btnSuppliers.Visible = false;
                     btnInventory.Visible = false;
@@ -205,14 +216,14 @@ namespace DoubleTRice.UI
                 case "THỦ KHO":
                     // Chỉ cho phép nhập hàng, tồn kho, sản phẩm
                     btnSalesInvoice.Visible = false;
-                    btnUsers.Visible = false;
+                    //btnUsers.Visible = false;
                     btnCustomers.Visible = false;
                     btnReports.Visible = false;
                     break;
 
                 case "KẾ TOÁN":
                     // Cho phép xem báo cáo, khách hàng, nhà cung cấp
-                    btnUsers.Visible = false;
+                    //btnUsers.Visible = false;
                     break;
 
                 default:
@@ -226,10 +237,10 @@ namespace DoubleTRice.UI
         #region Private Methods
         private void LoadDashboard()
         {
-            var dashboardPanel = new Panel
+            var dashboardPanel = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = Color.FromArgb(248, 249, 250)
+                FillColor = Color.FromArgb(248, 249, 250)
             };
 
             var lblWelcome = new Label
@@ -240,7 +251,7 @@ namespace DoubleTRice.UI
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
                 Size = new Size(600, 100),
-                Location = new Point((dashboardPanel.Width - 600) / 2, 150)
+                Anchor = AnchorStyles.None
             };
 
             var lblInstruction = new Label
@@ -251,7 +262,13 @@ namespace DoubleTRice.UI
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
                 Size = new Size(600, 40),
-                Location = new Point((dashboardPanel.Width - 600) / 2, 270)
+                Anchor = AnchorStyles.None
+            };
+
+            dashboardPanel.Resize += (s, e) =>
+            {
+                lblWelcome.Location = new Point((dashboardPanel.Width - 600) / 2, (dashboardPanel.Height - 100) / 2 - 50);
+                lblInstruction.Location = new Point((dashboardPanel.Width - 600) / 2, (dashboardPanel.Height - 40) / 2 + 70);
             };
 
             dashboardPanel.Controls.Add(lblWelcome);
@@ -301,7 +318,9 @@ namespace DoubleTRice.UI
             btnSalesInvoice.Visible = true;
             btnInventory.Visible = true;
             btnReports.Visible = true;
-            btnUsers.Visible = true;
+            //btnUsers.Visible = true;
+            //btnHelp.Visible = true;
+            //btnLogout.Visible = true;
         }
 
         private void HideAllMenuExceptDashboard()
@@ -313,7 +332,7 @@ namespace DoubleTRice.UI
             btnSalesInvoice.Visible = false;
             btnInventory.Visible = false;
             btnReports.Visible = false;
-            btnUsers.Visible = false;
+            //btnUsers.Visible = false;
         }
         #endregion
 
@@ -324,85 +343,5 @@ namespace DoubleTRice.UI
             base.OnFormClosing(e);
         }
         #endregion
-
-        //private void AdjustFormSize()
-        //{
-        //    // Lấy kích thước màn hình hiện tại
-        //    var screen = Screen.PrimaryScreen.WorkingArea;
-        //    int width = (int)(screen.Width * 0.85);   // Form chiếm 85% chiều ngang
-        //    int height = (int)(screen.Height * 0.85); // Form chiếm 85% chiều dọc
-
-        //    // Cập nhật kích thước form
-        //    this.Size = new Size(width, height);
-        //    this.StartPosition = FormStartPosition.CenterScreen;
-        //}
-        //private void panelLogo_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-        //private void panelBody_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-        //private void guna2CirclePictureBox1_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //private void guna2Button2_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //private void label1_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //private void pictureBox3_Click(object sender, EventArgs e)
-        //{
-        //    this.ActiveControl = null;
-        //    Application.Exit();
-        //}
-
-        //private void panelStatus_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-        //private void panelNav_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-        //private void guna2ImageButton2_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //private void panelMenu_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-        //private void panelInf_Paint(object sender, PaintEventArgs e)
-        //{
-
-        //}
-
-
-        //// test productDAO
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    var list = ProductDAO.Instance.GetAllProducts();
-        //    MessageBox.Show("Số lượng sản phẩm: " + list.Count.ToString());
-        //}
-
-        //private void pictureBox2_Click(object sender, EventArgs e)
-        //{
-
-        //}
     }
 }

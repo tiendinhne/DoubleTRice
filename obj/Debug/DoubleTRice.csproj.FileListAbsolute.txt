@@ -7,7 +7,6 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.Properties.Resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.CaiDatUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.DanhMucUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.LoginUI.resources
-J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.MainUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.TrangChuUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.csproj.GenerateResource.cache
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.csproj.CoreCompileInputs.cache
@@ -15,3 +14,4 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTR.12A89E87.Up2Date
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.pdb
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe.config
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.MainUI.resources
