@@ -72,11 +72,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testDAO.cs" />
+    <Compile Include="UI\BASE\Mode.cs" />
     <Compile Include="UI\CaiDatUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\CaiDatUI.Designer.cs">
       <DependentUpon>CaiDatUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\DarkModeToggle.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\DanhMucUI.cs">
       <SubType>Form</SubType>

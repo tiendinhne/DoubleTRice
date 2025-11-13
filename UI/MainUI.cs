@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Guna.UI2.WinForms;
+using DoubleTRice.UI.BASE;
 
 namespace DoubleTRice.UI
 {
@@ -9,7 +10,6 @@ namespace DoubleTRice.UI
     {
         #region Fields
         private Timer statusTimer;
-        private bool isDarkMode = true; // Giả định ban đầu là nền tối
         #endregion
 
         #region Constructor
@@ -17,7 +17,8 @@ namespace DoubleTRice.UI
         {
             InitializeComponent();
             InitializeStatusTimer();
-            //SetupButtonIcons(); // Thiết lập icon và text cho các nút
+            InitializeDarkModeToggle();
+            ApplyCurrentMode(); // Áp dụng mode hiện tại
             LoadDashboard(); // Load trang chủ mặc định
         }
         #endregion
@@ -30,96 +31,163 @@ namespace DoubleTRice.UI
             statusTimer.Start();
         }
 
-        //private void SetupButtonIcons()
-        //{
-        //    // Thiết lập icon từ resource (thay bằng tài nguyên thực tế của bạn)
-        //    btnDashboard.Image = isDarkMode ? Properties.Resources.dashboard_icon_white : Properties.Resources.dashboard_icon_black;
-        //    btnDashboard.Text = "Dashboard";
-        //    btnProducts.Image = isDarkMode ? Properties.Resources.product_icon_white : Properties.Resources.product_icon_black;
-        //    btnProducts.Text = "Sản phẩm";
-        //    btnSuppliers.Image = isDarkMode ? Properties.Resources.supplier_icon_white : Properties.Resources.supplier_icon_black;
-        //    btnSuppliers.Text = "Nhà cung cấp";
-        //    btnCustomers.Image = isDarkMode ? Properties.Resources.customer_icon_white : Properties.Resources.customer_icon_black;
-        //    btnCustomers.Text = "Khách hàng";
-        //    btnGoodsReceipt.Image = isDarkMode ? Properties.Resources.receipt_icon_white : Properties.Resources.receipt_icon_black;
-        //    btnGoodsReceipt.Text = "Nhập hàng";
-        //    btnSalesInvoice.Image = isDarkMode ? Properties.Resources.invoice_icon_white : Properties.Resources.invoice_icon_black;
-        //    btnSalesInvoice.Text = "Bán hàng";
-        //    btnInventory.Image = isDarkMode ? Properties.Resources.inventory_icon_white : Properties.Resources.inventory_icon_black;
-        //    btnInventory.Text = "Tồn kho";
-        //    btnReports.Image = isDarkMode ? Properties.Resources.report_icon_white : Properties.Resources.report_icon_black;
-        //    btnReports.Text = "Báo cáo";
+        private void InitializeDarkModeToggle()
+        {
+            // Subscribe to Dark Mode change event
+            Mode.DarkModeChanged += OnDarkModeChanged;
+        }
 
-        //    // Căn lề trái cho icon và text
-        //    foreach (Guna2Button btn in new[] { btnDashboard, btnProducts, btnSuppliers, btnCustomers, btnGoodsReceipt, btnSalesInvoice, btnInventory, btnReports })
-        //    {
-        //        btn.ImageAlign = HorizontalAlignment.Left;
-        //        btn.TextAlign = HorizontalAlignment.Left;
-        //        btn.ImageSize = new Size(20, 20); // Kích thước icon
-        //        btn.Padding = new Padding(25, 0, 0, 0); // Đẩy text ra khỏi icon, căn lề trái
-        //    }
-        //}
+        /// <summary>
+        /// Event handler khi Dark Mode thay đổi
+        /// </summary>
+        private void OnDarkModeChanged(bool isDarkMode)
+        {
+            ApplyCurrentMode();
+        }
+
+        /// <summary>
+        /// Áp dụng mode hiện tại cho toàn bộ UI
+        /// </summary>
+        private void ApplyCurrentMode()
+        {
+            // Collect all menu buttons
+            Guna2Button[] menuButtons = new Guna2Button[]
+            {
+                btnDashboard,
+                btnProducts,
+                btnSuppliers,
+                btnCustomers,
+                btnGoodsReceipt,
+                btnSalesInvoice,
+                btnInventory,
+                btnReports
+            };
+
+            // Collect all separators
+            Label[] separators = new Label[]
+            {
+                lblSeparator1,
+                lblSeparator2,
+                lblSeparator3,
+                lblSeparator4
+            };
+
+            // Collect navbar buttons
+            Guna2Button[] navbarButtons = new Guna2Button[]
+            {
+                btnNotification,
+                btnSettings
+            };
+
+            // Collect status labels (không bao gồm lblStatusDate, lblStatusUser vì đã ẩn)
+            Label[] statusLabels = new Label[] { };
+
+            // Collect account labels
+            Label[] accountLabels = new Label[]
+            {
+                label1,  // Account label
+                label2,  // Username
+                label3   // Role
+            };
+
+            // Apply mode
+            Mode.ApplyModeToMainUI(
+                pnlSidebar: pnlSidebar,
+                pnlNavbar: pnlNavbar,
+                pnlBody: pnlBody,
+                pnlBrand: pnlBrand,
+                pnlMenu: pnlMenu,
+                menuButtons: menuButtons,
+                separators: separators,
+                txtSearch: txtSearch,
+                navbarButtons: navbarButtons,
+                statusLabels: statusLabels,
+                accountPanel: panel1,
+                accountLabels: accountLabels
+            );
+
+            // Refresh lại controls trong body nếu có
+            RefreshBodyContent();
+        }
+
+        /// <summary>
+        /// Refresh lại nội dung trong body panel
+        /// </summary>
+        private void RefreshBodyContent()
+        {
+            foreach (Control control in pnlBody.Controls)
+            {
+                if (control is Guna2Panel panel)
+                {
+                    panel.FillColor = Mode.GetBodyColor();
+                    panel.BackColor = Mode.GetBodyColor();
+
+                    foreach (Control child in panel.Controls)
+                    {
+                        if (child is Label label)
+                        {
+                            label.ForeColor = Mode.GetForeColor();
+                        }
+                    }
+                }
+                else if (control is Label label)
+                {
+                    label.ForeColor = Mode.GetForeColor();
+                    label.BackColor = Mode.GetBodyColor();
+                }
+            }
+        }
         #endregion
 
         #region Event Handlers - Sidebar Menu
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
             LoadDashboard();
-            //lblSubNavbarTitle.Text = "Dashboard";
         }
 
         private void BtnProducts_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Quản lý Sản phẩm"));
-           // lblSubNavbarTitle.Text = "Sản phẩm";
         }
 
         private void BtnSuppliers_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Quản lý Nhà cung cấp"));
-            //lblSubNavbarTitle.Text = "Nhà cung cấp";
         }
 
         private void BtnCustomers_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Quản lý Khách hàng"));
-            //lblSubNavbarTitle.Text = "Khách hàng";
         }
 
         private void BtnGoodsReceipt_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Nhập hàng"));
-           // lblSubNavbarTitle.Text = "Nhập hàng";
         }
 
         private void BtnSalesInvoice_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Bán hàng"));
-           // lblSubNavbarTitle.Text = "Bán hàng";
         }
 
         private void BtnInventory_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Tồn kho"));
-            //lblSubNavbarTitle.Text = "Tồn kho";
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Báo cáo"));
-           // lblSubNavbarTitle.Text = "Báo cáo";
         }
 
         private void BtnUsers_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Quản lý Người dùng"));
-           // lblSubNavbarTitle.Text = "Người dùng";
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Trợ giúp"));
-           // lblSubNavbarTitle.Text = "Trợ giúp";
         }
         #endregion
 
@@ -128,12 +196,15 @@ namespace DoubleTRice.UI
         {
             MessageBox.Show("Bạn có 3 thông báo mới!", "Thông báo",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Application.Exit();
         }
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Cài đặt đang được phát triển", "Thông báo",
+            // Toggle Dark/Light Mode
+            Mode.ToggleMode();
+
+            string modeText = Mode.IsDarkMode ? "Dark Mode" : "Light Mode";
+            MessageBox.Show($"Đã chuyển sang {modeText}", "Cài đặt",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -149,6 +220,7 @@ namespace DoubleTRice.UI
             if (result == DialogResult.Yes)
             {
                 statusTimer?.Stop();
+                Mode.DarkModeChanged -= OnDarkModeChanged; // Unsubscribe
                 Application.Exit();
             }
         }
@@ -163,25 +235,30 @@ namespace DoubleTRice.UI
         private void UpdateNavbarControlsPosition()
         {
             int rightX = pnlNavbar.Width - 320;
-            btnNotification.Location = new Point(rightX, 15);
-            btnSettings.Location = new Point(rightX + 50, 15);
-            picAvatar.Location = new Point(rightX + 100, 15);
-            lblUsername.Location = new Point(rightX + 150, 18);
-            lblRole.Location = new Point(rightX + 150, 38);
-
-            txtSearch.Location = new Point(10, 15); // Cố định vì không toggle sidebar
+            btnNotification.Location = new Point(rightX, 38);
+            btnSettings.Location = new Point(rightX - 97, 38);
+            txtSearch.Location = new Point(15, 23);
         }
         #endregion
 
         #region Public Methods
+        /// <summary>
+        /// Set thông tin user và role
+        /// </summary>
         public void SetUserInfo(string username, string role, Image avatar = null)
         {
-            lblUsername.Text = username;
-            lblRole.Text = role;
-            if (avatar != null) picAvatar.Image = avatar;
-            else CreateDefaultAvatar();
+            label2.Text = username;
+            label3.Text = role;
+
+            if (avatar != null)
+                guna2CirclePictureBox1.Image = avatar;
+            else
+                CreateDefaultAvatar();
         }
 
+        /// <summary>
+        /// Phân quyền menu theo role
+        /// </summary>
         public void SetMenuVisibility(string role)
         {
             ResetMenuVisibility();
@@ -209,28 +286,20 @@ namespace DoubleTRice.UI
             }
         }
 
-        // Phương thức để thay đổi chế độ màu nền (tính năng tương lai)
+        /// <summary>
+        /// Chuyển đổi Dark/Light Mode thủ công
+        /// </summary>
+        public void ToggleDarkMode()
+        {
+            Mode.ToggleMode();
+        }
+
+        /// <summary>
+        /// Set Dark Mode
+        /// </summary>
         public void SetDarkMode(bool darkMode)
         {
-            isDarkMode = darkMode;
-            pnlSidebar.FillColor = darkMode ? Color.FromArgb(24, 48, 48) : Color.White;
-            pnlNavbar.FillColor = darkMode ? Color.FromArgb(18, 38, 38) : Color.LightGray;
-            pnlBody.FillColor = darkMode ? Color.FromArgb(248, 249, 250) : Color.White;
-           // subNavbar.FillColor = darkMode ? Color.FromArgb(18, 38, 38) : Color.LightGray;
-
-            // Cập nhật icon theo chế độ màu
-            //SetupButtonIcons();
-
-            // Cập nhật màu chữ và icon
-            foreach (Guna2Button btn in new[] { btnDashboard, btnProducts, btnSuppliers, btnCustomers, btnGoodsReceipt, btnSalesInvoice, btnInventory, btnReports })
-            {
-                btn.ForeColor = darkMode ? Color.White : Color.Black;
-            }
-            lblUsername.ForeColor = darkMode ? Color.White : Color.Black;
-            lblRole.ForeColor = darkMode ? Color.White : Color.Black;
-            lblStatusDate.ForeColor = darkMode ? Color.White : Color.Black;
-            lblStatusUser.ForeColor = darkMode ? Color.White : Color.Black;
-           // lblSubNavbarTitle.ForeColor = darkMode ? Color.White : Color.Black;
+            Mode.IsDarkMode = darkMode;
         }
         #endregion
 
@@ -240,29 +309,32 @@ namespace DoubleTRice.UI
             var dashboardPanel = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
-                FillColor = Color.FromArgb(248, 249, 250)
+                FillColor = Mode.GetBodyColor(),
+                BackColor = Mode.GetBodyColor()
             };
 
             var lblWelcome = new Label
             {
                 Text = "🌾 Chào mừng đến với\nHệ thống Quản lý Cửa hàng Gạo",
                 Font = new Font("Segoe UI", 20, FontStyle.Bold),
-                ForeColor = Color.FromArgb(0, 150, 120),
+                ForeColor = Mode.IsDarkMode ? Color.FromArgb(0, 200, 150) : Color.FromArgb(0, 70, 67),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
                 Size = new Size(600, 100),
-                Anchor = AnchorStyles.None
+                Anchor = AnchorStyles.None,
+                BackColor = Color.Transparent
             };
 
             var lblInstruction = new Label
             {
                 Text = "Vui lòng chọn chức năng từ menu bên trái để bắt đầu",
                 Font = new Font("Segoe UI", 12),
-                ForeColor = Color.FromArgb(100, 100, 100),
+                ForeColor = Mode.GetForeColor(),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
                 Size = new Size(600, 40),
-                Anchor = AnchorStyles.None
+                Anchor = AnchorStyles.None,
+                BackColor = Color.Transparent
             };
 
             dashboardPanel.Resize += (s, e) =>
@@ -280,7 +352,6 @@ namespace DoubleTRice.UI
         private void LoadUserControl(Control control)
         {
             pnlBody.Controls.Clear();
-           // pnlBody.Controls.Add(subNavbar); // Giữ navbar phụ
             control.Dock = DockStyle.Fill;
             pnlBody.Controls.Add(control);
             control.BringToFront();
@@ -293,27 +364,28 @@ namespace DoubleTRice.UI
                 Text = $"📦 {moduleName}\n\n(Đang phát triển)",
                 Dock = DockStyle.Fill,
                 Font = new Font("Segoe UI", 16, FontStyle.Bold),
-                ForeColor = Color.FromArgb(0, 150, 120),
+                ForeColor = Mode.GetForeColor(),
                 TextAlign = ContentAlignment.MiddleCenter,
-                BackColor = Color.FromArgb(248, 249, 250)
+                BackColor = Mode.GetBodyColor()
             };
             return placeholder;
         }
 
         private void CreateDefaultAvatar()
         {
-            Bitmap bmp = new Bitmap(40, 40);
+            Bitmap bmp = new Bitmap(64, 64);
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.FromArgb(0, 180, 140));
+                string initial = !string.IsNullOrEmpty(label2.Text) ? label2.Text.Substring(0, 1).ToUpper() : "U";
                 g.DrawString(
-                    lblUsername.Text.Substring(0, 1).ToUpper(),
-                    new Font("Segoe UI", 16, FontStyle.Bold),
+                    initial,
+                    new Font("Segoe UI", 24, FontStyle.Bold),
                     Brushes.White,
-                    new PointF(10, 5)
+                    new PointF(18, 12)
                 );
             }
-            picAvatar.Image = bmp;
+            guna2CirclePictureBox1.Image = bmp;
         }
 
         private void ResetMenuVisibility()
@@ -344,8 +416,28 @@ namespace DoubleTRice.UI
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             statusTimer?.Stop();
+            Mode.DarkModeChanged -= OnDarkModeChanged; // Unsubscribe event
             base.OnFormClosing(e);
         }
         #endregion
+
+        #region Other Events
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            // Click vào username - có thể mở profile
+        }
+        #endregion
+
+
+        // test mode
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Mode.ToggleMode(); // Đã implement sẵn
+        }
     }
 }
