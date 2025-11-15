@@ -240,6 +240,72 @@ namespace DoubleTRice.DAO
         //        }
         //    }
         //}
+
+
+        #region Execute Procedure With Multiple Outputs (MỚI - CHO LOGIN)
+        /// <summary>
+        /// Dùng cho Stored Procedure có NHIỀU tham số OUTPUT (cho Login, ChangePassword)
+        /// </summary>
+        /// 
+        public Dictionary<string, object> ExecuteProcedureWithMultipleOutputs(string procName, Dictionary<string, object> inputParams, Dictionary<string, SqlDbType> outputParams)
+        {
+            Dictionary<string, object> outputValues = new Dictionary<string, object>();
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(procName, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Add INPUT parameters
+                    if (inputParams != null)
+                    {
+                        foreach (var param in inputParams)
+                        {
+                            command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                        }
+                    }
+
+                    // Add OUTPUT parameters
+                    if (outputParams != null)
+                    {
+                        foreach (var param in outputParams)
+                        {
+                            SqlParameter outputParam;
+
+                            // Set size cho string types
+                            if (param.Value == SqlDbType.NVarChar || param.Value == SqlDbType.VarChar)
+                            {
+                                outputParam = new SqlParameter(param.Key, param.Value, 255);
+                            }
+                            else
+                            {
+                                outputParam = new SqlParameter(param.Key, param.Value);
+                            }
+
+                            outputParam.Direction = ParameterDirection.Output;
+                            command.Parameters.Add(outputParam);
+                        }
+                    }
+
+                    // Execute
+                    command.ExecuteNonQuery();
+
+                    // Get OUTPUT values
+                    foreach (SqlParameter param in command.Parameters)
+                    {
+                        if (param.Direction == ParameterDirection.Output)
+                        {
+                            outputValues[param.ParameterName] = param.Value == DBNull.Value ? null : param.Value;
+                        }
+                    }
+                }
+            }
+
+            return outputValues;
+        }
+        #endregion
     }
 }
 

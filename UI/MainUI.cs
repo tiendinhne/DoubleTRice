@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DoubleTRice.UI.BASE;
+using DoubleTRice.UI.ChildForms;
+using Guna.UI2.WinForms;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Guna.UI2.WinForms;
-using DoubleTRice.UI.BASE;
 
 namespace DoubleTRice.UI
 {
@@ -10,6 +11,7 @@ namespace DoubleTRice.UI
     {
         #region Fields
         private Timer statusTimer;
+        private Form currentChildForm; // Lưu form con hiện tại
         #endregion
 
         #region Constructor
@@ -43,7 +45,14 @@ namespace DoubleTRice.UI
         private void OnDarkModeChanged(bool isDarkMode)
         {
             ApplyCurrentMode();
+            //ap dung mode neu form con co
+            if (currentChildForm != null)
+            {
+                currentChildForm.BackColor = Mode.GetBodyColor();
+                currentChildForm.ForeColor = Mode.GetForeColor();
+            }
         }
+
 
         /// <summary>
         /// Áp dụng mode hiện tại cho toàn bộ UI
@@ -139,49 +148,139 @@ namespace DoubleTRice.UI
         }
         #endregion
 
+        #region Open Child Form Methods -------------------------------------
+        /// <summary>
+        /// Mở Form con trong panel body
+        /// </summary>
+        /// <param name="childForm">Form con cần mở</param>
+        public void OpenChildForm(Form childForm)
+        {
+            // Đóng form con cũ nếu có
+            if (currentChildForm != null)
+            {
+                currentChildForm.Close();
+                pnlBody.Controls.Remove(currentChildForm);
+                currentChildForm.Dispose();
+                currentChildForm = null;
+            }
+
+            // Khởi tạo form con mới
+            currentChildForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            childForm.BackColor = Mode.GetBodyColor();
+            childForm.ForeColor = Mode.GetForeColor();
+
+            // Subscribe to mode change cho child form
+            this.BackColorChanged += (s, e) =>
+            {
+                if (currentChildForm != null && !currentChildForm.IsDisposed)
+                {
+                    currentChildForm.BackColor = Mode.GetBodyColor();
+                    currentChildForm.ForeColor = Mode.GetForeColor();
+                }
+            };
+
+            // Add vào panel body
+            pnlBody.Controls.Clear();
+            pnlBody.Controls.Add(childForm);
+            childForm.BringToFront();
+            childForm.Show();
+        }
+
+        /// <summary>
+        /// Đóng form con hiện tại
+        /// </summary>
+        public void CloseChildForm()
+        {
+            if (currentChildForm != null)
+            {
+                currentChildForm.Close();
+                pnlBody.Controls.Remove(currentChildForm);
+                currentChildForm.Dispose();
+                currentChildForm = null;
+            }
+        }
+        #endregion
+
         #region Event Handlers - Sidebar Menu
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
+            CloseChildForm(); // Đóng form con nếu có
             LoadDashboard();
         }
 
         private void BtnProducts_Click(object sender, EventArgs e)
         {
-            LoadUserControl(CreatePlaceholder("Module Quản lý Sản phẩm"));
+            // TODO: Thay thế bằng form thực tế
+            OpenChildForm(new ProductForm());
+
+            // Tạm thời dùng placeholder
+            CloseChildForm();
+            //LoadUserControl(CreatePlaceholder("Module Quản lý Sản phẩm"));
+            /* Khi đã có form Products, sử dụng như sau:
+            try
+            */
+            try
+            {
+                var productsForm = new ProductForm();
+                OpenChildForm(productsForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Sản phẩm: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
+        //----------- làm tương tự cho các form sau---------------------------
         private void BtnSuppliers_Click(object sender, EventArgs e)
         {
+            CloseChildForm();
+
             LoadUserControl(CreatePlaceholder("Module Quản lý Nhà cung cấp"));
         }
 
         private void BtnCustomers_Click(object sender, EventArgs e)
         {
-            LoadUserControl(CreatePlaceholder("Module Quản lý Khách hàng"));
+            CloseChildForm();
+
+            //LoadUserControl(CreatePlaceholder("Module Quản lý Khách hàng"));
+            OpenChildForm(new CustomersForm());
         }
 
         private void BtnGoodsReceipt_Click(object sender, EventArgs e)
         {
+            CloseChildForm();
+
             LoadUserControl(CreatePlaceholder("Module Nhập hàng"));
         }
 
         private void BtnSalesInvoice_Click(object sender, EventArgs e)
         {
+            CloseChildForm();
+
             LoadUserControl(CreatePlaceholder("Module Bán hàng"));
         }
 
         private void BtnInventory_Click(object sender, EventArgs e)
         {
+            CloseChildForm();
+
             LoadUserControl(CreatePlaceholder("Module Tồn kho"));
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
             LoadUserControl(CreatePlaceholder("Module Báo cáo"));
+
         }
 
         private void BtnUsers_Click(object sender, EventArgs e)
         {
+
             LoadUserControl(CreatePlaceholder("Module Quản lý Người dùng"));
         }
 
@@ -191,11 +290,14 @@ namespace DoubleTRice.UI
         }
         #endregion
 
-        #region Event Handlers - Navbar
+        #region Event Handlers - Navbar----------------------------------
         private void BtnNotification_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Bạn có 3 thông báo mới!", "Thông báo",
+
+            MessageBox.Show("doi mat khau", "Thông báo",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+            OpenChildForm(new ChangePasswordForm());
+
         }
 
         private void BtnSettings_Click(object sender, EventArgs e)
@@ -219,6 +321,7 @@ namespace DoubleTRice.UI
 
             if (result == DialogResult.Yes)
             {
+                CloseChildForm(); // Đóng form con trước khi thoát
                 statusTimer?.Stop();
                 Mode.DarkModeChanged -= OnDarkModeChanged; // Unsubscribe
                 Application.Exit();
@@ -301,7 +404,17 @@ namespace DoubleTRice.UI
         {
             Mode.IsDarkMode = darkMode;
         }
+
+        /// <summary>
+        /// Lấy form con hiện tại
+        /// </summary>
+        public Form GetCurrentChildForm()
+        {
+            return currentChildForm;
+        }
         #endregion
+
+
 
         #region Private Methods
         private void LoadDashboard()
@@ -357,6 +470,9 @@ namespace DoubleTRice.UI
             control.BringToFront();
         }
 
+        /// <summary>
+        /// Tạo placeholder cho module chưa hoàn thiện
+        /// </summary>
         private Control CreatePlaceholder(string moduleName)
         {
             var placeholder = new Label
@@ -412,11 +528,38 @@ namespace DoubleTRice.UI
         }
         #endregion
 
-        #region Form Events
+        #region Form Events -----------------------------------------------------
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            statusTimer?.Stop();
-            Mode.DarkModeChanged -= OnDarkModeChanged; // Unsubscribe event
+            // Cleanup child form trước
+            try
+            {
+                CloseChildForm();
+            }
+            catch (Exception ex)
+            {
+                // Log error nhưng vẫn cho phép đóng
+                System.Diagnostics.Debug.WriteLine($"Error closing child form: {ex.Message}");
+            }
+
+            // Stop timer
+            if (statusTimer != null)
+            {
+                statusTimer.Stop();
+                statusTimer.Dispose();
+                statusTimer = null;
+            }
+
+            // Unsubscribe event
+            try
+            {
+                Mode.DarkModeChanged -= OnDarkModeChanged;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error unsubscribing event: {ex.Message}");
+            }
+
             base.OnFormClosing(e);
         }
         #endregion
@@ -424,7 +567,18 @@ namespace DoubleTRice.UI
         #region Other Events
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            // Tự động cleanup và thoát ứng dụng
+            var result = MessageBox.Show(
+                   "Bạn có chắc muốn thoát?",
+                   "Xác nhận",
+                   MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Question
+               );
+
+            if (result == DialogResult.Yes)
+            {
+                this.Close(); // Trigger OnFormClosing → Cleanup
+            }
         }
 
         private void label2_Click(object sender, EventArgs e)

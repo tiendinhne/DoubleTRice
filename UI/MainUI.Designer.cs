@@ -56,13 +56,13 @@ namespace DoubleTRice.UI
             this.lblStatusDate = new System.Windows.Forms.Label();
             this.lblStatusUser = new System.Windows.Forms.Label();
             this.pnlNavbar = new Guna.UI2.WinForms.Guna2Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnSettings = new Guna.UI2.WinForms.Guna2Button();
             this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnNotification = new Guna.UI2.WinForms.Guna2Button();
             this.pnlBody = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.pnlSidebar.SuspendLayout();
             this.pnlMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -403,6 +403,16 @@ namespace DoubleTRice.UI
             this.pnlNavbar.TabIndex = 1;
             this.pnlNavbar.Resize += new System.EventHandler(this.PnlNavbar_Resize);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(497, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -450,7 +460,7 @@ namespace DoubleTRice.UI
             this.btnNotification.FillColor = System.Drawing.Color.Transparent;
             this.btnNotification.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnNotification.ForeColor = System.Drawing.Color.White;
-            this.btnNotification.Location = new System.Drawing.Point(544, 42);
+            this.btnNotification.Location = new System.Drawing.Point(636, 38);
             this.btnNotification.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNotification.Name = "btnNotification";
             this.btnNotification.Size = new System.Drawing.Size(75, 46);
@@ -473,16 +483,6 @@ namespace DoubleTRice.UI
             this.guna2BorderlessForm1.ContainerControl = this;
             this.guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
             this.guna2BorderlessForm1.TransparentWhileDrag = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(497, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainUI
             // 

@@ -24,6 +24,7 @@ namespace DoubleTRice
             //    File.AppendAllText("error.log", $"Error: {e.Exception.Message}\nStack Trace: {e.Exception.StackTrace}\n");
             //    MessageBox.Show("An error occurred. Check error.log for details.");
             //};
+           // Application.Run(new LoginUI());
             Application.Run(new MainUI());
         }
     }
