@@ -656,3 +656,4 @@ PRINT 'Username: thungan | Password: 123456 | Role: Thu Ngân';
 PRINT 'Username: thukho | Password: 123456 | Role: Thủ Kho';
 PRINT 'Username: ketoan | Password: 123456 | Role: Kế Toán';
 GO */
+

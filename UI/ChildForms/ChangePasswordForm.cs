@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Guna.UI2.WinForms;
-using DoubleTRice.DAO;
 using DoubleTRice.LOGIC;
 
 
@@ -61,6 +60,9 @@ namespace DoubleTRice.UI.ChildForms
                 else
                 {
                     ShowError(result.Message);
+                    txtNewPassword.Clear();
+                    txtConfirmPassword.Clear();
+                    txtOldPassword.Focus();
                 }
             }
             catch (Exception ex)

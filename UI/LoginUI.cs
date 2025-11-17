@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DoubleTRice.LOGIC;
+using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DoubleTRice.DAO;
-using DoubleTRice.LOGIC;
 
 namespace DoubleTRice.UI
 {
@@ -103,6 +103,8 @@ namespace DoubleTRice.UI
             // Show loading
             guna2GradientButton1.Text = "Đang đăng nhập...";
             guna2GradientButton1.Enabled = false;
+            guna2TextBox1.Enabled = false;
+            guna2TextBox2.Enabled = false;
             this.Cursor = Cursors.WaitCursor;
 
             try
@@ -124,8 +126,8 @@ namespace DoubleTRice.UI
                     UserSession.Initialize(result.UserID, result.HoTen, username, result.VaiTro);
 
                     // Show success
-                    MessageBox.Show($"Đăng nhập thành công!\n\nXin chào {result.HoTen}",
-                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show($"Đăng nhập thành công!\n\nXin chào {result.HoTen}",
+                        //"Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Mở MainUI
                     this.Hide();
@@ -146,15 +148,21 @@ namespace DoubleTRice.UI
                     guna2TextBox2.Focus();
                 }
             }
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                ShowError($"Lỗi kết nối database:\n{sqlEx.Message}");
+            }
             catch (Exception ex)
             {
-                ShowError($"Lỗi: {ex.Message}");
+                ShowError($"Lỗi hệ thống:\n{ex.Message}");
             }
             finally
             {
                 // Reset button
                 guna2GradientButton1.Text = "LOGIN";
                 guna2GradientButton1.Enabled = true;
+                guna2TextBox1.Enabled = true;
+                guna2TextBox2.Enabled = true;
                 this.Cursor = Cursors.Default;
             }
         }
