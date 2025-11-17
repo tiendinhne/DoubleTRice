@@ -35,3 +35,9 @@ DoubleTRice/
   Xử lý logic nghiệp vụ giữa GUI và DAO.
 4. Tầng GUI (Giao diện người dùng)
   Đây là WinForms Layer – chứa các Form .cs + .Designer.cs.
+
+
+DT/DTO Layer:    Chứa model ánh xạ bảng DB (Users, Products,...)
+LOGIC Layer:     Chứa business logic, validation, helper
+DAO Layer:       Chỉ truy cập DB, trả về DTO hoặc primitive types
+UI Layer:        Gọi DAO/LOGIC, hiển thị dữ liệu

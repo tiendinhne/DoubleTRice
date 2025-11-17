@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using DoubleTRice.DT;
 
 namespace DoubleTRice.DAO
 {
+    /// <summary>
+    /// Data Access Object cho Users
+    /// </summary>
     public class UserDAO
     {
         #region Singleton
@@ -23,9 +27,13 @@ namespace DoubleTRice.DAO
 
         #region Login Methods
         /// <summary>
-        /// Đăng nhập
+        /// Đăng nhập - Trả về Users object và ResultCode
         /// </summary>
-        public LoginResult Login(string username, string passwordHash)
+        /// <returns>
+        /// Tuple: (Users object, ResultCode)
+        /// ResultCode: 0 = Success, -1 = User not found, -2 = Wrong password, -3 = Locked
+        /// </returns>
+        public (Users user, int resultCode) Login(string username, string passwordHash)
         {
             try
             {
@@ -38,7 +46,7 @@ namespace DoubleTRice.DAO
                     { "@MatKhauHash", passwordHash }
                 };
 
-                // OUTPUT parameters với SqlDbType
+                // OUTPUT parameters
                 var outputParams = new Dictionary<string, SqlDbType>
                 {
                     { "@Result", SqlDbType.Int },
@@ -54,36 +62,24 @@ namespace DoubleTRice.DAO
                 // Parse kết quả
                 int resultCode = result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
 
-                return new LoginResult
+                // Nếu thành công, tạo Users object
+                if (resultCode == 0)
                 {
-                    Success = resultCode == 0,
-                    ResultCode = resultCode,
-                    UserID = resultCode == 0 && result["@UserID"] != null ? Convert.ToInt32(result["@UserID"]) : 0,
-                    HoTen = resultCode == 0 && result["@HoTen"] != null ? result["@HoTen"].ToString() : null,
-                    VaiTro = resultCode == 0 && result["@VaiTro"] != null ? result["@VaiTro"].ToString() : null,
-                    Message = GetLoginMessage(resultCode)
-                };
-            }
-            catch (Exception ex)
-            {
-                return new LoginResult
-                {
-                    Success = false,
-                    ResultCode = -99,
-                    Message = $"Lỗi hệ thống: {ex.Message}"
-                };
-            }
-        }
+                    var user = new Users
+                    {
+                        UserID = result["@UserID"] != null ? Convert.ToInt32(result["@UserID"]) : 0,
+                        HoTen = result["@HoTen"]?.ToString(),
+                        TenDangNhap = username,
+                        VaiTro = result["@VaiTro"]?.ToString()
+                    };
+                    return (user, resultCode);
+                }
 
-        private string GetLoginMessage(int resultCode)
-        {
-            switch (resultCode)
+                return (null, resultCode);
+            }
+            catch (Exception)
             {
-                case 0: return "Đăng nhập thành công";
-                case -1: return "Tên đăng nhập không tồn tại";
-                case -2: return "Mật khẩu không đúng";
-                case -3: return "Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên";
-                default: return "Lỗi không xác định";
+                return (null, -99); // System error
             }
         }
         #endregion
@@ -92,13 +88,15 @@ namespace DoubleTRice.DAO
         /// <summary>
         /// Đổi mật khẩu
         /// </summary>
-        public ChangePasswordResult ChangePassword(int userID, string oldPasswordHash, string newPasswordHash)
+        /// <returns>
+        /// ResultCode: 0 = Success, -1 = Wrong old password, -2 = Same password, -3 = User not found
+        /// </returns>
+        public int ChangePassword(int userID, string oldPasswordHash, string newPasswordHash)
         {
             try
             {
                 string procName = "sp_ChangePassword";
 
-                // INPUT parameters
                 var inputParams = new Dictionary<string, object>
                 {
                     { "@UserID", userID },
@@ -106,7 +104,6 @@ namespace DoubleTRice.DAO
                     { "@MatKhauMoiHash", newPasswordHash }
                 };
 
-                // OUTPUT parameters
                 var outputParams = new Dictionary<string, SqlDbType>
                 {
                     { "@Result", SqlDbType.Int }
@@ -115,35 +112,11 @@ namespace DoubleTRice.DAO
                 var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
                     procName, inputParams, outputParams);
 
-                int resultCode = result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
-
-                return new ChangePasswordResult
-                {
-                    Success = resultCode == 0,
-                    ResultCode = resultCode,
-                    Message = GetChangePasswordMessage(resultCode)
-                };
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new ChangePasswordResult
-                {
-                    Success = false,
-                    ResultCode = -99,
-                    Message = $"Lỗi hệ thống: {ex.Message}"
-                };
-            }
-        }
-
-        private string GetChangePasswordMessage(int resultCode)
-        {
-            switch (resultCode)
-            {
-                case 0: return "Đổi mật khẩu thành công";
-                case -1: return "Mật khẩu cũ không đúng";
-                case -2: return "Mật khẩu mới không được trùng với mật khẩu cũ";
-                case -3: return "Người dùng không tồn tại";
-                default: return "Lỗi không xác định";
+                return -99; // System error
             }
         }
         #endregion
@@ -182,7 +155,7 @@ namespace DoubleTRice.DAO
         /// <summary>
         /// Mở khóa tài khoản (Admin only)
         /// </summary>
-        public bool UnlockAccount(int userID)
+        public int UnlockAccount(int userID)
         {
             try
             {
@@ -201,38 +174,62 @@ namespace DoubleTRice.DAO
                 var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
                     procName, inputParams, outputParams);
 
-                return result["@Result"] != null && Convert.ToInt32(result["@Result"]) == 0;
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
             }
             catch
             {
-                return false;
+                return -99;
+            }
+        }
+
+        /// <summary>
+        /// Lấy thông tin user theo ID
+        /// </summary>
+        public Users GetUserByID(int userID)
+        {
+            try
+            {
+                string query = "SELECT * FROM Users WHERE UserID = @UserID";
+                var parameters = new object[] { userID };
+
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
+
+                if (data.Rows.Count > 0)
+                {
+                    return new Users(data.Rows[0]);
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách tất cả users
+        /// </summary>
+        public List<Users> GetAllUsers()
+        {
+            try
+            {
+                string query = "SELECT * FROM Users";
+                DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+                List<Users> users = new List<Users>();
+                foreach (DataRow row in data.Rows)
+                {
+                    users.Add(new Users(row));
+                }
+
+                return users;
+            }
+            catch
+            {
+                return new List<Users>();
             }
         }
         #endregion
     }
-
-    #region Result Classes
-    /// <summary>
-    /// Kết quả đăng nhập
-    /// </summary>
-    public class LoginResult
-    {
-        public bool Success { get; set; }
-        public int ResultCode { get; set; }
-        public int UserID { get; set; }
-        public string HoTen { get; set; }
-        public string VaiTro { get; set; }
-        public string Message { get; set; }
-    }
-
-    /// <summary>
-    /// Kết quả đổi mật khẩu
-    /// </summary>
-    public class ChangePasswordResult
-    {
-        public bool Success { get; set; }
-        public int ResultCode { get; set; }
-        public string Message { get; set; }
-    }
-    #endregion
 }

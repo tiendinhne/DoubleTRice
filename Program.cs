@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DoubleTRice.DAO;
+using DoubleTRice.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DoubleTRice.DAO;
-using DoubleTRice.DT;
-using DoubleTRice.UI;
 
 namespace DoubleTRice
 {
@@ -24,8 +23,15 @@ namespace DoubleTRice
             //    File.AppendAllText("error.log", $"Error: {e.Exception.Message}\nStack Trace: {e.Exception.StackTrace}\n");
             //    MessageBox.Show("An error occurred. Check error.log for details.");
             //};
-           // Application.Run(new LoginUI());
-            Application.Run(new MainUI());
+            // Test connection
+            if (!DataProvider.Instance.TestConnection())
+            {
+                MessageBox.Show("Không kết nối được database!\nVui lòng kiểm tra connection string",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Application.Run(new LoginUI());
+            //Application.Run(new MainUI());
         }
     }
 }

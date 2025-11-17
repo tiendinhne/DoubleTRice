@@ -385,3 +385,274 @@ BEGIN
     WHERE AdjustmentID = @NewAdjustmentID;
 END;
 GO
+
+--00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+------------------------------------ 17-11 by td---------------------------------------------------
+----------------------ttttttttttttttttttttttttttttttt---------------------------------------------
+--------------------------------------------------------------------------------------------------
+
+
+-- ===================================================================
+-- SQL STORED PROCEDURES - HỆ THỐNG ĐĂNG NHẬP
+-- ===================================================================
+
+-- Thêm cột IsLocked vào bảng Users nếu chưa có
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'Users') AND name = 'IsLocked')
+BEGIN
+    ALTER TABLE Users ADD IsLocked BIT DEFAULT 0;
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'Users') AND name = 'FailedLoginAttempts')
+BEGIN
+    ALTER TABLE Users ADD FailedLoginAttempts INT DEFAULT 0;
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'Users') AND name = 'LastLoginDate')
+BEGIN
+    ALTER TABLE Users ADD LastLoginDate DATETIME NULL;
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'Users') AND name = 'CreatedDate')
+BEGIN
+    ALTER TABLE Users ADD CreatedDate DATETIME DEFAULT GETDATE();
+END
+GO
+
+-- ===================================================================
+-- 1. STORED PROCEDURE ĐĂNG NHẬP
+-- ===================================================================
+IF OBJECT_ID('sp_Login', 'P') IS NOT NULL
+    DROP PROCEDURE sp_Login;
+GO
+
+CREATE PROCEDURE sp_Login
+    @TenDangNhap VARCHAR(100),
+    @MatKhauHash VARCHAR(255),
+    @Result INT OUTPUT,          -- 0: Thành công, -1: Sai TK, -2: Sai MK, -3: Bị khóa
+    @UserID INT OUTPUT,
+    @HoTen NVARCHAR(255) OUTPUT,
+    @VaiTro NVARCHAR(100) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @StoredPasswordHash VARCHAR(255);
+    DECLARE @IsLocked BIT;
+    DECLARE @FailedAttempts INT;
+    
+    -- Kiểm tra tài khoản có tồn tại không
+    SELECT 
+        @UserID = UserID,
+        @HoTen = HoTen,
+        @VaiTro = VaiTro,
+        @StoredPasswordHash = MatKhauHash,
+        @IsLocked = IsLocked,
+        @FailedAttempts = FailedLoginAttempts
+    FROM Users
+    WHERE TenDangNhap = @TenDangNhap;
+    
+    -- Tài khoản không tồn tại
+    IF @UserID IS NULL
+    BEGIN
+        SET @Result = -1; -- Sai tên đăng nhập
+        RETURN;
+    END
+    
+    -- Kiểm tra tài khoản có bị khóa không
+    IF @IsLocked = 1
+    BEGIN
+        SET @Result = -3; -- Tài khoản bị khóa
+        RETURN;
+    END
+    
+    -- Kiểm tra mật khẩu
+    IF @StoredPasswordHash = @MatKhauHash
+    BEGIN
+        -- Đăng nhập thành công
+        SET @Result = 0;
+        
+        -- Reset failed attempts và cập nhật last login
+        UPDATE Users
+        SET FailedLoginAttempts = 0,
+            LastLoginDate = GETDATE()
+        WHERE UserID = @UserID;
+    END
+    ELSE
+    BEGIN
+        -- Sai mật khẩu
+        SET @Result = -2;
+        
+        -- Tăng số lần đăng nhập thất bại
+        UPDATE Users
+        SET FailedLoginAttempts = FailedLoginAttempts + 1
+        WHERE UserID = @UserID;
+        
+        -- Khóa tài khoản nếu sai quá 5 lần
+        IF @FailedAttempts + 1 >= 5
+        BEGIN
+            UPDATE Users
+            SET IsLocked = 1
+            WHERE UserID = @UserID;
+            
+            SET @Result = -3; -- Tài khoản vừa bị khóa
+        END
+    END
+END
+GO
+
+-- ===================================================================
+-- 2. STORED PROCEDURE ĐỔI MẬT KHẨU
+-- ===================================================================
+IF OBJECT_ID('sp_ChangePassword', 'P') IS NOT NULL
+    DROP PROCEDURE sp_ChangePassword;
+GO
+
+CREATE PROCEDURE sp_ChangePassword
+    @UserID INT,
+    @MatKhauCuHash VARCHAR(255),
+    @MatKhauMoiHash VARCHAR(255),
+    @Result INT OUTPUT  -- 0: Thành công, -1: Sai MK cũ, -2: MK mới trùng MK cũ, -3: User không tồn tại
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @StoredPasswordHash VARCHAR(255);
+    
+    SET @Result = -3;
+    
+    -- Lấy mật khẩu hiện tại
+    SELECT @StoredPasswordHash = MatKhauHash
+    FROM Users
+    WHERE UserID = @UserID;
+    
+    -- Kiểm tra user có tồn tại không
+    IF @StoredPasswordHash IS NULL
+    BEGIN
+        SET @Result = -3; -- User không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra mật khẩu cũ có đúng không
+    IF @StoredPasswordHash <> @MatKhauCuHash
+    BEGIN
+        SET @Result = -1; -- Sai mật khẩu cũ
+        RETURN;
+    END
+    
+    -- Kiểm tra mật khẩu mới có trùng mật khẩu cũ không
+    IF @MatKhauCuHash = @MatKhauMoiHash
+    BEGIN
+        SET @Result = -2; -- Mật khẩu mới trùng mật khẩu cũ
+        RETURN;
+    END
+    
+    -- Đổi mật khẩu
+    UPDATE Users
+    SET MatKhauHash = @MatKhauMoiHash
+    WHERE UserID = @UserID;
+    
+    SET @Result = 0; -- Thành công
+END
+GO
+
+-- ===================================================================
+-- 3. STORED PROCEDURE MỞ KHÓA TÀI KHOẢN (CHO ADMIN)
+-- ===================================================================
+IF OBJECT_ID('sp_UnlockAccount', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UnlockAccount;
+GO
+
+CREATE PROCEDURE sp_UnlockAccount
+    @UserID INT,
+    @Result INT OUTPUT  -- 0: Thành công, -1: User không tồn tại
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    IF EXISTS(SELECT 1 FROM Users WHERE UserID = @UserID)
+    BEGIN
+        UPDATE Users
+        SET IsLocked = 0,
+            FailedLoginAttempts = 0
+        WHERE UserID = @UserID;
+        
+        SET @Result = 0;
+    END
+    ELSE
+    BEGIN
+        SET @Result = -1;
+    END
+END
+GO
+
+
+-- ===================================================================
+-- 4. STORED PROCEDURE KIỂM TRA USERNAME ĐÃ TỒN TẠI
+-- ===================================================================
+IF OBJECT_ID('sp_CheckUsernameExists', 'P') IS NOT NULL
+    DROP PROCEDURE sp_CheckUsernameExists;
+GO
+
+CREATE PROCEDURE sp_CheckUsernameExists
+    @TenDangNhap VARCHAR(100),
+    @Exists BIT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    IF EXISTS(SELECT 1 FROM Users WHERE TenDangNhap = @TenDangNhap)
+        SET @Exists = 1;
+    ELSE
+        SET @Exists = 0;
+END
+GO
+
+
+-- ===================================================================
+-- 5. INSERT DỮ LIỆU MẪU (USER TEST)
+-- Password: 123456 -> Hash: 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+-- ===================================================================
+
+-- Xóa dữ liệu cũ nếu có
+DELETE FROM Users;
+GO
+
+-- Insert users mẫu (Password tất cả là: 123456)
+INSERT INTO Users (HoTen, TenDangNhap, MatKhauHash, VaiTro, IsLocked, FailedLoginAttempts)
+VALUES 
+(N'Administrator', 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Admin', 0, 0),
+(N'Nguyễn Văn Thu Ngân', 'thungan', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Thu Ngân', 0, 0),
+(N'Trần Thị Thủ Kho', 'thukho', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Thủ Kho', 0, 0),
+(N'Lê Văn Kế Toán', 'ketoan', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Kế Toán', 0, 0),
+(N'Test Locked User', 'locked', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Admin', 1, 5);
+GO
+
+/*
+-- ===================================================================
+-- TEST STORED PROCEDURES
+-- ===================================================================
+
+-- Test 1: Login thành công
+--DECLARE @Result INT, @UserID INT, @HoTen NVARCHAR(255), @VaiTro NVARCHAR(100);
+--EXEC sp_Login 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', @Result OUTPUT, @UserID OUTPUT, @HoTen OUTPUT, @VaiTro OUTPUT;
+PRINT 'Test Login - Result: ' + CAST(@Result AS VARCHAR) + ', UserID: ' + CAST(ISNULL(@UserID, 0) AS VARCHAR) + ', HoTen: ' + ISNULL(@HoTen, 'NULL');
+
+-- Test 2: Đổi mật khẩu
+DECLARE @ChangeResult INT;
+EXEC sp_ChangePassword 1, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'new_hash_here', @ChangeResult OUTPUT;
+PRINT 'Test Change Password - Result: ' + CAST(@ChangeResult AS VARCHAR);
+
+-- Reset lại password
+UPDATE Users SET MatKhauHash = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' WHERE UserID = 1;
+GO
+
+PRINT 'STORED PROCEDURES CREATED SUCCESSFULLY!';
+PRINT 'Test Users:';
+PRINT 'Username: admin | Password: 123456 | Role: Admin';
+PRINT 'Username: thungan | Password: 123456 | Role: Thu Ngân';
+PRINT 'Username: thukho | Password: 123456 | Role: Thủ Kho';
+PRINT 'Username: ketoan | Password: 123456 | Role: Kế Toán';
+GO */

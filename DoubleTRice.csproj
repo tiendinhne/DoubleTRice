@@ -63,6 +63,7 @@
     <Compile Include="DT\ProductInvertory.cs" />
     <Compile Include="DT\Products.cs" />
     <Compile Include="DT\ProductUnitConversions.cs" />
+    <Compile Include="DT\Result.cs" />
     <Compile Include="DT\SalesInvoiceDetails.cs" />
     <Compile Include="DT\SalesInvoices.cs" />
     <Compile Include="DT\StockAdjustments.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="DT\Suppliers.cs" />
     <Compile Include="DT\Units.cs" />
     <Compile Include="DT\Users.cs" />
+    <Compile Include="LOGIC\AuthenticationService.cs" />
     <Compile Include="LOGIC\PasswordHelper.cs" />
     <Compile Include="LOGIC\UserSession.cs" />
     <Compile Include="Program.cs" />

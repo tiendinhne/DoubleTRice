@@ -17,7 +17,7 @@ namespace DoubleTRice.UI
         #region Fields
         private bool isPasswordVisible = false;
         private int loginAttempts = 0;
-        private const int MAX_LOGIN_ATTEMPTS = 3;
+        private const int MAX_LOGIN_ATTEMPTS = 3;  // so lan toi da duoc nhap mat khau
         #endregion
 
         #region Constructor
@@ -108,21 +108,22 @@ namespace DoubleTRice.UI
             try
             {
                 // Hash password
-                string passwordHash = PasswordHelper.HashPassword(password);
+                //string passwordHash = PasswordHelper.HashPassword(password);
 
                 // Call login
-                var result = UserDAO.Instance.Login(username, passwordHash);
+                //var result = UserDAO.Instance.Login(username, passwordHash);
+                var result = AuthenticationService.Login(username, password);
 
                 if (result.Success)
                 {
-                    // Login thành công
+                    // Đăng nhập thành công
                     loginAttempts = 0;
                     HideError();
 
                     // Lưu session
                     UserSession.Initialize(result.UserID, result.HoTen, username, result.VaiTro);
 
-                    // Show success message
+                    // Show success
                     MessageBox.Show($"Đăng nhập thành công!\n\nXin chào {result.HoTen}",
                         "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -245,5 +246,10 @@ namespace DoubleTRice.UI
             base.OnFormClosing(e);
         }
         #endregion
+
+        private void guna2TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

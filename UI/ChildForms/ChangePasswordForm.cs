@@ -44,15 +44,11 @@ namespace DoubleTRice.UI.ChildForms
 
             try
             {
-                // Hash passwords
-                string oldPasswordHash = PasswordHelper.HashPassword(oldPassword);
-                string newPasswordHash = PasswordHelper.HashPassword(newPassword);
-
-                // Call DAO
-                var result = UserDAO.Instance.ChangePassword(
+                // GỌI LOGIC SERVICE
+                var result = AuthenticationService.ChangePassword(
                     UserSession.UserID,
-                    oldPasswordHash,
-                    newPasswordHash
+                    oldPassword,
+                    newPassword
                 );
 
                 if (result.Success)
