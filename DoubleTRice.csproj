@@ -121,23 +121,11 @@
     <Compile Include="UI\LoginUI.Designer.cs">
       <DependentUpon>LoginUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LogoutUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\LogoutUI.Designer.cs">
-      <DependentUpon>LogoutUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\MainUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MainUI.Designer.cs">
       <DependentUpon>MainUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SignupUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SignupUI.Designer.cs">
-      <DependentUpon>SignupUI.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\TrangChuUI.cs">
       <SubType>Form</SubType>
