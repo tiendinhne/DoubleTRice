@@ -19,7 +19,8 @@ namespace DoubleTRice.UI
         public LoginUI()
         {
             InitializeComponent();
-            this.Opacity = 0;
+            //this.Opacity = 0;
+            //pnlLogin.BackColor = Color.FromArgb(10, Color.Black);
         }
         #endregion
 
@@ -42,7 +43,7 @@ namespace DoubleTRice.UI
             isPasswordVisible = false;
 
             // Set placeholders
-            txtUsername.PlaceholderText = "Username or Email";
+            txtUsername.PlaceholderText = "Username";
             txtPassword.PlaceholderText = "Password";
 
             // Set enter key handlers
@@ -53,11 +54,35 @@ namespace DoubleTRice.UI
             txtUsername.TextChanged += (s, e) => HideError();
             txtPassword.TextChanged += (s, e) => HideError();
 
+            ApplyRoundedCorners(pnlLogin, 25);
             // Focus on username
             txtUsername.Focus();
 
             // Set version
             lblVersion.Text = $"v{Application.ProductVersion}";
+        }
+        // METHOD MỚI - Bo tròn góc
+        private void ApplyRoundedCorners(Control control, int radius)
+        {
+            try
+            {
+                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.StartFigure();
+                path.AddArc(new Rectangle(0, 0, radius * 2, radius * 2), 180, 90);
+                path.AddLine(radius, 0, control.Width - radius, 0);
+                path.AddArc(new Rectangle(control.Width - radius * 2, 0, radius * 2, radius * 2), 270, 90);
+                path.AddLine(control.Width, radius, control.Width, control.Height - radius);
+                path.AddArc(new Rectangle(control.Width - radius * 2, control.Height - radius * 2, radius * 2, radius * 2), 0, 90);
+                path.AddLine(control.Width - radius, control.Height, radius, control.Height);
+                path.AddArc(new Rectangle(0, control.Height - radius * 2, radius * 2, radius * 2), 90, 90);
+                path.CloseFigure();
+                control.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ApplyRoundedCorners error: {ex.Message}");
+            }
+
         }
 
         private void StartFadeInAnimation()
@@ -492,12 +517,12 @@ namespace DoubleTRice.UI
         {
             if (pnlLogin != null && this.ClientSize.Height > 0)
             {
-                int centerY = (this.ClientSize.Height - pnlLogin.Height) / 2;
-                int rightMargin = 100;
+                int centerY = (this.ClientSize.Height - pnlLogin.Height) / 2;// can giua
+                int rightMargin = 30; //30px
 
                 pnlLogin.Location = new Point(
                     this.ClientSize.Width - pnlLogin.Width - rightMargin,
-                    Math.Max(centerY, 75)
+                    centerY
                 );
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace DoubleTRice.UI
+﻿using System.Drawing;
+
+namespace DoubleTRice.UI
 {
     partial class LoginUI
     {
@@ -36,11 +38,13 @@
             this.dragControl = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.shadowForm = new Guna.UI2.WinForms.Guna2ShadowForm(this.components);
             this.fadeInTimer = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlBackground.SuspendLayout();
             this.pnlLogin.SuspendLayout();
             this.pnlRememberForgot.SuspendLayout();
             this.pnlFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBackground
@@ -59,6 +63,7 @@
             this.pnlLogin.BackColor = System.Drawing.Color.Transparent;
             this.pnlLogin.BorderColor = System.Drawing.Color.White;
             this.pnlLogin.BorderRadius = 25;
+            this.pnlLogin.Controls.Add(this.pictureBox1);
             this.pnlLogin.Controls.Add(this.lblWelcome);
             this.pnlLogin.Controls.Add(this.lblSubtitle);
             this.pnlLogin.Controls.Add(this.txtUsername);
@@ -67,8 +72,8 @@
             this.pnlLogin.Controls.Add(this.btnLogin);
             this.pnlLogin.Controls.Add(this.lblError);
             this.pnlLogin.Controls.Add(this.pnlFooter);
-            this.pnlLogin.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.pnlLogin.FillColor = System.Drawing.Color.LightGray;
+            this.pnlLogin.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.pnlLogin.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.pnlLogin.Location = new System.Drawing.Point(800, 40);
             this.pnlLogin.Name = "pnlLogin";
             this.pnlLogin.Padding = new System.Windows.Forms.Padding(40);
@@ -106,13 +111,12 @@
             // txtUsername
             // 
             this.txtUsername.Animated = true;
-            this.txtUsername.BackColor = System.Drawing.Color.White;
             this.txtUsername.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
             this.txtUsername.BorderRadius = 12;
             this.txtUsername.BorderThickness = 2;
             this.txtUsername.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtUsername.DefaultText = "";
-            this.txtUsername.FillColor = System.Drawing.Color.Gainsboro;
+            this.txtUsername.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.txtUsername.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(200)))), ((int)(((byte)(255)))));
             this.txtUsername.FocusedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(50)))));
             this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -133,13 +137,12 @@
             // txtPassword
             // 
             this.txtPassword.Animated = true;
-            this.txtPassword.BackColor = System.Drawing.Color.Transparent;
             this.txtPassword.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
             this.txtPassword.BorderRadius = 12;
             this.txtPassword.BorderThickness = 2;
             this.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtPassword.DefaultText = "";
-            this.txtPassword.FillColor = System.Drawing.Color.Gainsboro;
+            this.txtPassword.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.txtPassword.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(200)))), ((int)(((byte)(255)))));
             this.txtPassword.FocusedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(50)))));
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -238,8 +241,7 @@
             // 
             // lblError
             // 
-            this.lblError.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.lblError.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblError.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.lblError.ForeColor = System.Drawing.Color.White;
             this.lblError.Location = new System.Drawing.Point(71, 481);
             this.lblError.Name = "lblError";
@@ -311,6 +313,17 @@
             this.fadeInTimer.Interval = 20;
             this.fadeInTimer.Tick += new System.EventHandler(this.FadeInTimer_Tick);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
+            this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.cancelred;
+            this.pictureBox1.Location = new System.Drawing.Point(435, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 23);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
             // LoginUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -328,6 +341,7 @@
             this.pnlRememberForgot.PerformLayout();
             this.pnlFooter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -352,5 +366,6 @@
         private Guna.UI2.WinForms.Guna2DragControl dragControl;
         private Guna.UI2.WinForms.Guna2ShadowForm shadowForm;
         private System.Windows.Forms.Timer fadeInTimer;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
