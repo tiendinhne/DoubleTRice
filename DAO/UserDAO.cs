@@ -56,9 +56,21 @@ namespace DoubleTRice.DAO
                     { "@VaiTro", SqlDbType.NVarChar }
                 };
 
+                // 🔍 THÊM DEBUG Ở ĐÂY:
+                System.Diagnostics.Debug.WriteLine("=== UserDAO.Login() START ===");
+                System.Diagnostics.Debug.WriteLine($"Calling: {procName}");
+                System.Diagnostics.Debug.WriteLine($"@TenDangNhap: {username}");
+                System.Diagnostics.Debug.WriteLine($"@MatKhauHash: {passwordHash}");
+
                 // Gọi stored procedure
                 var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
                     procName, inputParams, outputParams);
+                // 🔍 THÊM DEBUG RESULT:
+                System.Diagnostics.Debug.WriteLine("=== OUTPUT PARAMETERS ===");
+                foreach (var kvp in result)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{kvp.Key} = {kvp.Value ?? "NULL"}");
+                }
 
                 // Parse kết quả
                 int resultCode = result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
@@ -78,9 +90,12 @@ namespace DoubleTRice.DAO
 
                 return (null, resultCode);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return (null, -99); // System error
+// 🔍 THÊM DEBUG EXCEPTION:
+                System.Diagnostics.Debug.WriteLine("=== UserDAO.Login() EXCEPTION ===");
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                return (null, -99);
             }
         }
         #endregion

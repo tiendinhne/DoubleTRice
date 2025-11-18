@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Data;
 
-namespace DoubleTRice.DTO
+namespace DoubleTRice.DT
 {
     public class SalesInvoiceDetails
     {

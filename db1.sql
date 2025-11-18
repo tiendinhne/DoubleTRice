@@ -431,7 +431,7 @@ GO
 CREATE PROCEDURE sp_Login
     @TenDangNhap VARCHAR(100),
     @MatKhauHash VARCHAR(255),
-    @Result INT OUTPUT,          -- 0: Thành công, -1: Sai TK, -2: Sai MK, -3: Bị khóa
+    @Result INT OUTPUT,
     @UserID INT OUTPUT,
     @HoTen NVARCHAR(255) OUTPUT,
     @VaiTro NVARCHAR(100) OUTPUT
@@ -443,38 +443,45 @@ BEGIN
     DECLARE @IsLocked BIT;
     DECLARE @FailedAttempts INT;
     
+    -- Khởi tạo giá trị mặc định
+    SET @Result = -99;
+    SET @UserID = 0;
+    SET @HoTen = NULL;
+    SET @VaiTro = NULL;
+    
     -- Kiểm tra tài khoản có tồn tại không
     SELECT 
         @UserID = UserID,
         @HoTen = HoTen,
         @VaiTro = VaiTro,
         @StoredPasswordHash = MatKhauHash,
-        @IsLocked = IsLocked,
-        @FailedAttempts = FailedLoginAttempts
+        @IsLocked = ISNULL(IsLocked, 0),
+        @FailedAttempts = ISNULL(FailedLoginAttempts, 0)
     FROM Users
     WHERE TenDangNhap = @TenDangNhap;
     
     -- Tài khoản không tồn tại
-    IF @UserID IS NULL
+    IF @UserID IS NULL OR @UserID = 0
     BEGIN
-        SET @Result = -1; -- Sai tên đăng nhập
+        SET @Result = -1;
+        SET @UserID = 0;
+        SET @HoTen = NULL;
+        SET @VaiTro = NULL;
         RETURN;
     END
     
     -- Kiểm tra tài khoản có bị khóa không
     IF @IsLocked = 1
     BEGIN
-        SET @Result = -3; -- Tài khoản bị khóa
+        SET @Result = -3;
         RETURN;
     END
     
     -- Kiểm tra mật khẩu
     IF @StoredPasswordHash = @MatKhauHash
     BEGIN
-        -- Đăng nhập thành công
         SET @Result = 0;
         
-        -- Reset failed attempts và cập nhật last login
         UPDATE Users
         SET FailedLoginAttempts = 0,
             LastLoginDate = GETDATE()
@@ -482,27 +489,26 @@ BEGIN
     END
     ELSE
     BEGIN
-        -- Sai mật khẩu
         SET @Result = -2;
+        SET @UserID = 0;
+        SET @HoTen = NULL;
+        SET @VaiTro = NULL;
         
-        -- Tăng số lần đăng nhập thất bại
         UPDATE Users
         SET FailedLoginAttempts = FailedLoginAttempts + 1
         WHERE UserID = @UserID;
         
-        -- Khóa tài khoản nếu sai quá 5 lần
         IF @FailedAttempts + 1 >= 5
         BEGIN
             UPDATE Users
             SET IsLocked = 1
             WHERE UserID = @UserID;
             
-            SET @Result = -3; -- Tài khoản vừa bị khóa
+            SET @Result = -3;
         END
     END
 END
 GO
-
 -- ===================================================================
 -- 2. STORED PROCEDURE ĐỔI MẬT KHẨU
 -- ===================================================================
@@ -557,7 +563,6 @@ BEGIN
     SET @Result = 0; -- Thành công
 END
 GO
-
 -- ===================================================================
 -- 3. STORED PROCEDURE MỞ KHÓA TÀI KHOẢN (CHO ADMIN)
 -- ===================================================================
@@ -657,3 +662,40 @@ PRINT 'Username: thukho | Password: 123456 | Role: Thủ Kho';
 PRINT 'Username: ketoan | Password: 123456 | Role: Kế Toán';
 GO */
 
+/*
+SELECT 
+    name AS [Stored Procedure],
+    create_date AS [Created Date],
+    modify_date AS [Modified Date]
+FROM sys.procedures 
+WHERE name = 'sp_Login';
+GO
+-- Test SP:
+DECLARE @Result INT;
+DECLARE @UserID INT;
+DECLARE @HoTen NVARCHAR(255);
+DECLARE @VaiTro NVARCHAR(100);
+
+EXEC sp_Login 
+    @TenDangNhap = 'admin',
+    @MatKhauHash = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',
+    @Result = @Result OUTPUT,
+    @UserID = @UserID OUTPUT,
+    @HoTen = @HoTen OUTPUT,
+    @VaiTro = @VaiTro OUTPUT;
+
+SELECT @Result AS Result, @UserID AS UserID, @HoTen AS HoTen, @VaiTro AS VaiTro;
+EXEC sp_helptext 'sp_Login';
+GO
+
+SELECT 
+    UserID,
+    HoTen,
+    TenDangNhap,
+    MatKhauHash,
+    VaiTro,
+    IsLocked,
+    FailedLoginAttempts
+FROM Users
+WHERE TenDangNhap = 'admin';
+*/

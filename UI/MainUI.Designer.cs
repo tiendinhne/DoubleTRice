@@ -407,7 +407,7 @@ namespace DoubleTRice.UI
             // 
             this.button1.Location = new System.Drawing.Point(497, 41);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(75, 43);
             this.button1.TabIndex = 5;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -417,7 +417,7 @@ namespace DoubleTRice.UI
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Image = global::DoubleTRice.Properties.Resources.cancelred;
-            this.pictureBox2.Location = new System.Drawing.Point(773, 38);
+            this.pictureBox2.Location = new System.Drawing.Point(634, 57);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(30, 27);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -431,7 +431,7 @@ namespace DoubleTRice.UI
             this.btnSettings.FillColor = System.Drawing.Color.Transparent;
             this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSettings.Location = new System.Drawing.Point(865, 38);
+            this.btnSettings.Location = new System.Drawing.Point(867, 41);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 46);
@@ -460,7 +460,7 @@ namespace DoubleTRice.UI
             this.btnNotification.FillColor = System.Drawing.Color.Transparent;
             this.btnNotification.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnNotification.ForeColor = System.Drawing.Color.White;
-            this.btnNotification.Location = new System.Drawing.Point(636, 38);
+            this.btnNotification.Location = new System.Drawing.Point(950, 38);
             this.btnNotification.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNotification.Name = "btnNotification";
             this.btnNotification.Size = new System.Drawing.Size(75, 46);

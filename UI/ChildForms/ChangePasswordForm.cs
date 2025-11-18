@@ -153,5 +153,15 @@ namespace DoubleTRice.UI.ChildForms
             lblError.Visible = false;
         }
         #endregion
+
+        private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblConfirmPassword_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

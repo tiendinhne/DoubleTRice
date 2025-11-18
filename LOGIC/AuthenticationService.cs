@@ -41,8 +41,18 @@ namespace DoubleTRice.LOGIC
                 // Hash password
                 string passwordHash = PasswordHelper.HashPassword(password);
 
+                // 🔍 DEBUG: In ra hash để kiểm tra
+                System.Diagnostics.Debug.WriteLine($"Login attempt - Username: {username}");
+                System.Diagnostics.Debug.WriteLine($"Password hash: {passwordHash}");
+
+
                 // Gọi DAO
                 var (user, resultCode) = UserDAO.Instance.Login(username, passwordHash);
+
+                // 🔍 DEBUG: In kết quả
+                System.Diagnostics.Debug.WriteLine($"Result code: {resultCode}");
+                System.Diagnostics.Debug.WriteLine($"User: {(user != null ? user.HoTen : "null")}");
+
 
                 // Parse kết quả
                 if (resultCode == 0 && user != null)

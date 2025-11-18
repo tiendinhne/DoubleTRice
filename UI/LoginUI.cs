@@ -1,13 +1,7 @@
-﻿using DoubleTRice.LOGIC;
-using Guna.UI2.WinForms;
+﻿using DoubleTRice.DAO;
+using DoubleTRice.LOGIC;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DoubleTRice.UI
@@ -17,42 +11,122 @@ namespace DoubleTRice.UI
         #region Fields
         private bool isPasswordVisible = false;
         private int loginAttempts = 0;
-        private const int MAX_LOGIN_ATTEMPTS = 3;  // so lan toi da duoc nhap mat khau
+        private const int MAX_LOGIN_ATTEMPTS = 5;
+        private double formOpacity = 0;
         #endregion
 
         #region Constructor
         public LoginUI()
         {
             InitializeComponent();
-            InitializeUI();
+            this.Opacity = 0;
         }
         #endregion
 
-        #region Initialization
+        #region Form Load & Initialization
+        private void LoginUI_Load(object sender, EventArgs e)
+        {
+            InitializeUI();
+            StartFadeInAnimation();
+            LoadRememberedCredentials();
+        }
+
         private void InitializeUI()
         {
-            // Hide error label
-            label3.Visible = false;
+            // Hide error initially
+            lblError.Visible = false;
+            lblError.Height = 0;
 
-            // Set password char
-            guna2TextBox2.PasswordChar = '●';
+            // Set password visibility
+            txtPassword.PasswordChar = '●';
+            isPasswordVisible = false;
 
-            // Hide show password icon initially
-            pictureBox1.Visible = false;
-            pictureBox3.Visible = true;
+            // Set placeholders
+            txtUsername.PlaceholderText = "Username or Email";
+            txtPassword.PlaceholderText = "Password";
 
-            // Set placeholder text
-            guna2TextBox1.PlaceholderText = "Nhập tên đăng nhập";
-            guna2TextBox2.PlaceholderText = "Nhập mật khẩu";
+            // Set enter key handlers
+            txtUsername.KeyDown += TextBox_KeyDown;
+            txtPassword.KeyDown += TextBox_KeyDown;
 
-            // Set enter key handler
-            guna2TextBox1.KeyDown += TextBox_KeyDown;
-            guna2TextBox2.KeyDown += TextBox_KeyDown;
-            guna2TextBox1.TextChanged += (s, e) => HideError();
-            guna2TextBox2.TextChanged += (s, e) => HideError();
+            // Hide error when typing
+            txtUsername.TextChanged += (s, e) => HideError();
+            txtPassword.TextChanged += (s, e) => HideError();
 
-            // Focus vào username
-            guna2TextBox1.Focus();
+            // Focus on username
+            txtUsername.Focus();
+
+            // Set version
+            lblVersion.Text = $"v{Application.ProductVersion}";
+        }
+
+        private void StartFadeInAnimation()
+        {
+            fadeInTimer.Start();
+        }
+
+        private void FadeInTimer_Tick(object sender, EventArgs e)
+        {
+            if (formOpacity < 1)
+            {
+                formOpacity += 0.05;
+                this.Opacity = formOpacity;
+            }
+            else
+            {
+                fadeInTimer.Stop();
+            }
+        }
+        #endregion
+
+        #region Remember Me Functionality
+        private void LoadRememberedCredentials()
+        {
+            try
+            {
+                string savedUsername = Properties.Settings.Default.RememberedUsername ?? "";
+                bool rememberMe = Properties.Settings.Default.RememberMe;
+
+                if (rememberMe && !string.IsNullOrEmpty(savedUsername))
+                {
+                    txtUsername.Text = savedUsername;
+                    chkRememberMe.Checked = true;
+                    txtPassword.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Load credentials error: {ex.Message}");
+            }
+        }
+
+        private void SaveRememberedCredentials()
+        {
+            try
+            {
+                if (chkRememberMe.Checked)
+                {
+                    Properties.Settings.Default.RememberedUsername = txtUsername.Text.Trim();
+                    Properties.Settings.Default.RememberMe = true;
+                }
+                else
+                {
+                    Properties.Settings.Default.RememberedUsername = "";
+                    Properties.Settings.Default.RememberMe = false;
+                }
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Save credentials error: {ex.Message}");
+            }
+        }
+        #endregion
+
+        #region Event Handlers - Login Button
+        private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            PerformLogin();
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -60,202 +134,400 @@ namespace DoubleTRice.UI
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                guna2GradientButton1.PerformClick();
+                btnLogin.PerformClick();
             }
         }
         #endregion
 
         #region Login Logic
-        private void guna2GradientButton1_Click(object sender, EventArgs e)
-        {
-            PerformLogin();
-        }
-
         private void PerformLogin()
         {
+            // TEST CONNECTION
+            try
+            {
+                bool connected = DataProvider.Instance.TestConnection();
+                if (!connected)
+                {
+                    ShowError("❌ Không kết nối được database!\nKiểm tra SQL Server đã chạy chưa.");
+                    return;
+                }
+                MessageBox.Show("✅ Kết nối DB thành công!", "Debug");
+            }
+            catch (Exception ex)
+            {
+                ShowError($"❌ Lỗi kết nối:\n{ex.Message}");
+                return;
+            }
             // Validate input
-            string username = guna2TextBox1.Text.Trim();
-            string password = guna2TextBox2.Text;
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text;
+
+            // DEBUG: Kiểm tra hash
+            string hashedPassword = PasswordHelper.HashPassword(password);
+            MessageBox.Show(
+                $"Username: {username}\n" +
+                $"Password: {password}\n" +
+                $"Hashed: {hashedPassword}",
+                "Debug - Password Hash"
+            );
 
             if (string.IsNullOrEmpty(username))
             {
-                ShowError("Vui lòng nhập tên đăng nhập");
-                guna2TextBox1.Focus();
+                ShowError("⚠️ Vui lòng nhập tên đăng nhập");
+                txtUsername.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                ShowError("Vui lòng nhập mật khẩu");
-                guna2TextBox2.Focus();
+                ShowError("⚠️ Vui lòng nhập mật khẩu");
+                txtPassword.Focus();
                 return;
             }
 
             // Check max attempts
             if (loginAttempts >= MAX_LOGIN_ATTEMPTS)
             {
-                ShowError("Đã vượt quá số lần đăng nhập. Ứng dụng sẽ đóng.");
-                System.Threading.Thread.Sleep(2000);
-                Application.Exit();
+                ShowError($"❌ Đã vượt quá {MAX_LOGIN_ATTEMPTS} lần đăng nhập sai.\nỨng dụng sẽ đóng trong 3 giây...");
+
+                Timer closeTimer = new Timer();
+                closeTimer.Interval = 3000;
+                closeTimer.Tick += (s, e) =>
+                {
+                    closeTimer.Stop();
+                    Application.Exit();
+                };
+                closeTimer.Start();
                 return;
             }
 
-            // Show loading
-            guna2GradientButton1.Text = "Đang đăng nhập...";
-            guna2GradientButton1.Enabled = false;
-            guna2TextBox1.Enabled = false;
-            guna2TextBox2.Enabled = false;
-            this.Cursor = Cursors.WaitCursor;
+            // Show loading state
+            SetLoadingState(true);
 
             try
             {
-                // Hash password
-                //string passwordHash = PasswordHelper.HashPassword(password);
-
-                // Call login
-                //var result = UserDAO.Instance.Login(username, passwordHash);
+                // Call login service
                 var result = AuthenticationService.Login(username, password);
+                MessageBox.Show(
+                    $"Success: {result.Success}\n" +
+                    $"ResultCode: {result.ResultCode}\n" +
+                    $"UserID: {result.UserID}\n" +
+                    $"HoTen: {result.HoTen}\n" +
+                    $"VaiTro: {result.VaiTro}\n" +
+                    $"Message: {result.Message}",
+                    "Debug - Login Result"
+                );
 
                 if (result.Success)
                 {
-                    // Đăng nhập thành công
+                    // Login successful
                     loginAttempts = 0;
                     HideError();
 
-                    // Lưu session
+                    // Save remember me
+                    SaveRememberedCredentials();
+
+                    // Save session
                     UserSession.Initialize(result.UserID, result.HoTen, username, result.VaiTro);
 
-                    // Show success
-                    //MessageBox.Show($"Đăng nhập thành công!\n\nXin chào {result.HoTen}",
-                        //"Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Show success message
+                    ShowSuccess($"✅ Đăng nhập thành công!\nChào mừng {result.HoTen}");
 
-                    // Mở MainUI
-                    this.Hide();
-                    MainUI mainUI = new MainUI();
-                    mainUI.SetUserInfo(result.HoTen, result.VaiTro);
-                    mainUI.SetMenuVisibility(result.VaiTro);
-                    mainUI.FormClosed += (s, args) => this.Close();
-                    mainUI.Show();
+                    // Delay before opening main form
+                    Timer successTimer = new Timer();
+                    successTimer.Interval = 1000;
+                    successTimer.Tick += (s, e) =>
+                    {
+                        successTimer.Stop();
+                        OpenMainUI(result.HoTen, result.VaiTro);
+                    };
+                    successTimer.Start();
                 }
                 else
                 {
-                    // Login thất bại
+                    // Login failed
                     loginAttempts++;
-                    ShowError($"{result.Message}\n(Lần thử: {loginAttempts}/{MAX_LOGIN_ATTEMPTS})");
+
+                    string errorMsg = $"❌ {result.Message}";
+
+                    if (result.ResultCode == -3)
+                    {
+                        errorMsg += "\n\n🔒 Tài khoản đã bị khóa do đăng nhập sai quá nhiều lần.\nVui lòng liên hệ quản trị viên.";
+                    }
+                    else
+                    {
+                        errorMsg += $"\n\n(Lần thử: {loginAttempts}/{MAX_LOGIN_ATTEMPTS})";
+
+                        if (loginAttempts >= MAX_LOGIN_ATTEMPTS - 2)
+                        {
+                            errorMsg += $"\n⚠️ Còn {MAX_LOGIN_ATTEMPTS - loginAttempts} lần thử!";
+                        }
+                    }
+
+                    ShowError(errorMsg);
 
                     // Clear password
-                    guna2TextBox2.Clear();
-                    guna2TextBox2.Focus();
+                    txtPassword.Clear();
+                    txtPassword.Focus();
+
+                    // Shake animation
+                    ShakeForm();
                 }
             }
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
-                ShowError($"Lỗi kết nối database:\n{sqlEx.Message}");
+                ShowError($"❌ Lỗi kết nối database:\n{sqlEx.Message}\n\nKiểm tra:\n- SQL Server đã khởi động\n- Connection string đúng");
             }
             catch (Exception ex)
             {
-                ShowError($"Lỗi hệ thống:\n{ex.Message}");
+                ShowError($"❌ Lỗi hệ thống:\n{ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Login error: {ex}");
             }
             finally
             {
-                // Reset button
-                guna2GradientButton1.Text = "LOGIN";
-                guna2GradientButton1.Enabled = true;
-                guna2TextBox1.Enabled = true;
-                guna2TextBox2.Enabled = true;
+                SetLoadingState(false);
+            }
+        }
+
+        private void OpenMainUI(string hoTen, string vaiTro)
+        {
+            this.Hide();
+            MainUI mainUI = new MainUI();
+            mainUI.SetUserInfo(hoTen, vaiTro);
+            mainUI.SetMenuVisibility(vaiTro);
+            mainUI.FormClosed += (s, args) => this.Close();
+            mainUI.Show();
+        }
+        #endregion
+
+        #region UI State Management
+        private void SetLoadingState(bool isLoading)
+        {
+            if (isLoading)
+            {
+                btnLogin.Text = "Đang đăng nhập...";
+                btnLogin.Enabled = false;
+                txtUsername.Enabled = false;
+                txtPassword.Enabled = false;
+                chkRememberMe.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+            }
+            else
+            {
+                btnLogin.Text = "LOGIN";
+                btnLogin.Enabled = true;
+                txtUsername.Enabled = true;
+                txtPassword.Enabled = true;
+                chkRememberMe.Enabled = true;
                 this.Cursor = Cursors.Default;
             }
         }
         #endregion
 
-        #region Show/Hide Password
-        private void pictureBox1_Click(object sender, EventArgs e)
+        #region Event Handlers - Toggle Password
+        private void TxtPassword_IconRightClick(object sender, EventArgs e)
         {
-            // Hide password
-            isPasswordVisible = false;
-            guna2TextBox2.PasswordChar = '●';
-            pictureBox1.Visible = false;
-            pictureBox3.Visible = true;
-        }
+            isPasswordVisible = !isPasswordVisible;
+            txtPassword.PasswordChar = isPasswordVisible ? '\0' : '●';
 
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            // Show password
-            isPasswordVisible = true;
-            guna2TextBox2.PasswordChar = '\0';
-            pictureBox1.Visible = true;
-            pictureBox3.Visible = false;
+            // Change icon color when visible
+            //if (isPasswordVisible)
+            //{
+            //    txtPassword.IconRightImage = Properties.Resources.eye_slash_icon; // Icon mắt gạch
+            //}
+            //else
+            //{
+            //    txtPassword.IconRightImage = Properties.Resources.eye_icon; // Icon mắt thường
+            //}
         }
         #endregion
 
-        #region Helper Methods
+        #region Event Handlers - Forgot Password
+        private void LblForgotPassword_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Để reset mật khẩu, vui lòng liên hệ quản trị viên:\n\n" +
+                "📧 Email: tiendinh@gmail.com\n" +
+                "📱 Hotline: 0123-456-789\n\n" +
+                "Bạn có muốn mở email không?",
+                "Quên mật khẩu",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start("mailto:tiendinh@gmail.com?subject=Reset Password Request");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Không thể mở email client:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void LblForgotPassword_MouseEnter(object sender, EventArgs e)
+        {
+            //lblForgotPassword.ForeColor = Color.FromArgb(120, 210, 255);
+            lblForgotPassword.Font = new Font(lblForgotPassword.Font, FontStyle.Underline);
+        }
+
+        private void LblForgotPassword_MouseLeave(object sender, EventArgs e)
+        {
+            //lblForgotPassword.ForeColor = Color.FromArgb(100, 200, 255);
+            lblForgotPassword.Font = new Font(lblForgotPassword.Font, FontStyle.Regular);
+        }
+        #endregion
+
+        #region Window Control Buttons
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            Timer fadeOutTimer = new Timer();
+            fadeOutTimer.Interval = 20;
+            fadeOutTimer.Tick += (s, e2) =>
+            {
+                if (this.Opacity > 0)
+                {
+                    this.Opacity -= 0.1;
+                }
+                else
+                {
+                    fadeOutTimer.Stop();
+                    Application.Exit();
+                }
+            };
+            fadeOutTimer.Start();
+        }
+
+        private void BtnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        #endregion
+
+        #region Helper Methods - Error/Success Display
         private void ShowError(string message)
         {
-            label3.Text = message;
-            label3.Visible = true;
-            label3.ForeColor = Color.Red;
+            lblError.Text = message;
+            lblError.Visible = true;
+            lblError.BackColor = Color.FromArgb(255, 80, 80);
+            lblError.ForeColor = Color.White;
+
+            // Auto-resize based on text
+            using (Graphics g = this.CreateGraphics())
+            {
+                SizeF size = g.MeasureString(message, lblError.Font, lblError.Width - 24);
+                lblError.Height = (int)Math.Ceiling(size.Height) + 20;
+            }
+        }
+
+        private void ShowSuccess(string message)
+        {
+            lblError.Text = message;
+            lblError.Visible = true;
+            lblError.BackColor = Color.FromArgb(80, 200, 120);
+            lblError.ForeColor = Color.White;
+
+            using (Graphics g = this.CreateGraphics())
+            {
+                SizeF size = g.MeasureString(message, lblError.Font, lblError.Width - 24);
+                lblError.Height = (int)Math.Ceiling(size.Height) + 20;
+            }
         }
 
         private void HideError()
         {
-            label3.Visible = false;
+            lblError.Visible = false;
+            lblError.Height = 0;
         }
         #endregion
 
-        #region Event Handlers
-        private void label4_Click(object sender, EventArgs e)
+        #region Animations
+        private void ShakeForm()
         {
-            // Forgot password
-            MessageBox.Show("Vui lòng liên hệ quản trị viên để reset mật khẩu\nEmail: tiendinh@gmail.com",
-                "Quên mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            int originalX = this.Location.X;
+            int shakeDistance = 10;
+            int shakeCount = 0;
+            int maxShakes = 6;
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-            // Contact info - Already displayed on form
-        }
-
-        private void lbname_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lbpwd_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void txBusername_TextChanged(object sender, EventArgs e)
-        {
-            HideError();
-        }
-
-        private void guna2HtmlLabel1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
+            Timer shakeTimer = new Timer();
+            shakeTimer.Interval = 50;
+            shakeTimer.Tick += (s, e) =>
+            {
+                if (shakeCount < maxShakes)
+                {
+                    this.Location = new Point(
+                        originalX + (shakeCount % 2 == 0 ? shakeDistance : -shakeDistance),
+                        this.Location.Y
+                    );
+                    shakeCount++;
+                }
+                else
+                {
+                    this.Location = new Point(originalX, this.Location.Y);
+                    shakeTimer.Stop();
+                }
+            };
+            shakeTimer.Start();
         }
         #endregion
 
         #region Form Events
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Clear sensitive data
-            guna2TextBox1.Clear();
-            guna2TextBox2.Clear();
+            txtUsername.Clear();
+            txtPassword.Clear();
             base.OnFormClosing(e);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            CenterLoginPanel();
+        }
+
+        private void CenterLoginPanel()
+        {
+            if (pnlLogin != null && this.ClientSize.Height > 0)
+            {
+                int centerY = (this.ClientSize.Height - pnlLogin.Height) / 2;
+                int rightMargin = 100;
+
+                pnlLogin.Location = new Point(
+                    this.ClientSize.Width - pnlLogin.Width - rightMargin,
+                    Math.Max(centerY, 75)
+                );
+            }
         }
         #endregion
 
-        private void guna2TextBox2_TextChanged(object sender, EventArgs e)
+        #region Keyboard Shortcuts
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape)
+            {
+                BtnClose_Click(null, null);
+                return true;
+            }
+
+            if (keyData == Keys.F1)
+            {
+                LblForgotPassword_Click(null, null);
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        #endregion
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkRememberMe_CheckedChanged(object sender, EventArgs e)
         {
 
         }
