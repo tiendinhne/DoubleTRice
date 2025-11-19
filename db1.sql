@@ -699,3 +699,238 @@ SELECT
 FROM Users
 WHERE TenDangNhap = 'admin';
 */
+
+
+/* -------- merge lần 1 by TP --------
+    Thêm các dòng lệnh còn thiếu cho các lần cập nhật ngày 15 và ngày 17 từ repo TP local
+*/ 
+
+---- Thực hiện chỉnh sửa ngày 15/11/2025--------------------------------------------!!!!!!!
+ALTER TABLE CustomerPayments
+ALTER COLUMN InvoiceID INT NOT NULL;
+
+---- Thực hiện test tính năng:
+/* ================================================================
+BÁO CÁO TỔNG HỢP CÔNG NỢ PHẢI TRẢ NHÀ CUNG CẤP
+================================================================
+*/
+
+-- Thiết lập kỳ báo cáo (ví dụ: Tháng 11/2025)
+DECLARE @StartDate DATE = '2025-11-01';
+DECLARE @EndDate DATE = '2025-11-30';
+
+-- 1. Tính toán số dư Nợ Đầu Kỳ (trước @StartDate)
+WITH DauKy AS (
+    SELECT 
+        SupplierID,
+        SUM(SoTien) AS NoDauKy
+    FROM (
+        -- Tổng tiền hàng đã nhập (Nợ tăng)
+        SELECT 
+            SupplierID, 
+            TongTien AS SoTien
+        FROM GoodsReceipts
+        WHERE NgayNhap < @StartDate
+        
+        UNION ALL
+        
+        -- Tổng tiền đã trả (Nợ giảm)
+        SELECT 
+            SupplierID, 
+            -SoTien AS SoTien -- Dùng số âm
+        FROM SupplierPayments
+        WHERE NgayThanhToan < @StartDate
+    ) AS GiaoDichDauKy
+    GROUP BY SupplierID
+),
+
+-- 2. Tính toán phát sinh Tăng/Giảm Trong Kỳ (từ @StartDate đến @EndDate)
+TrongKy AS (
+    SELECT 
+        SupplierID,
+        SUM(CASE WHEN GiaoDich = 'MuaHang' THEN SoTien ELSE 0 END) AS PhatSinhTang,
+        SUM(CASE WHEN GiaoDich = 'TraTien' THEN SoTien ELSE 0 END) AS PhatSinhGiam
+    FROM (
+        -- Giao dịch mua hàng
+        SELECT 
+            SupplierID, 
+            TongTien AS SoTien, 
+            'MuaHang' AS GiaoDich
+        FROM GoodsReceipts
+        WHERE NgayNhap BETWEEN @StartDate AND @EndDate
+        
+        UNION ALL
+        
+        -- Giao dịch trả tiền
+        SELECT 
+            SupplierID, 
+            SoTien AS SoTien, 
+            'TraTien' AS GiaoDich
+        FROM SupplierPayments
+        WHERE NgayThanhToan BETWEEN @StartDate AND @EndDate
+    ) AS GiaoDichTrongKy
+    GROUP BY SupplierID
+)
+
+-- 3. Tổng hợp báo cáo
+SELECT 
+    S.SupplierID,
+    S.TenNhaCungCap,
+    ISNULL(DK.NoDauKy, 0) AS NoDauKy,
+    ISNULL(TK.PhatSinhTang, 0) AS PhatSinhTang,
+    ISNULL(TK.PhatSinhGiam, 0) AS PhatSinhGiam,
+    -- Công thức: Nợ Cuối Kỳ = Đầu Kỳ + Tăng - Giảm
+    (ISNULL(DK.NoDauKy, 0) + ISNULL(TK.PhatSinhTang, 0) - ISNULL(TK.PhatSinhGiam, 0)) AS NoCuoiKy
+FROM 
+    Suppliers AS S
+LEFT JOIN 
+    DauKy AS DK ON S.SupplierID = DK.SupplierID
+LEFT JOIN 
+    TrongKy AS TK ON S.SupplierID = TK.SupplierID
+WHERE 
+    -- Lọc ra các nhà cung cấp có nợ đầu kỳ HOẶC có phát sinh trong kỳ
+    ISNULL(DK.NoDauKy, 0) != 0 
+    OR ISNULL(TK.PhatSinhTang, 0) != 0 
+    OR ISNULL(TK.PhatSinhGiam, 0) != 0
+ORDER BY
+    S.TenNhaCungCap;
+
+
+----- Điều chỉnh ngày 17/11/2025 ------------------------------------------------!!!!
+/* ===============================================================================================================
+    1. Xóa cột TrangThai (trong SalesInvoices): Đây là dữ liệu tính toán động, không được lưu trữ.
+    Bổ sung Triggers để cập nhật ProductInventory: phải viết 3 trigger AFTER INSERT cho 3 bảng:
+    2. SalesInvoiceDetails (để TRỪ kho khi bán)
+    3. GoodsReceiptDetails (để CỘNG kho khi nhập)
+    4. Và bổ sung logic cập nhật kho vào trigger trg_GenerateMaPhieuDieuChinh (để CỘNG/TRỪ kho khi điều chỉnh).
+   ===============================================================================================================
+*/ 
+
+---1.
+-- Kiểm tra xem ràng buộc mặc định (default constraint) có tồn tại không trước khi xóa
+DECLARE @ConstraintName NVARCHAR(200)
+SELECT @ConstraintName = C.name
+FROM sys.default_constraints C
+JOIN sys.columns S ON C.parent_object_id = S.object_id AND C.parent_column_id = S.column_id
+WHERE C.parent_object_id = OBJECT_ID('SalesInvoices')
+  AND S.name = 'TrangThai'
+
+IF @ConstraintName IS NOT NULL
+BEGIN
+    EXEC('ALTER TABLE SalesInvoices DROP CONSTRAINT ' + @ConstraintName)
+END
+
+-- Sau khi xóa ràng buộc, tiến hành xóa cột
+ALTER TABLE SalesInvoices
+DROP COLUMN TrangThai;
+
+GO
+
+---2. 
+CREATE TRIGGER trg_UpdateStockOnSale
+ON SalesInvoiceDetails
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Cập nhật ProductInventory dựa trên các dòng vừa được chèn (bảng 'inserted')
+    -- Đây là cách viết set-based, xử lý được cả trường hợp insert nhiều dòng cùng lúc
+    UPDATE pi
+    SET 
+        pi.SoLuongTon = pi.SoLuongTon - (i.SoLuong * puc.GiaTriQuyDoi)
+    FROM 
+        ProductInventory AS pi
+    JOIN 
+        inserted AS i ON pi.ProductID = i.ProductID
+    JOIN 
+        ProductUnitConversions AS puc ON i.ProductID = puc.ProductID AND i.UnitID = puc.UnitID
+    WHERE 
+        pi.ProductID IN (SELECT ProductID FROM inserted);
+END;
+GO
+
+---3. 
+CREATE TRIGGER trg_UpdateStockOnPurchase
+ON GoodsReceiptDetails
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Cập nhật ProductInventory dựa trên các dòng vừa được chèn (bảng 'inserted')
+    UPDATE pi
+    SET 
+        pi.SoLuongTon = pi.SoLuongTon + (i.SoLuong * puc.GiaTriQuyDoi)
+    FROM 
+        ProductInventory AS pi
+    JOIN 
+        inserted AS i ON pi.ProductID = i.ProductID
+    JOIN 
+        ProductUnitConversions AS puc ON i.ProductID = puc.ProductID AND i.UnitID = puc.UnitID
+    WHERE 
+        pi.ProductID IN (SELECT ProductID FROM inserted);
+END;
+GO
+
+---4. 
+ALTER TRIGGER trg_GenerateMaPhieuDieuChinh
+ON StockAdjustments
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    /* ================================================================
+       PHẦN 1: LOGIC SINH MÃ PHIẾU (GIỮ NGUYÊN NHƯ FILE CỦA EM)
+       *** Cảnh báo: Logic này không an toàn cho multi-row insert,
+           nhưng giữ nguyên theo yêu cầu ban đầu.
+    ================================================================
+    */
+    DECLARE @NewAdjustmentID INT;
+    DECLARE @NgayDieuChinh DATETIME;
+    DECLARE @SoLuong FLOAT;
+    DECLARE @DateString VARCHAR(6);
+    DECLARE @NextSeq INT;
+    DECLARE @MaPhieu VARCHAR(20);
+    DECLARE @Prefix VARCHAR(2);
+
+    -- Giả sử trigger này chỉ chạy 1 dòng 1 lần (theo logic code cũ)
+    SELECT @NewAdjustmentID = i.AdjustmentID, 
+           @NgayDieuChinh = i.NgayDieuChinh,
+           @SoLuong = i.SoLuongDieuChinh
+    FROM inserted i;
+
+    SET @Prefix = IIF(@SoLuong < 0, 'PX', 'PN');
+    SET @DateString = FORMAT(@NgayDieuChinh, 'ddMMyy');
+
+    SELECT @NextSeq = ISNULL(MAX(CAST(RIGHT(MaPhieu, 3) AS INT)), 0) + 1
+    FROM StockAdjustments
+    WHERE CONVERT(DATE, NgayDieuChinh) = CONVERT(DATE, @NgayDieuChinh)
+      AND MaPhieu LIKE @Prefix + '%'
+      AND MaPhieu IS NOT NULL;
+
+    SET @MaPhieu = @Prefix + @DateString + FORMAT(@NextSeq, '000');
+
+    UPDATE StockAdjustments
+    SET MaPhieu = @MaPhieu
+    WHERE AdjustmentID = @NewAdjustmentID;
+
+    /* ================================================================
+       PHẦN 2: LOGIC CẬP NHẬT KHO MỚI ĐƯỢC THÊM VÀO
+    ================================================================
+    */
+    -- Logic này được viết an toàn (set-based)
+    -- Nó sẽ cộng/trừ SoLuongDieuChinh (đã là số 'kg') vào kho
+    UPDATE pi
+    SET
+        pi.SoLuongTon = pi.SoLuongTon + i.SoLuongDieuChinh
+    FROM
+        ProductInventory AS pi
+    JOIN
+        inserted AS i ON pi.ProductID = i.ProductID
+    WHERE
+        pi.ProductID IN (SELECT ProductID FROM inserted);
+
+END;
+GO
