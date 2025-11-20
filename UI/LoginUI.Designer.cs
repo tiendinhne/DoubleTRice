@@ -22,6 +22,7 @@ namespace DoubleTRice.UI
             this.components = new System.ComponentModel.Container();
             this.pnlBackground = new System.Windows.Forms.Panel();
             this.pnlLogin = new Guna.UI2.WinForms.Guna2Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblWelcome = new System.Windows.Forms.Label();
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.txtUsername = new Guna.UI2.WinForms.Guna2TextBox();
@@ -38,13 +39,12 @@ namespace DoubleTRice.UI
             this.dragControl = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.shadowForm = new Guna.UI2.WinForms.Guna2ShadowForm(this.components);
             this.fadeInTimer = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlBackground.SuspendLayout();
             this.pnlLogin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlRememberForgot.SuspendLayout();
             this.pnlFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBackground
@@ -84,11 +84,23 @@ namespace DoubleTRice.UI
             this.pnlLogin.Size = new System.Drawing.Size(476, 600);
             this.pnlLogin.TabIndex = 1;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
+            this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.cancelred;
+            this.pictureBox1.Location = new System.Drawing.Point(435, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 23);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // lblWelcome
             // 
             this.lblWelcome.BackColor = System.Drawing.Color.Transparent;
             this.lblWelcome.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.ForeColor = System.Drawing.Color.White;
+            this.lblWelcome.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.lblWelcome.Location = new System.Drawing.Point(44, 46);
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(415, 88);
@@ -100,7 +112,7 @@ namespace DoubleTRice.UI
             // 
             this.lblSubtitle.BackColor = System.Drawing.Color.Transparent;
             this.lblSubtitle.Font = new System.Drawing.Font("Rockwell", 14F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtitle.ForeColor = System.Drawing.Color.White;
+            this.lblSubtitle.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.lblSubtitle.Location = new System.Drawing.Point(54, 120);
             this.lblSubtitle.Name = "lblSubtitle";
             this.lblSubtitle.Size = new System.Drawing.Size(397, 85);
@@ -120,7 +132,7 @@ namespace DoubleTRice.UI
             this.txtUsername.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(200)))), ((int)(((byte)(255)))));
             this.txtUsername.FocusedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(50)))));
             this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtUsername.ForeColor = System.Drawing.Color.White;
+            this.txtUsername.ForeColor = System.Drawing.Color.Maroon;
             this.txtUsername.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(180)))), ((int)(((byte)(255)))));
             this.txtUsername.IconLeftOffset = new System.Drawing.Point(12, 0);
             this.txtUsername.Location = new System.Drawing.Point(71, 236);
@@ -146,7 +158,7 @@ namespace DoubleTRice.UI
             this.txtPassword.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(200)))), ((int)(((byte)(255)))));
             this.txtPassword.FocusedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(50)))));
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPassword.ForeColor = System.Drawing.Color.White;
+            this.txtPassword.ForeColor = System.Drawing.Color.Maroon;
             this.txtPassword.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(180)))), ((int)(((byte)(255)))));
             this.txtPassword.IconLeftOffset = new System.Drawing.Point(12, 0);
             this.txtPassword.IconRight = global::DoubleTRice.Properties.Resources.show;
@@ -313,17 +325,6 @@ namespace DoubleTRice.UI
             this.fadeInTimer.Interval = 20;
             this.fadeInTimer.Tick += new System.EventHandler(this.FadeInTimer_Tick);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Black;
-            this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.cancelred;
-            this.pictureBox1.Location = new System.Drawing.Point(435, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 23);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
             // LoginUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -337,11 +338,11 @@ namespace DoubleTRice.UI
             this.Load += new System.EventHandler(this.LoginUI_Load);
             this.pnlBackground.ResumeLayout(false);
             this.pnlLogin.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlRememberForgot.ResumeLayout(false);
             this.pnlRememberForgot.PerformLayout();
             this.pnlFooter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBackground)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
