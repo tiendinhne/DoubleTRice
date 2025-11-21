@@ -226,12 +226,40 @@ namespace DoubleTRice.DAO
         /// <summary>
         /// Lấy danh sách tất cả users
         /// </summary>
-        public List<Users> GetAllUsers()
+        //public List<Users> GetAllUsers()
+        //{
+        //    try
+        //    {
+        //        string query = "SELECT * FROM Users";
+        //        DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+        //        List<Users> users = new List<Users>();
+        //        foreach (DataRow row in data.Rows)
+        //        {
+        //            users.Add(new Users(row));
+        //        }
+
+        //        return users;
+        //    }
+        //    catch
+        //    {
+        //        return new List<Users>();
+        //    }
+        //}
+        #endregion
+
+
+        #region Admin User Management Methods
+
+        /// <summary>
+        /// Lấy tất cả users (Admin only) - với thông tin đầy đủ
+        /// </summary>
+        public List<Users> GetAllUsersAdmin()
         {
             try
             {
-                string query = "SELECT * FROM Users";
-                DataTable data = DataProvider.Instance.ExecuteQuery(query);
+                string procName = "sp_GetAllUsersAdmin";
+                DataTable data = DataProvider.Instance.ExecuteQuery(procName, null, true);
 
                 List<Users> users = new List<Users>();
                 foreach (DataRow row in data.Rows)
@@ -241,11 +269,180 @@ namespace DoubleTRice.DAO
 
                 return users;
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"GetAllUsersAdmin error: {ex.Message}");
                 return new List<Users>();
             }
         }
+
+        /// <summary>
+        /// Thêm user mới (Admin only)
+        /// </summary>
+        public (int result, int newUserID) InsertUser(string hoTen, string tenDangNhap, string passwordHash, string vaiTro)
+        {
+            try
+            {
+                string procName = "sp_InsertUser";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@HoTen", hoTen },
+            { "@TenDangNhap", tenDangNhap },
+            { "@MatKhauHash", passwordHash },
+            { "@VaiTro", vaiTro }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int },
+            { "@NewUserID", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                int resultCode = result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+                int newUserID = result["@NewUserID"] != null ? Convert.ToInt32(result["@NewUserID"]) : 0;
+
+                return (resultCode, newUserID);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"InsertUser error: {ex.Message}");
+                return (-99, 0);
+            }
+        }
+
+        /// <summary>
+        /// Cập nhật thông tin user (Admin only)
+        /// </summary>
+        public int UpdateUser(int userID, string hoTen, string tenDangNhap, string vaiTro)
+        {
+            try
+            {
+                string procName = "sp_UpdateUser";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@UserID", userID },
+            { "@HoTen", hoTen },
+            { "@TenDangNhap", tenDangNhap },
+            { "@VaiTro", vaiTro }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"UpdateUser error: {ex.Message}");
+                return -99;
+            }
+        }
+
+        /// <summary>
+        /// Xóa user (Admin only)
+        /// </summary>
+        public int DeleteUser(int userID)
+        {
+            try
+            {
+                string procName = "sp_DeleteUser";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@UserID", userID }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"DeleteUser error: {ex.Message}");
+                return -99;
+            }
+        }
+
+        /// <summary>
+        /// Reset password user (Admin only)
+        /// </summary>
+        public int ResetPasswordAdmin(int userID, string newPasswordHash)
+        {
+            try
+            {
+                string procName = "sp_ResetPasswordAdmin";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@UserID", userID },
+            { "@NewPasswordHash", newPasswordHash }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ResetPasswordAdmin error: {ex.Message}");
+                return -99;
+            }
+        }
+
+        /// <summary>
+        /// Toggle Lock/Unlock user (Admin only)
+        /// </summary>
+        public int ToggleLockUser(int userID, bool isLocked)
+        {
+            try
+            {
+                string procName = "sp_ToggleLockUser";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@UserID", userID },
+            { "@IsLocked", isLocked }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ToggleLockUser error: {ex.Message}");
+                return -99;
+            }
+        }
+
         #endregion
     }
 }

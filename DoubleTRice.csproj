@@ -74,7 +74,6 @@
     <Compile Include="LOGIC\AuthenticationService.cs" />
     <Compile Include="LOGIC\AuthenticationResult.cs" />
     <Compile Include="LOGIC\PasswordHelper.cs" />
-    <Compile Include="LOGIC\UserSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testDAO.cs" />
@@ -103,11 +102,23 @@
     <Compile Include="UI\ChildForms\CustomersForm.Designer.cs">
       <DependentUpon>CustomersForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ChildForms\UsersForm.cs">
+    <Compile Include="UI\ChildForms\ResetPasswordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ChildForms\UsersForm.Designer.cs">
-      <DependentUpon>UsersForm.cs</DependentUpon>
+    <Compile Include="UI\ChildForms\ResetPasswordDialog.Designer.cs">
+      <DependentUpon>ResetPasswordDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\UserAddEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\UserAddEditDialog.Designer.cs">
+      <DependentUpon>UserAddEditDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\UserManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\UserManagementForm.Designer.cs">
+      <DependentUpon>UserManagementForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ChildForms\ProductForm.cs">
       <SubType>Form</SubType>
@@ -158,8 +169,8 @@
     <EmbeddedResource Include="UI\ChildForms\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ChildForms\UsersForm.resx">
-      <DependentUpon>UsersForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ChildForms\UserManagementForm.resx">
+      <DependentUpon>UserManagementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
