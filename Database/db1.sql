@@ -883,3 +883,228 @@ BEGIN
 
 END;
 GO
+
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ NGƯỜI DÙNG (ADMIN)
+----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxx-------------------21-11 by td
+-- ===================================================================
+
+-- 1. SP LẤY TẤT CẢ USERS (với thông tin chi tiết)
+IF OBJECT_ID('sp_GetAllUsersAdmin', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllUsersAdmin;
+GO
+
+CREATE PROCEDURE sp_GetAllUsersAdmin
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        UserID,
+        HoTen,
+        TenDangNhap,
+		MatKhauHash,
+        VaiTro,
+        ISNULL(IsLocked, 0) AS IsLocked,
+        ISNULL(FailedLoginAttempts, 0) AS FailedLoginAttempts,
+        LastLoginDate,
+        CreatedDate
+    FROM Users
+    ORDER BY CreatedDate DESC;
+END
+GO
+
+-- 2. SP THÊM USER MỚI
+IF OBJECT_ID('sp_InsertUser', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertUser;
+GO
+
+CREATE PROCEDURE sp_InsertUser
+    @HoTen NVARCHAR(255),
+    @TenDangNhap VARCHAR(100),
+    @MatKhauHash VARCHAR(255),
+    @VaiTro NVARCHAR(100),
+    @Result INT OUTPUT,
+    @NewUserID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    SET @NewUserID = 0;
+    
+    -- Kiểm tra username đã tồn tại
+    IF EXISTS(SELECT 1 FROM Users WHERE TenDangNhap = @TenDangNhap)
+    BEGIN
+        SET @Result = -2; -- Username đã tồn tại
+        RETURN;
+    END
+    
+    -- Insert user mới
+    BEGIN TRY
+        INSERT INTO Users (HoTen, TenDangNhap, MatKhauHash, VaiTro, IsLocked, FailedLoginAttempts, CreatedDate)
+        VALUES (@HoTen, @TenDangNhap, @MatKhauHash, @VaiTro, 0, 0, GETDATE());
+        
+        SET @NewUserID = SCOPE_IDENTITY();
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 3. SP CẬP NHẬT THÔNG TIN USER
+IF OBJECT_ID('sp_UpdateUser', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateUser;
+GO
+
+CREATE PROCEDURE sp_UpdateUser
+    @UserID INT,
+    @HoTen NVARCHAR(255),
+    @TenDangNhap VARCHAR(100),
+    @VaiTro NVARCHAR(100),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra user có tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Users WHERE UserID = @UserID)
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra username trùng (ngoại trừ chính nó)
+    IF EXISTS(SELECT 1 FROM Users WHERE TenDangNhap = @TenDangNhap AND UserID != @UserID)
+    BEGIN
+        SET @Result = -2; -- Username đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Users
+        SET HoTen = @HoTen,
+            TenDangNhap = @TenDangNhap,
+            VaiTro = @VaiTro
+        WHERE UserID = @UserID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 4. SP XÓA USER
+IF OBJECT_ID('sp_DeleteUser', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteUser;
+GO
+
+CREATE PROCEDURE sp_DeleteUser
+    @UserID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Không cho xóa user cuối cùng
+    IF (SELECT COUNT(*) FROM Users) <= 1
+    BEGIN
+        SET @Result = -3; -- Không thể xóa user cuối cùng
+        RETURN;
+    END
+    
+    -- Kiểm tra user có tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Users WHERE UserID = @UserID)
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM Users WHERE UserID = @UserID;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống (có thể do foreign key constraint)
+    END CATCH
+END
+GO
+
+-- 5. SP RESET PASSWORD (ADMIN)
+IF OBJECT_ID('sp_ResetPasswordAdmin', 'P') IS NOT NULL
+    DROP PROCEDURE sp_ResetPasswordAdmin;
+GO
+
+CREATE PROCEDURE sp_ResetPasswordAdmin
+    @UserID INT,
+    @NewPasswordHash VARCHAR(255),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    IF NOT EXISTS(SELECT 1 FROM Users WHERE UserID = @UserID)
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Users
+        SET MatKhauHash = @NewPasswordHash,
+            FailedLoginAttempts = 0
+        WHERE UserID = @UserID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 6. SP TOGGLE LOCK/UNLOCK USER
+IF OBJECT_ID('sp_ToggleLockUser', 'P') IS NOT NULL
+    DROP PROCEDURE sp_ToggleLockUser;
+GO
+
+CREATE PROCEDURE sp_ToggleLockUser
+    @UserID INT,
+    @IsLocked BIT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    IF NOT EXISTS(SELECT 1 FROM Users WHERE UserID = @UserID)
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Users
+        SET IsLocked = @IsLocked,
+            FailedLoginAttempts = 0
+        WHERE UserID = @UserID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO

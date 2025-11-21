@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DoubleTRice.DT;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DoubleTRice.DT;
+using System.Windows.Forms;
 
 namespace DoubleTRice.DAO
 {
@@ -259,23 +260,80 @@ namespace DoubleTRice.DAO
             try
             {
                 string procName = "sp_GetAllUsersAdmin";
-                DataTable data = DataProvider.Instance.ExecuteQuery(procName, null, true);
 
-                List<Users> users = new List<Users>();
-                foreach (DataRow row in data.Rows)
+                // BƯỚC 1: Kiểm tra SP có tồn tại không
+                System.Diagnostics.Debug.WriteLine("=== BẮT ĐẦU GỌI GetAllUsersAdmin() ===");
+                System.Diagnostics.Debug.WriteLine($"Stored Procedure: {procName}");
+
+                // Gọi thử query kiểm tra SP có tồn tại không (rất quan trọng!)
+                string checkSP = "SELECT COUNT(*) FROM sys.procedures WHERE name = 'sp_GetAllUsersAdmin'";
+                var spExists = DataProvider.Instance.ExecuteScalar(checkSP);
+                System.Diagnostics.Debug.WriteLine($"SP có tồn tại không? -> {spExists} (1 = có, 0 = không)");
+
+                if (Convert.ToInt32(spExists) == 0)
                 {
-                    users.Add(new Users(row));
+                    MessageBox.Show("LỖI: Stored Procedure 'sp_GetAllUsersAdmin' KHÔNG TỒN TẠI trong CSDL!",
+                                  "Lỗi SP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return new List<Users>();
                 }
 
+                // BƯỚC 2: Gọi thực thi SP
+                System.Diagnostics.Debug.WriteLine("Đang gọi ExecuteQuery...");
+                DataTable data = DataProvider.Instance.ExecuteQuery(procName, null, true);
+
+                // BƯỚC 3: Kiểm tra kết quả trả về
+                System.Diagnostics.Debug.WriteLine($"DataTable.Rows.Count = {data?.Rows.Count ?? -1}");
+                System.Diagnostics.Debug.WriteLine($"DataTable.Columns.Count = {data?.Columns.Count ?? 0}");
+
+                if (data == null || data.Rows.Count == 0)
+                {
+                    MessageBox.Show("SP chạy thành công nhưng KHÔNG TRẢ VỀ DỮ LIỆU nào!\n" +
+                                  "Kiểm tra: Có user nào trong bảng Users chưa?\n" +
+                                  "Hoặc SP có bị lỗi logic SELECT không?",
+                                  "Không có dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    // In ra cấu trúc bảng để kiểm tra
+                    System.Diagnostics.Debug.WriteLine("Cấu trúc bảng trả về:");
+                    if (data != null)
+                        foreach (DataColumn col in data.Columns)
+                            System.Diagnostics.Debug.WriteLine($"  Column: {col.ColumnName} - {col.DataType}");
+
+                    return new List<Users>();
+                }
+
+                // BƯỚC 4: Duyệt và convert
+                List<Users> users = new List<Users>();
+                int index = 1;
+                foreach (DataRow row in data.Rows)
+                {
+                    try
+                    {
+                        var user = new Users(row);
+                        users.Add(user);
+
+                        System.Diagnostics.Debug.WriteLine($"[OK] User {index}: {user.HoTen} - {user.TenDangNhap} - {user.VaiTro}");
+                        index++;
+                    }
+                    catch (Exception rowEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LỖI] Dòng {index} bị lỗi khi convert: {rowEx.Message}");
+                    }
+                }
+
+                System.Diagnostics.Debug.WriteLine($"=== HOÀN TẤT: Trả về {users.Count} user(s) ===");
                 return users;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"GetAllUsersAdmin error: {ex.Message}");
+                // BƯỚC 5: Bắt lỗi chi tiết
+                string errorMsg = $"GetAllUsersAdmin() LỖI TOÀN DIỆN:\n{ex.Message}\n\nStackTrace:\n{ex.StackTrace}";
+                System.Diagnostics.Debug.WriteLine(errorMsg);
+                MessageBox.Show("Lỗi nghiêm trọng khi lấy danh sách user admin:\n" + ex.Message,
+                               "Lỗi Hệ Thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 return new List<Users>();
             }
         }
-
         /// <summary>
         /// Thêm user mới (Admin only)
         /// </summary>

@@ -3,27 +3,39 @@
   "WorkspaceRootPath": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\dt\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dao\\userdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dao\\userdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dt\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\resetpassworddialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\resetpassworddialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\useraddeditdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\loginui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\loginui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\useraddeditdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\useraddeditdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\usermanagementform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\usermanagementform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\usermanagementform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -35,11 +47,11 @@
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\changepasswordform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\useraddeditdialog.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\useraddeditdialog.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\useraddeditdialog.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\ui\\childforms\\customersform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\customersform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\customersform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -49,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\basechildform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\basechildform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\logic\\authenticationresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -67,10 +75,6 @@
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:logic\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|j:\\hk5\\cnpm\\cuoi ki 25-26\\doubletrice\\dao\\userdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dao\\userdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\dt\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dt\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -83,16 +87,8 @@
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:dao\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\loginui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\loginui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\customersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\childforms\\customersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\loginui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\loginui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\childforms\\basechildform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -123,10 +119,6 @@
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\trangchuui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\mainui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\mainui.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\ui\\caidatui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{96E1D41D-FCAD-4873-AF19-A50A669BA2CE}|DoubleTRice.csproj|solutionrelative:ui\\caidatui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -150,25 +142,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 3,
               "Title": "MainUI.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
               "RelativeDocumentMoniker": "UI\\MainUI.cs",
               "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
               "RelativeToolTip": "UI\\MainUI.cs",
-              "ViewState": "AgIAAKYAAAAAAAAAAAAwwE4CAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAjwHoBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T16:24:45.795Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 6,
               "Title": "LoginUI.cs [Design]",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LoginUI.cs",
               "RelativeDocumentMoniker": "UI\\LoginUI.cs",
@@ -177,168 +168,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-18T12:10:10Z",
               "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "LoginUI.Designer.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LoginUI.Designer.cs",
-              "RelativeDocumentMoniker": "UI\\LoginUI.Designer.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LoginUI.Designer.cs",
-              "RelativeToolTip": "UI\\LoginUI.Designer.cs",
-              "ViewState": "AgIAAEwBAAAAAAAAAAAAAEcAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T05:17:23.27Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserManagementForm.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\UserManagementForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\UserManagementForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:15:27.048Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserManagementForm.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\UserManagementForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs",
-              "RelativeToolTip": "UI\\ChildForms\\UserManagementForm.cs",
-              "ViewState": "AgIAAC8BAAAAAAAAAAAuwEYBAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:18:11.951Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Users.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Users.cs",
-              "RelativeDocumentMoniker": "DT\\Users.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Users.cs",
-              "RelativeToolTip": "DT\\Users.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T10:14:00.586Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ResetPasswordDialog.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ResetPasswordDialog.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\ResetPasswordDialog.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ResetPasswordDialog.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\ResetPasswordDialog.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:33:31.821Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UserAddEditDialog.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\UserAddEditDialog.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\UserAddEditDialog.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:16:14.478Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserManagementForm.Designer.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.Designer.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\UserManagementForm.Designer.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.Designer.cs",
-              "RelativeToolTip": "UI\\ChildForms\\UserManagementForm.Designer.cs",
-              "ViewState": "AgIAAFQBAAAAAAAAAAApwMkAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:15:50.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ProductForm.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ProductForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\ProductForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ProductForm.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\ProductForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:55:42.717Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ChangePasswordForm.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ChangePasswordForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\ChangePasswordForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ChangePasswordForm.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\ChangePasswordForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:55:22.5Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UserAddEditDialog.Designer.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.Designer.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\UserAddEditDialog.Designer.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.Designer.cs",
-              "RelativeToolTip": "UI\\ChildForms\\UserAddEditDialog.Designer.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:16:10.6Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CustomersForm.Designer.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.Designer.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\CustomersForm.Designer.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.Designer.cs",
-              "RelativeToolTip": "UI\\ChildForms\\CustomersForm.Designer.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:32:58.893Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CustomersForm.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\CustomersForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\CustomersForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:55:24.827Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "BaseChildForm.cs [Design]",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\BaseChildForm.cs",
-              "RelativeDocumentMoniker": "UI\\ChildForms\\BaseChildForm.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\BaseChildForm.cs [Design]",
-              "RelativeToolTip": "UI\\ChildForms\\BaseChildForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:55:16.299Z",
-              "EditorCaption": " [Design]"
             },
             {
               "$type": "Bookmark",
@@ -362,7 +191,160 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 0,
+              "Title": "Users.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Users.cs",
+              "RelativeDocumentMoniker": "DT\\Users.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Users.cs",
+              "RelativeToolTip": "DT\\Users.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAcwDIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T17:31:21.298Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserDAO.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\UserDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\UserDAO.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\UserDAO.cs",
+              "RelativeToolTip": "DAO\\UserDAO.cs",
+              "ViewState": "AgIAAD0BAAAAAAAAAAAQwBQBAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T10:10:43.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserManagementForm.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\UserManagementForm.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.cs",
+              "RelativeToolTip": "UI\\ChildForms\\UserManagementForm.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEEAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:18:11.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainUI.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs",
+              "RelativeDocumentMoniker": "UI\\MainUI.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.cs [Design]",
+              "RelativeToolTip": "UI\\MainUI.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:44:32.014Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainUI.Designer.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\MainUI.Designer.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
+              "RelativeToolTip": "UI\\MainUI.Designer.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAYwH8AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T15:18:54.909Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserAddEditDialog.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\UserAddEditDialog.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.cs [Design]",
+              "RelativeToolTip": "UI\\ChildForms\\UserAddEditDialog.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:16:14.478Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserManagementForm.Designer.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\UserManagementForm.Designer.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserManagementForm.Designer.cs",
+              "RelativeToolTip": "UI\\ChildForms\\UserManagementForm.Designer.cs",
+              "ViewState": "AgIAAFQBAAAAAAAAAAApwMkAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:15:50.888Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ProductForm.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ProductForm.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\ProductForm.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ProductForm.cs [Design]",
+              "RelativeToolTip": "UI\\ChildForms\\ProductForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T15:55:42.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ChangePasswordForm.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ChangePasswordForm.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\ChangePasswordForm.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ChangePasswordForm.cs [Design]",
+              "RelativeToolTip": "UI\\ChildForms\\ChangePasswordForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T15:55:22.5Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UserAddEditDialog.Designer.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\UserAddEditDialog.Designer.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UserAddEditDialog.Designer.cs",
+              "RelativeToolTip": "UI\\ChildForms\\UserAddEditDialog.Designer.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:16:10.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CustomersForm.Designer.cs",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.Designer.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\CustomersForm.Designer.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.Designer.cs",
+              "RelativeToolTip": "UI\\ChildForms\\CustomersForm.Designer.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T16:32:58.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CustomersForm.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\CustomersForm.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\CustomersForm.cs [Design]",
+              "RelativeToolTip": "UI\\ChildForms\\CustomersForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T15:55:24.827Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BaseChildForm.cs [Design]",
+              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\BaseChildForm.cs",
+              "RelativeDocumentMoniker": "UI\\ChildForms\\BaseChildForm.cs",
+              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\BaseChildForm.cs [Design]",
+              "RelativeToolTip": "UI\\ChildForms\\BaseChildForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T15:55:16.299Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "PasswordHelper.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\LOGIC\\PasswordHelper.cs",
               "RelativeDocumentMoniker": "LOGIC\\PasswordHelper.cs",
@@ -370,12 +352,11 @@
               "RelativeToolTip": "LOGIC\\PasswordHelper.cs",
               "ViewState": "AgIAAFwAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T10:11:42.262Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T10:11:42.262Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "AuthenticationService.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\LOGIC\\AuthenticationService.cs",
               "RelativeDocumentMoniker": "LOGIC\\AuthenticationService.cs",
@@ -383,12 +364,11 @@
               "RelativeToolTip": "LOGIC\\AuthenticationService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T10:11:32.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T10:11:32.951Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "AuthenticationResult.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\LOGIC\\AuthenticationResult.cs",
               "RelativeDocumentMoniker": "LOGIC\\AuthenticationResult.cs",
@@ -396,25 +376,11 @@
               "RelativeToolTip": "LOGIC\\AuthenticationResult.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T10:11:27.222Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T10:11:27.222Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "UserDAO.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\UserDAO.cs",
-              "RelativeDocumentMoniker": "DAO\\UserDAO.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\UserDAO.cs",
-              "RelativeToolTip": "DAO\\UserDAO.cs",
-              "ViewState": "AgIAAKQBAAAAAAAAAAAAAL8BAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T10:10:43.915Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 31,
               "Title": "UsersForm.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UsersForm.cs",
               "RelativeDocumentMoniker": "UI\\ChildForms\\UsersForm.cs",
@@ -425,7 +391,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 32,
               "Title": "UsersForm.cs [Design]",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\UsersForm.cs",
               "RelativeDocumentMoniker": "UI\\ChildForms\\UsersForm.cs",
@@ -436,7 +402,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Result.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DT\\Result.cs",
               "RelativeDocumentMoniker": "DT\\Result.cs",
@@ -448,7 +414,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "ProductDAO.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\ProductDAO.cs",
               "RelativeDocumentMoniker": "DAO\\ProductDAO.cs",
@@ -460,7 +426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "DataProvider.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\DAO\\DataProvider.cs",
               "RelativeDocumentMoniker": "DAO\\DataProvider.cs",
@@ -480,12 +446,11 @@
               "RelativeToolTip": "UI\\ChildForms\\CustomersForm.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAgwCsAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:56:23.691Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-20T15:56:23.691Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 22,
               "Title": "BaseChildForm.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\BaseChildForm.cs",
               "RelativeDocumentMoniker": "UI\\ChildForms\\BaseChildForm.cs",
@@ -493,12 +458,11 @@
               "RelativeToolTip": "UI\\ChildForms\\BaseChildForm.cs",
               "ViewState": "AgIAACwAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T15:55:54.273Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-20T15:55:54.273Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 24,
               "Title": "LoginUI.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\LoginUI.cs",
               "RelativeDocumentMoniker": "UI\\LoginUI.cs",
@@ -510,7 +474,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 25,
               "Title": "Program.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -522,7 +486,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 23,
               "Title": "TrangChuUI.cs [Design]",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.cs",
               "RelativeDocumentMoniker": "UI\\TrangChuUI.cs",
@@ -533,7 +497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 26,
               "Title": "ChangePasswordForm.Designer.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ChangePasswordForm.Designer.cs",
               "RelativeDocumentMoniker": "UI\\ChildForms\\ChangePasswordForm.Designer.cs",
@@ -541,12 +505,11 @@
               "RelativeToolTip": "UI\\ChildForms\\ChangePasswordForm.Designer.cs",
               "ViewState": "AgIAAI8AAAAAAAAAAAAAAM4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T16:51:23.576Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-15T16:51:23.576Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 27,
               "Title": "ProductForm.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\ChildForms\\ProductForm.cs",
               "RelativeDocumentMoniker": "UI\\ChildForms\\ProductForm.cs",
@@ -554,12 +517,11 @@
               "RelativeToolTip": "UI\\ChildForms\\ProductForm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T07:34:18.369Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-15T07:34:18.369Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 28,
               "Title": "TrangChuUI.Designer.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\TrangChuUI.Designer.cs",
               "RelativeDocumentMoniker": "UI\\TrangChuUI.Designer.cs",
@@ -571,20 +533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "MainUI.Designer.cs",
-              "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
-              "RelativeDocumentMoniker": "UI\\MainUI.Designer.cs",
-              "ToolTip": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\MainUI.Designer.cs",
-              "RelativeToolTip": "UI\\MainUI.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T15:18:54.909Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 29,
               "Title": "CaiDatUI.cs [Design]",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\CaiDatUI.cs",
               "RelativeDocumentMoniker": "UI\\CaiDatUI.cs",
@@ -595,7 +544,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 30,
               "Title": "Mode.cs",
               "DocumentMoniker": "J:\\HK5\\CNPM\\CUOI KI 25-26\\DoubleTRice\\UI\\BASE\\Mode.cs",
               "RelativeDocumentMoniker": "UI\\BASE\\Mode.cs",

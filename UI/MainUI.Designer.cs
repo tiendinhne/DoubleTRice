@@ -34,7 +34,7 @@ namespace DoubleTRice.UI
             this.components = new System.ComponentModel.Container();
             this.pnlSidebar = new Guna.UI2.WinForms.Guna2Panel();
             this.pnlMenu = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.BtnUsers = new Guna.UI2.WinForms.Guna2Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -91,7 +91,7 @@ namespace DoubleTRice.UI
             // 
             this.pnlMenu.AutoScroll = true;
             this.pnlMenu.BackColor = System.Drawing.Color.Teal;
-            this.pnlMenu.Controls.Add(this.guna2Button1);
+            this.pnlMenu.Controls.Add(this.BtnUsers);
             this.pnlMenu.Controls.Add(this.panel1);
             this.pnlMenu.Controls.Add(this.lblSeparator4);
             this.pnlMenu.Controls.Add(this.lblSeparator1);
@@ -112,20 +112,21 @@ namespace DoubleTRice.UI
             this.pnlMenu.Size = new System.Drawing.Size(250, 626);
             this.pnlMenu.TabIndex = 0;
             // 
-            // guna2Button1
+            // BtnUsers
             // 
-            this.guna2Button1.BorderRadius = 8;
-            this.guna2Button1.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
-            this.guna2Button1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2Button1.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(0, 496);
-            this.guna2Button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(250, 62);
-            this.guna2Button1.TabIndex = 13;
-            this.guna2Button1.Text = "Nhân viên";
+            this.BtnUsers.BorderRadius = 8;
+            this.BtnUsers.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
+            this.BtnUsers.Dock = System.Windows.Forms.DockStyle.Top;
+            this.BtnUsers.FillColor = System.Drawing.Color.Transparent;
+            this.BtnUsers.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.BtnUsers.ForeColor = System.Drawing.Color.White;
+            this.BtnUsers.Location = new System.Drawing.Point(0, 496);
+            this.BtnUsers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnUsers.Name = "BtnUsers";
+            this.BtnUsers.Size = new System.Drawing.Size(250, 62);
+            this.BtnUsers.TabIndex = 13;
+            this.BtnUsers.Text = "Nhân viên";
+            this.BtnUsers.Click += new System.EventHandler(this.BtnUsers_Click_1);
             // 
             // panel1
             // 
@@ -574,7 +575,7 @@ namespace DoubleTRice.UI
         private Guna2CirclePictureBox guna2CirclePictureBox1;
         private Button button1;
         private Guna2BorderlessForm guna2BorderlessForm1;
-        private Guna2Button guna2Button1;
+        private Guna2Button BtnUsers;
         private Label label4;
     }
 }

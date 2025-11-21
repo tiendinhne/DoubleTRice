@@ -1,4 +1,5 @@
-﻿using DoubleTRice.UI.BASE;
+﻿using DoubleTRice.LOGIC;
+using DoubleTRice.UI.BASE;
 using DoubleTRice.UI.ChildForms;
 using Guna.UI2.WinForms;
 using System;
@@ -278,11 +279,6 @@ namespace DoubleTRice.UI
 
         }
 
-        private void BtnUsers_Click(object sender, EventArgs e)
-        {
-
-            LoadUserControl(CreatePlaceholder("Module Quản lý Người dùng"));
-        }
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
@@ -369,22 +365,29 @@ namespace DoubleTRice.UI
             switch (role.ToUpper())
             {
                 case "ADMIN":
+                    //load all Btn
                     break;
                 case "THU NGÂN":
                     btnGoodsReceipt.Visible = false;
                     btnReports.Visible = false;
                     btnSuppliers.Visible = false;
                     btnInventory.Visible = false;
+                    BtnUsers.Visible = false;//an
                     break;
                 case "THỦ KHO":
                     btnSalesInvoice.Visible = false;
                     btnCustomers.Visible = false;
                     btnReports.Visible = false;
+                    BtnUsers.Visible = false;//an
                     break;
                 case "KẾ TOÁN":
+                    BtnUsers.Visible = false;//an
+
                     break;
                 default:
                     HideAllMenuExceptDashboard();
+                    BtnUsers.Visible = false;//an
+
                     break;
             }
         }
@@ -592,6 +595,28 @@ namespace DoubleTRice.UI
         private void button1_Click(object sender, EventArgs e)
         {
             Mode.ToggleMode(); // Đã implement sẵn
+        }
+
+        private void BtnUsers_Click_1(object sender, EventArgs e)
+        {
+            // Check admin permission
+            if (!UserSession.IsAdmin())
+            {
+                MessageBox.Show("Bạn không có quyền truy cập chức năng này!",
+                    "Từ chối truy cập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var usersForm = new UserManagementForm();
+                OpenChildForm(usersForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Quản lý người dùng: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

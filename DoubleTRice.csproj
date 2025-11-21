@@ -74,6 +74,7 @@
     <Compile Include="LOGIC\AuthenticationService.cs" />
     <Compile Include="LOGIC\AuthenticationResult.cs" />
     <Compile Include="LOGIC\PasswordHelper.cs" />
+    <Compile Include="LOGIC\UserSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testDAO.cs" />

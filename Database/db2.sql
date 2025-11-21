@@ -55,3 +55,7 @@ VALUES
 (N'Lê Văn Kế Toán', 'ketoan', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Kế Toán', 0, 0),
 (N'Test Locked User', 'locked', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Admin', 1, 5);
 GO
+
+
+
+-------- 21-11 23:58:xx co them 1 user Tien Dinh - tiendinh -123456

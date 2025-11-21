@@ -24,8 +24,13 @@ namespace DoubleTRice.UI.ChildForms
         public UserManagementForm()
         {
             InitializeComponent();
+            this.Load += UserManagementForm_Load;
         }
-
+        private void UserManagementForm_Load(object sender, EventArgs e)
+        {
+            CheckAdminPermission();
+            LoadData();
+        }
         private void CheckAdminPermission()
         {
             if (!UserSession.IsAdmin())
@@ -45,14 +50,23 @@ namespace DoubleTRice.UI.ChildForms
                 dgvUsers.DataSource = null;
                 this.Cursor = Cursors.WaitCursor;
 
+                // 🔍 DEBUG: Test connection
+                MessageBox.Show("Bắt đầu load dữ liệu...", "Debug");
+
                 // Load users từ DAO
                 allUsers = UserDAO.Instance.GetAllUsersAdmin();
+
+                // 🔍 DEBUG: Kiểm tra số lượng
+                MessageBox.Show($"Đã load {allUsers.Count} users", "Debug");
 
                 // Bind to DataGridView
                 DisplayUsers(allUsers);
 
                 // Format cells
                 FormatDataGridView();
+
+                // 🔍 DEBUG: Kiểm tra rows
+                MessageBox.Show($"DataGridView có {dgvUsers.Rows.Count} rows", "Debug");
             }
             catch (Exception ex)
             {
