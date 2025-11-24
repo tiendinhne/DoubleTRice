@@ -82,7 +82,7 @@ namespace DoubleTRice.DAO
         {
             try
             {
-                string procName = "sp_InsertProductDetail";
+                string procName = "sp_InsertProductEnhanced";
 
                 var inputParams = new Dictionary<string, object>
                 {
@@ -119,7 +119,7 @@ namespace DoubleTRice.DAO
         {
             try
             {
-                string procName = "sp_UpdateProductDetail";
+                string procName = "sp_UpdateProductEnhanced";
 
                 var inputParams = new Dictionary<string, object>
                 {
@@ -153,7 +153,7 @@ namespace DoubleTRice.DAO
         {
             try
             {
-                string procName = "sp_DeleteProductDetail";
+                string procName = "sp_DeleteProductEnhanced";
 
                 var inputParams = new Dictionary<string, object>
                 {

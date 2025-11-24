@@ -134,7 +134,7 @@ namespace DoubleTRice.UI.ChildForms
             catch (Exception ex)
             {
                 ShowError($"Lỗi: {ex.Message}");
-                /// lỗi ngay chỗ này
+                System.Diagnostics.Debug.WriteLine($"Save product error: {ex}");
             }
             finally
             {

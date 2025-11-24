@@ -55,66 +55,6 @@ CREATE TABLE Products (
     CONSTRAINT FK_Products_BaseUnit FOREIGN KEY (BaseUnitID) REFERENCES Units(UnitID)
 );
 
------------------------------------------------------------
---------------------Tạo Stored Procedure cho Product
------------------------------------------------------------
---xem
-CREATE PROCEDURE sp_GetAllProducts
-AS
-BEGIN
-    SELECT * FROM Products;
-END
-GO
-
---them
-CREATE PROCEDURE sp_InsertProduct
-    @TenSanPham NVARCHAR(255),
-    @BaseUnitID INT,
-    @TonKhoToiThieu FLOAT
-AS
-BEGIN
-    INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
-    VALUES (@TenSanPham, @BaseUnitID, @TonKhoToiThieu);
-END
-GO
-
--- sua
-CREATE PROCEDURE sp_UpdateProduct
-    @ProductID INT,
-    @TenSanPham NVARCHAR(255),
-    @BaseUnitID INT,
-    @TonKhoToiThieu FLOAT
-AS
-BEGIN
-    UPDATE Products
-    SET TenSanPham = @TenSanPham,
-        BaseUnitID = @BaseUnitID,
-        TonKhoToiThieu = @TonKhoToiThieu
-    WHERE ProductID = @ProductID;
-END
-GO
-
--- xoa
-CREATE PROCEDURE sp_DeleteProduct
-    @ProductID INT
-AS
-BEGIN
-    DELETE FROM Products
-    WHERE ProductID = @ProductID;
-END
-GO
-
---tim keim theo ten
-CREATE PROCEDURE sp_SearchProducts
-    @Keyword NVARCHAR(255)
-AS
-BEGIN
-    SELECT * FROM Products
-    WHERE TenSanPham LIKE '%' + @Keyword + '%';
-END
-GO
-
-
 CREATE TABLE ProductUnitConversions (
     ConversionID INT IDENTITY(1,1) PRIMARY KEY,
     ProductID INT NOT NULL,
@@ -1595,4 +1535,19 @@ BEGIN
         SET @Result = -1; -- User không tồn tại
     END
 END
+GO
+
+--- fix module Quản lý Sản phẩm
+--...........................................
+-- 1. DROP các SP cũ
+IF OBJECT_ID('sp_InsertProduct', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertProduct;
+IF OBJECT_ID('sp_UpdateProduct', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateProduct;
+IF OBJECT_ID('sp_DeleteProduct', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteProduct;
+IF OBJECT_ID('sp_SearchProducts', 'P') IS NOT NULL
+    DROP PROCEDURE sp_SearchProducts;
+IF OBJECT_ID('sp_GetAllProducts', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllProducts;
 GO

@@ -59,3 +59,7 @@ GO
 
 
 -------- 21-11 23:58:xx co them 1 user Tien Dinh - tiendinh -123456
+
+-------- 24-12 thêm Gạo Tiên Đinh ID20
+--------- chỉnh sửa ID19 kg -> bao 25kg
+-- xóa ID18 
