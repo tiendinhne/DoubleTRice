@@ -502,5 +502,96 @@ namespace DoubleTRice.DAO
         }
 
         #endregion
+
+        #region Forgot Password Methods
+        /// <summary>
+        /// Lấy câu hỏi bảo mật
+        /// </summary>
+        public (bool success, string question) GetSecurityQuestion(string username)
+        {
+            try
+            {
+                string query = "SELECT SecurityQuestion FROM Users WHERE TenDangNhap = @Username";
+                var parameters = new object[] { username };
+
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
+
+                if (data.Rows.Count > 0 && data.Rows[0]["SecurityQuestion"] != DBNull.Value)
+                {
+                    string question = data.Rows[0]["SecurityQuestion"].ToString();
+                    return (true, question);
+                }
+
+                return (false, null);
+            }
+            catch
+            {
+                return (false, null);
+            }
+        }
+
+        /// <summary>
+        /// Verify câu trả lời bảo mật
+        /// </summary>
+        public int VerifySecurityAnswer(string username, string answerHash)
+        {
+            try
+            {
+                string procName = "sp_VerifySecurityAnswer";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@TenDangNhap", username },
+            { "@SecurityAnswerHash", answerHash }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int },
+            { "@SecurityQuestion", SqlDbType.NVarChar }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch
+            {
+                return -99;
+            }
+        }
+
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        public int ResetPassword(string username, string newPasswordHash)
+        {
+            try
+            {
+                string procName = "sp_ResetPassword";
+
+                var inputParams = new Dictionary<string, object>
+        {
+            { "@TenDangNhap", username },
+            { "@NewPasswordHash", newPasswordHash }
+        };
+
+                var outputParams = new Dictionary<string, SqlDbType>
+        {
+            { "@Result", SqlDbType.Int }
+        };
+
+                var result = DataProvider.Instance.ExecuteProcedureWithMultipleOutputs(
+                    procName, inputParams, outputParams);
+
+                return result["@Result"] != null ? Convert.ToInt32(result["@Result"]) : -99;
+            }
+            catch
+            {
+                return -99;
+            }
+        }
+        #endregion
     }
 }

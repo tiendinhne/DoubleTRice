@@ -1500,3 +1500,99 @@ BEGIN
     END CATCH
 END
 GO
+------------------------------------------------
+--===============================================
+--=============================xxxxxxx============= 24-11 tien dinh
+------------------------
+
+-- Thêm cột SecurityQuestion và SecurityAnswer vào Users
+ALTER TABLE Users
+ADD SecurityQuestion NVARCHAR(255) NULL,
+    SecurityAnswer NVARCHAR(255) NULL;
+
+GO
+
+-- Cập nhật câu hỏi bảo mật cho user admin (demo)
+UPDATE Users
+SET SecurityQuestion = N'Tên môn học?',
+    SecurityAnswer = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' -- Hash của "123456"
+where SecurityQuestion is null;
+GO
+
+-- Tạo Stored Procedure cho Forgot Password
+IF OBJECT_ID('sp_VerifySecurityAnswer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_VerifySecurityAnswer;
+GO
+CREATE PROCEDURE sp_VerifySecurityAnswer
+    @TenDangNhap VARCHAR(100),
+    @SecurityAnswerHash VARCHAR(255),
+    @Result INT OUTPUT,
+    @SecurityQuestion NVARCHAR(255) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    SET @SecurityQuestion = NULL;
+    
+    DECLARE @StoredAnswerHash VARCHAR(255);
+    
+    -- Lấy câu hỏi và câu trả lời
+    SELECT 
+        @SecurityQuestion = SecurityQuestion,
+        @StoredAnswerHash = SecurityAnswer
+    FROM Users
+    WHERE TenDangNhap = @TenDangNhap;
+    
+    -- Username không tồn tại
+    IF @SecurityQuestion IS NULL
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra câu trả lời
+    IF @StoredAnswerHash = @SecurityAnswerHash
+    BEGIN
+        SET @Result = 0; -- Đúng
+    END
+    ELSE
+    BEGIN
+        SET @Result = -2; -- Sai câu trả lời
+    END
+END
+GO
+
+-- Tạo SP Reset Password
+IF OBJECT_ID('sp_ResetPassword', 'P') IS NOT NULL
+    DROP PROCEDURE sp_ResetPassword;
+GO
+
+CREATE PROCEDURE sp_ResetPassword
+    @TenDangNhap VARCHAR(100),
+    @NewPasswordHash VARCHAR(255),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra user tồn tại
+    IF EXISTS(SELECT 1 FROM Users WHERE TenDangNhap = @TenDangNhap)
+    BEGIN
+        -- Reset password
+        UPDATE Users
+        SET MatKhauHash = @NewPasswordHash,
+            IsLocked = 0,
+            FailedLoginAttempts = 0
+        WHERE TenDangNhap = @TenDangNhap;
+        
+        SET @Result = 0; -- Thành công
+    END
+    ELSE
+    BEGIN
+        SET @Result = -1; -- User không tồn tại
+    END
+END
+GO

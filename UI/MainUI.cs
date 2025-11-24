@@ -215,17 +215,17 @@ namespace DoubleTRice.UI
         private void BtnProducts_Click(object sender, EventArgs e)
         {
             // TODO: Thay thế bằng form thực tế
-            OpenChildForm(new ProductForm());
+           
 
             // Tạm thời dùng placeholder
-            CloseChildForm();
+            //CloseChildForm();
             //LoadUserControl(CreatePlaceholder("Module Quản lý Sản phẩm"));
             /* Khi đã có form Products, sử dụng như sau:
             try
             */
             try
             {
-                var productsForm = new ProductForm();
+                var productsForm = new ProductManagementUI();
                 OpenChildForm(productsForm);
             }
             catch (Exception ex)
@@ -292,8 +292,7 @@ namespace DoubleTRice.UI
         private void BtnNotification_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show("doi mat khau", "Thông báo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
             OpenChildForm(new ChangePasswordForm());
 
         }

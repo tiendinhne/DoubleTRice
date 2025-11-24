@@ -103,6 +103,12 @@
     <Compile Include="UI\ChildForms\CustomersForm.Designer.cs">
       <DependentUpon>CustomersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\ProductAddEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\ProductAddEditDialog.Designer.cs">
+      <DependentUpon>ProductAddEditDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\ProductManagementUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,12 @@
     </Compile>
     <Compile Include="UI\DanhMucUI.Designer.cs">
       <DependentUpon>DanhMucUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ForgotPasswordUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ForgotPasswordUI.Designer.cs">
+      <DependentUpon>ForgotPasswordUI.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LoginUI.cs">
       <SubType>Form</SubType>

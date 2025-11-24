@@ -154,6 +154,7 @@ namespace DoubleTRice.UI
             PerformLogin();
         }
 
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -370,26 +371,13 @@ namespace DoubleTRice.UI
         #region Event Handlers - Forgot Password
         private void LblForgotPassword_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(
-                "Để reset mật khẩu, vui lòng liên hệ quản trị viên:\n\n" +
-                "📧 Email: tiendinh@gmail.com\n" +
-                "📱 Hotline: 0123-456-789\n\n" +
-                "Bạn có muốn mở email không?",
-                "Quên mật khẩu",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            // Mở form Forgot Password
+            ForgotPasswordUI forgotForm = new ForgotPasswordUI();
 
-            if (result == DialogResult.Yes)
+            if (forgotForm.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    System.Diagnostics.Process.Start("mailto:tiendinh@gmail.com?subject=Reset Password Request");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Không thể mở email client:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                // Sau khi reset password thành công
+                ShowSuccess("✅ Mật khẩu đã được đặt lại!\nBạn có thể đăng nhập với mật khẩu mới.");
             }
         }
 
