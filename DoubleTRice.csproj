@@ -103,6 +103,12 @@
     <Compile Include="UI\ChildForms\CustomersForm.Designer.cs">
       <DependentUpon>CustomersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\ProductManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\ProductManagementUI.Designer.cs">
+      <DependentUpon>ProductManagementUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\ResetPasswordDialog.cs">
       <SubType>Form</SubType>
     </Compile>

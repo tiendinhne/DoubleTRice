@@ -264,6 +264,8 @@ namespace DoubleTRice.UI
             CloseChildForm();
 
             LoadUserControl(CreatePlaceholder("Module Bán hàng"));
+
+            //them cong no
         }
 
         private void BtnInventory_Click(object sender, EventArgs e)

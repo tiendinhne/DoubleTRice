@@ -30,7 +30,7 @@ INSERT INTO Units (TenDVT) VALUES
 (N'Bao 25kg'),
 (N'Bao 50kg');
 
---select * from Units
+select * from Units
 --delete from Units
 
 -- Chèn khách vãng lai
@@ -43,7 +43,7 @@ INSERT INTO Customers (TenKhachHang, SoDienThoai) VALUES
 -- ===================================================================
 
 -- Xóa dữ liệu cũ nếu có
-DELETE FROM Users;
+--DELETE FROM Users;
 GO
 
 -- Insert users cơ bản

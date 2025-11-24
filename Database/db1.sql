@@ -47,8 +47,6 @@ CREATE TABLE Units (
 );
 
 
-
-
 CREATE TABLE Products (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     TenSanPham NVARCHAR(255) NOT NULL,
@@ -1101,6 +1099,400 @@ BEGIN
             FailedLoginAttempts = 0
         WHERE UserID = @UserID;
         
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ SẢN PHẨM (TỐI ƯU HÓA)
+-- By: tiendinh - Date: 23/11/2025
+-- ===================================================================
+
+-- 1. TỐI ƯU SP_GetAllProducts - Thêm thông tin chi tiết
+IF OBJECT_ID('sp_GetAllProductsDetail', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllProductsDetail;
+GO
+
+CREATE PROCEDURE sp_GetAllProductsDetail
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        p.ProductID,
+        p.TenSanPham,
+        p.BaseUnitID,
+        u.TenDVT AS BaseUnitName,
+        p.TonKhoToiThieu,
+        ISNULL(pi.SoLuongTon, 0) AS SoLuongTon,
+        -- Tính trạng thái tồn kho
+        CASE 
+            WHEN ISNULL(pi.SoLuongTon, 0) <= 0 THEN N'Hết hàng'
+            WHEN ISNULL(pi.SoLuongTon, 0) <= p.TonKhoToiThieu THEN N'Sắp hết'
+            ELSE N'Còn hàng'
+        END AS TrangThaiTonKho
+    FROM Products p
+    LEFT JOIN Units u ON p.BaseUnitID = u.UnitID
+    LEFT JOIN ProductInventory pi ON p.ProductID = pi.ProductID
+    ORDER BY p.TenSanPham;
+END
+GO
+
+-- 2. TỐI ƯU SP_InsertProduct - Thêm tự động tạo inventory & conversion
+IF OBJECT_ID('sp_InsertProductEnhanced', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertProductEnhanced;
+GO
+
+CREATE PROCEDURE sp_InsertProductEnhanced
+    @TenSanPham NVARCHAR(255),
+    @BaseUnitID INT,
+    @TonKhoToiThieu FLOAT,
+    @Result INT OUTPUT,
+    @NewProductID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    SET @NewProductID = 0;
+    
+    -- Kiểm tra tên sản phẩm đã tồn tại
+    IF EXISTS(SELECT 1 FROM Products WHERE TenSanPham = @TenSanPham)
+    BEGIN
+        SET @Result = -2; -- Tên sản phẩm đã tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra BaseUnitID có tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Units WHERE UnitID = @BaseUnitID)
+    BEGIN
+        SET @Result = -3; -- Đơn vị tính không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        -- Insert product
+        INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
+        VALUES (@TenSanPham, @BaseUnitID, @TonKhoToiThieu);
+        
+        SET @NewProductID = SCOPE_IDENTITY();
+        
+        -- Tự động tạo bản ghi trong ProductInventory
+        INSERT INTO ProductInventory (ProductID, SoLuongTon)
+        VALUES (@NewProductID, 0);
+        
+        -- Tự động tạo quy đổi cho BaseUnit (1:1)
+        INSERT INTO ProductUnitConversions (ProductID, UnitID, GiaTriQuyDoi)
+        VALUES (@NewProductID, @BaseUnitID, 1.0);
+        
+        COMMIT TRANSACTION;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+
+-- 3. TỐI ƯU SP_UpdateProduct - Thêm validation
+IF OBJECT_ID('sp_UpdateProductEnhanced', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateProductEnhanced;
+GO
+
+CREATE PROCEDURE sp_UpdateProductEnhanced
+    @ProductID INT,
+    @TenSanPham NVARCHAR(255),
+    @BaseUnitID INT,
+    @TonKhoToiThieu FLOAT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra product có tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Products WHERE ProductID = @ProductID)
+    BEGIN
+        SET @Result = -1; -- Sản phẩm không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra tên trùng (ngoại trừ chính nó)
+    IF EXISTS(SELECT 1 FROM Products WHERE TenSanPham = @TenSanPham AND ProductID != @ProductID)
+    BEGIN
+        SET @Result = -2; -- Tên sản phẩm đã tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra BaseUnitID
+    IF NOT EXISTS(SELECT 1 FROM Units WHERE UnitID = @BaseUnitID)
+    BEGIN
+        SET @Result = -3; -- Đơn vị tính không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Products
+        SET TenSanPham = @TenSanPham,
+            BaseUnitID = @BaseUnitID,
+            TonKhoToiThieu = @TonKhoToiThieu
+        WHERE ProductID = @ProductID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+
+-- 4. TỐI ƯU SP_DeleteProduct - Thêm cascade delete
+IF OBJECT_ID('sp_DeleteProductEnhanced', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteProductEnhanced;
+GO
+
+CREATE PROCEDURE sp_DeleteProductEnhanced
+    @ProductID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra product có tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Products WHERE ProductID = @ProductID)
+    BEGIN
+        SET @Result = -1; -- Sản phẩm không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra có giao dịch liên quan không
+    IF EXISTS(SELECT 1 FROM GoodsReceiptDetails WHERE ProductID = @ProductID)
+       OR EXISTS(SELECT 1 FROM SalesInvoiceDetails WHERE ProductID = @ProductID)
+    BEGIN
+        SET @Result = -4; -- Không thể xóa do có giao dịch liên quan
+        RETURN;
+    END
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        -- Xóa các bản ghi liên quan
+        DELETE FROM ProductUnitConversions WHERE ProductID = @ProductID;
+        DELETE FROM ProductInventory WHERE ProductID = @ProductID;
+        DELETE FROM PriceList WHERE ProductID = @ProductID;
+        DELETE FROM StockAdjustments WHERE ProductID = @ProductID;
+        
+        -- Xóa product
+        DELETE FROM Products WHERE ProductID = @ProductID;
+        
+        COMMIT TRANSACTION;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 5. TỐI ƯU SP_SearchProducts - Thêm thông tin chi tiết
+IF OBJECT_ID('sp_SearchProductsDetail', 'P') IS NOT NULL
+    DROP PROCEDURE sp_SearchProductsDetail;
+GO
+
+CREATE PROCEDURE sp_SearchProductsDetail
+    @Keyword NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        p.ProductID,
+        p.TenSanPham,
+        p.BaseUnitID,
+        u.TenDVT AS BaseUnitName,
+        p.TonKhoToiThieu,
+        ISNULL(pi.SoLuongTon, 0) AS SoLuongTon,
+        CASE 
+            WHEN ISNULL(pi.SoLuongTon, 0) <= 0 THEN N'Hết hàng'
+            WHEN ISNULL(pi.SoLuongTon, 0) <= p.TonKhoToiThieu THEN N'Sắp hết'
+            ELSE N'Còn hàng'
+        END AS TrangThaiTonKho
+    FROM Products p
+    LEFT JOIN Units u ON p.BaseUnitID = u.UnitID
+    LEFT JOIN ProductInventory pi ON p.ProductID = pi.ProductID
+    WHERE p.TenSanPham LIKE '%' + @Keyword + '%'
+    ORDER BY p.TenSanPham;
+END
+GO
+
+-- 6. SP MỚI - Lấy thông tin 1 sản phẩm
+IF OBJECT_ID('sp_GetProductByID', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetProductByID;
+GO
+
+CREATE PROCEDURE sp_GetProductByID
+    @ProductID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        p.ProductID,
+        p.TenSanPham,
+        p.BaseUnitID,
+        u.TenDVT AS BaseUnitName,
+        p.TonKhoToiThieu,
+        ISNULL(pi.SoLuongTon, 0) AS SoLuongTon
+    FROM Products p
+    LEFT JOIN Units u ON p.BaseUnitID = u.UnitID
+    LEFT JOIN ProductInventory pi ON p.ProductID = pi.ProductID
+    WHERE p.ProductID = @ProductID;
+END
+GO
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ ĐƠN VỊ TÍNH
+-- ===================================================================
+
+-- 7. SP Lấy tất cả đơn vị tính
+IF OBJECT_ID('sp_GetAllUnits', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllUnits;
+GO
+
+CREATE PROCEDURE sp_GetAllUnits
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT UnitID, TenDVT
+    FROM Units
+    ORDER BY TenDVT;
+END
+GO
+
+-- 8. SP Lấy quy đổi đơn vị của sản phẩm
+IF OBJECT_ID('sp_GetProductUnitConversions', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetProductUnitConversions;
+GO
+
+CREATE PROCEDURE sp_GetProductUnitConversions
+    @ProductID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        puc.ConversionID,
+        puc.ProductID,
+        puc.UnitID,
+        u.TenDVT AS UnitName,
+        puc.GiaTriQuyDoi
+    FROM ProductUnitConversions puc
+    INNER JOIN Units u ON puc.UnitID = u.UnitID
+    WHERE puc.ProductID = @ProductID
+    ORDER BY puc.GiaTriQuyDoi;
+END
+GO
+
+-- 9. SP Thêm quy đổi đơn vị
+IF OBJECT_ID('sp_InsertUnitConversion', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertUnitConversion;
+GO
+
+CREATE PROCEDURE sp_InsertUnitConversion
+    @ProductID INT,
+    @UnitID INT,
+    @GiaTriQuyDoi FLOAT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra đã tồn tại quy đổi này chưa
+    IF EXISTS(SELECT 1 FROM ProductUnitConversions WHERE ProductID = @ProductID AND UnitID = @UnitID)
+    BEGIN
+        SET @Result = -2; -- Quy đổi đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        INSERT INTO ProductUnitConversions (ProductID, UnitID, GiaTriQuyDoi)
+        VALUES (@ProductID, @UnitID, @GiaTriQuyDoi);
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 10. SP Cập nhật quy đổi
+IF OBJECT_ID('sp_UpdateUnitConversion', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateUnitConversion;
+GO
+
+CREATE PROCEDURE sp_UpdateUnitConversion
+    @ConversionID INT,
+    @GiaTriQuyDoi FLOAT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    BEGIN TRY
+        UPDATE ProductUnitConversions
+        SET GiaTriQuyDoi = @GiaTriQuyDoi
+        WHERE ConversionID = @ConversionID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 11. SP Xóa quy đổi
+IF OBJECT_ID('sp_DeleteUnitConversion', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteUnitConversion;
+GO
+
+CREATE PROCEDURE sp_DeleteUnitConversion
+    @ConversionID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Không cho xóa quy đổi cơ sở (GiaTriQuyDoi = 1.0)
+    IF EXISTS(SELECT 1 FROM ProductUnitConversions WHERE ConversionID = @ConversionID AND GiaTriQuyDoi = 1.0)
+    BEGIN
+        SET @Result = -3; -- Không thể xóa quy đổi cơ sở
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM ProductUnitConversions WHERE ConversionID = @ConversionID;
         SET @Result = 0; -- Thành công
     END TRY
     BEGIN CATCH
