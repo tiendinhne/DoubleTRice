@@ -36,6 +36,7 @@
     <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -52,8 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\CustomerDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\DataProvider.cs" />
+    <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DT\CustomerPayments.cs" />
     <Compile Include="DT\Customers.cs" />
@@ -97,11 +100,17 @@
     <Compile Include="UI\ChildForms\ChangePasswordForm.Designer.cs">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ChildForms\CustomersForm.cs">
+    <Compile Include="UI\ChildForms\CustomerAddEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ChildForms\CustomersForm.Designer.cs">
-      <DependentUpon>CustomersForm.cs</DependentUpon>
+    <Compile Include="UI\ChildForms\CustomerAddEditDialog.Designer.cs">
+      <DependentUpon>CustomerAddEditDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\CustomerManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\CustomerManagementUI.Designer.cs">
+      <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ChildForms\ProductAddEditDialog.cs">
       <SubType>Form</SubType>
@@ -121,6 +130,24 @@
     <Compile Include="UI\ChildForms\ResetPasswordDialog.Designer.cs">
       <DependentUpon>ResetPasswordDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\SupplierAddEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierAddEditDialog.Designer.cs">
+      <DependentUpon>SupplierAddEditDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierManagementUI.Designer.cs">
+      <DependentUpon>SupplierManagementUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\UnitConversionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\UnitConversionDialog.Designer.cs">
+      <DependentUpon>UnitConversionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\UserAddEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,12 +159,6 @@
     </Compile>
     <Compile Include="UI\ChildForms\UserManagementForm.Designer.cs">
       <DependentUpon>UserManagementForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ChildForms\ProductForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ChildForms\ProductForm.Designer.cs">
-      <DependentUpon>ProductForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\DarkModeToggle.cs">
       <SubType>UserControl</SubType>
@@ -188,11 +209,11 @@
     <EmbeddedResource Include="UI\ChildForms\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\UnitConversionDialog.resx">
+      <DependentUpon>UnitConversionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\UserManagementForm.resx">
       <DependentUpon>UserManagementForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\ChildForms\ProductForm.resx">
-      <DependentUpon>ProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DanhMucUI.resx">
       <DependentUpon>DanhMucUI.cs</DependentUpon>

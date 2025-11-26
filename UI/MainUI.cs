@@ -239,17 +239,30 @@ namespace DoubleTRice.UI
         //----------- làm tương tự cho các form sau---------------------------
         private void BtnSuppliers_Click(object sender, EventArgs e)
         {
-            CloseChildForm();
-
-            LoadUserControl(CreatePlaceholder("Module Quản lý Nhà cung cấp"));
+            try
+            {
+                var supplierForm = new SupplierManagementUI();
+                OpenChildForm(supplierForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Nhà cung cấp: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnCustomers_Click(object sender, EventArgs e)
         {
-            CloseChildForm();
-
-            //LoadUserControl(CreatePlaceholder("Module Quản lý Khách hàng"));
-            OpenChildForm(new CustomersForm());
+            try
+            {
+                var customerForm = new CustomerManagementUI();
+                OpenChildForm(customerForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Khách hàng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnGoodsReceipt_Click(object sender, EventArgs e)
@@ -618,6 +631,11 @@ namespace DoubleTRice.UI
                 MessageBox.Show($"Lỗi khi mở form Quản lý người dùng: {ex.Message}",
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

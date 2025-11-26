@@ -426,11 +426,12 @@ namespace DoubleTRice.UI
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(27, 26);
+            this.label4.Location = new System.Drawing.Point(24, 20);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(77, 20);
             this.label4.TabIndex = 6;
             this.label4.Text = "Tên trang";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // button1
             // 
@@ -446,9 +447,9 @@ namespace DoubleTRice.UI
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Image = global::DoubleTRice.Properties.Resources.cancelred;
-            this.pictureBox2.Location = new System.Drawing.Point(660, 42);
+            this.pictureBox2.Location = new System.Drawing.Point(1024, 0);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(30, 27);
+            this.pictureBox2.Size = new System.Drawing.Size(26, 26);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;

@@ -63,3 +63,5 @@ GO
 -------- 24-12 thêm Gạo Tiên Đinh ID20
 --------- chỉnh sửa ID19 kg -> bao 25kg
 -- xóa ID18 
+
+---- 26-11 by tien dinh : thêm khách hàng Tiên Đinh - 1234567890- Long An 

@@ -3,7 +3,7 @@ use QuanLyBanGao;
 /* ================================================================
 SCRIPT TẠO DATABASE QUẢN LÝ CỬA HÀNG GẠO
 SQL SERVER (T-SQL)
-================================================================
+================================================================  
 */
 
 /* ----------------------------------------------------------------
@@ -720,7 +720,7 @@ AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	 
     -- Cập nhật ProductInventory dựa trên các dòng vừa được chèn (bảng 'inserted')
     -- Đây là cách viết set-based, xử lý được cả trường hợp insert nhiều dòng cùng lúc
     UPDATE pi
@@ -1442,7 +1442,7 @@ END
 GO
 ------------------------------------------------
 --===============================================
---=============================xxxxxxx============= 24-11 tien dinh
+--=============================xxxxxxx============= 24-11 tien dinh cho forgotpassword
 ------------------------
 
 -- Thêm cột SecurityQuestion và SecurityAnswer vào Users
@@ -1550,4 +1550,444 @@ IF OBJECT_ID('sp_SearchProducts', 'P') IS NOT NULL
     DROP PROCEDURE sp_SearchProducts;
 IF OBJECT_ID('sp_GetAllProducts', 'P') IS NOT NULL
     DROP PROCEDURE sp_GetAllProducts;
+GO
+
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ NHÀ CUNG CẤP & KHÁCH HÀNG
+-- By:  - Date: 26/11/2025
+-- ===================================================================
+
+-- ===================================================================
+-- PHẦN 1: NHÀ CUNG CẤP (SUPPLIERS)
+-- ===================================================================
+
+-- 1. Lấy tất cả nhà cung cấp
+IF OBJECT_ID('sp_GetAllSuppliers', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllSuppliers;
+GO
+
+CREATE PROCEDURE sp_GetAllSuppliers
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        SupplierID,
+        TenNhaCungCap,
+        SoDienThoai,
+        DiaChi
+    FROM Suppliers
+    ORDER BY TenNhaCungCap;
+END
+GO
+
+-- 2. Lấy 1 nhà cung cấp theo ID
+IF OBJECT_ID('sp_GetSupplierByID', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSupplierByID;
+GO
+
+CREATE PROCEDURE sp_GetSupplierByID
+    @SupplierID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        SupplierID,
+        TenNhaCungCap,
+        SoDienThoai,
+        DiaChi
+    FROM Suppliers
+    WHERE SupplierID = @SupplierID;
+END
+GO
+
+-- 3. Thêm nhà cung cấp mới
+IF OBJECT_ID('sp_InsertSupplier', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertSupplier;
+GO
+
+CREATE PROCEDURE sp_InsertSupplier
+    @TenNhaCungCap NVARCHAR(255),
+    @SoDienThoai VARCHAR(20),
+    @DiaChi NVARCHAR(500),
+    @Result INT OUTPUT,
+    @NewSupplierID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    SET @NewSupplierID = 0;
+    
+    -- Validate: Tên không được trống
+    IF LTRIM(RTRIM(ISNULL(@TenNhaCungCap, ''))) = ''
+    BEGIN
+        SET @Result = -2; -- Tên trống
+        RETURN;
+    END
+    
+    -- Kiểm tra tên đã tồn tại chưa
+    IF EXISTS(SELECT 1 FROM Suppliers WHERE TenNhaCungCap = @TenNhaCungCap)
+    BEGIN
+        SET @Result = -3; -- Tên đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        INSERT INTO Suppliers (TenNhaCungCap, SoDienThoai, DiaChi)
+        VALUES (@TenNhaCungCap, @SoDienThoai, @DiaChi);
+        
+        SET @NewSupplierID = SCOPE_IDENTITY();
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 4. Cập nhật nhà cung cấp
+IF OBJECT_ID('sp_UpdateSupplier', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateSupplier;
+GO
+
+CREATE PROCEDURE sp_UpdateSupplier
+    @SupplierID INT,
+    @TenNhaCungCap NVARCHAR(255),
+    @SoDienThoai VARCHAR(20),
+    @DiaChi NVARCHAR(500),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Suppliers WHERE SupplierID = @SupplierID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Validate tên
+    IF LTRIM(RTRIM(ISNULL(@TenNhaCungCap, ''))) = ''
+    BEGIN
+        SET @Result = -2; -- Tên trống
+        RETURN;
+    END
+    
+    -- Kiểm tra tên trùng (trừ chính nó)
+    IF EXISTS(SELECT 1 FROM Suppliers 
+              WHERE TenNhaCungCap = @TenNhaCungCap 
+              AND SupplierID != @SupplierID)
+    BEGIN
+        SET @Result = -3; -- Tên đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Suppliers
+        SET TenNhaCungCap = @TenNhaCungCap,
+            SoDienThoai = @SoDienThoai,
+            DiaChi = @DiaChi
+        WHERE SupplierID = @SupplierID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 5. Xóa nhà cung cấp
+IF OBJECT_ID('sp_DeleteSupplier', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteSupplier;
+GO
+
+CREATE PROCEDURE sp_DeleteSupplier
+    @SupplierID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Suppliers WHERE SupplierID = @SupplierID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Kiểm tra có phiếu nhập liên quan không
+    IF EXISTS(SELECT 1 FROM GoodsReceipts WHERE SupplierID = @SupplierID)
+    BEGIN
+        SET @Result = -4; -- Có giao dịch liên quan
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM Suppliers WHERE SupplierID = @SupplierID;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 6. Tìm kiếm nhà cung cấp
+IF OBJECT_ID('sp_SearchSuppliers', 'P') IS NOT NULL
+    DROP PROCEDURE sp_SearchSuppliers;
+GO
+
+CREATE PROCEDURE sp_SearchSuppliers
+    @Keyword NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        SupplierID,
+        TenNhaCungCap,
+        SoDienThoai,
+        DiaChi
+    FROM Suppliers
+    WHERE TenNhaCungCap LIKE '%' + @Keyword + '%'
+       OR SoDienThoai LIKE '%' + @Keyword + '%'
+       OR DiaChi LIKE '%' + @Keyword + '%'
+    ORDER BY TenNhaCungCap;
+END
+GO
+
+-- ===================================================================
+-- PHẦN 2: KHÁCH HÀNG (CUSTOMERS)
+-- ===================================================================
+
+-- 1. Lấy tất cả khách hàng
+IF OBJECT_ID('sp_GetAllCustomers', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllCustomers;
+GO
+
+CREATE PROCEDURE sp_GetAllCustomers
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        CustomerID,
+        TenKhachHang,
+        SoDienThoai,
+        DiaChi
+    FROM Customers
+    ORDER BY TenKhachHang;
+END
+GO
+
+-- 2. Lấy 1 khách hàng theo ID
+IF OBJECT_ID('sp_GetCustomerByID', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetCustomerByID;
+GO
+
+CREATE PROCEDURE sp_GetCustomerByID
+    @CustomerID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        CustomerID,
+        TenKhachHang,
+        SoDienThoai,
+        DiaChi
+    FROM Customers
+    WHERE CustomerID = @CustomerID;
+END
+GO
+
+-- 3. Thêm khách hàng mới
+IF OBJECT_ID('sp_InsertCustomer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertCustomer;
+GO
+
+CREATE PROCEDURE sp_InsertCustomer
+    @TenKhachHang NVARCHAR(255),
+    @SoDienThoai VARCHAR(20),
+    @DiaChi NVARCHAR(500),
+    @Result INT OUTPUT,
+    @NewCustomerID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    SET @NewCustomerID = 0;
+    
+    -- Validate tên
+    IF LTRIM(RTRIM(ISNULL(@TenKhachHang, ''))) = ''
+    BEGIN
+        SET @Result = -2; -- Tên trống
+        RETURN;
+    END
+    
+    -- Kiểm tra tên đã tồn tại (trừ "Khách vãng lai")
+    IF EXISTS(SELECT 1 FROM Customers 
+              WHERE TenKhachHang = @TenKhachHang 
+              AND TenKhachHang != N'Khách vãng lai')
+    BEGIN
+        SET @Result = -3; -- Tên đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        INSERT INTO Customers (TenKhachHang, SoDienThoai, DiaChi)
+        VALUES (@TenKhachHang, @SoDienThoai, @DiaChi);
+        
+        SET @NewCustomerID = SCOPE_IDENTITY();
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 4. Cập nhật khách hàng
+IF OBJECT_ID('sp_UpdateCustomer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateCustomer;
+GO
+
+CREATE PROCEDURE sp_UpdateCustomer
+    @CustomerID INT,
+    @TenKhachHang NVARCHAR(255),
+    @SoDienThoai VARCHAR(20),
+    @DiaChi NVARCHAR(500),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Customers WHERE CustomerID = @CustomerID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Không cho sửa "Khách vãng lai"
+    IF EXISTS(SELECT 1 FROM Customers 
+              WHERE CustomerID = @CustomerID 
+              AND TenKhachHang = N'Khách vãng lai')
+    BEGIN
+        SET @Result = -5; -- Không thể sửa khách vãng lai
+        RETURN;
+    END
+    
+    -- Validate tên
+    IF LTRIM(RTRIM(ISNULL(@TenKhachHang, ''))) = ''
+    BEGIN
+        SET @Result = -2; -- Tên trống
+        RETURN;
+    END
+    
+    -- Kiểm tra tên trùng
+    IF EXISTS(SELECT 1 FROM Customers 
+              WHERE TenKhachHang = @TenKhachHang 
+              AND CustomerID != @CustomerID)
+    BEGIN
+        SET @Result = -3; -- Tên đã tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        UPDATE Customers
+        SET TenKhachHang = @TenKhachHang,
+            SoDienThoai = @SoDienThoai,
+            DiaChi = @DiaChi
+        WHERE CustomerID = @CustomerID;
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 5. Xóa khách hàng
+IF OBJECT_ID('sp_DeleteCustomer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteCustomer;
+GO
+
+CREATE PROCEDURE sp_DeleteCustomer
+    @CustomerID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra tồn tại
+    IF NOT EXISTS(SELECT 1 FROM Customers WHERE CustomerID = @CustomerID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Không cho xóa "Khách vãng lai"
+    IF EXISTS(SELECT 1 FROM Customers 
+              WHERE CustomerID = @CustomerID 
+              AND TenKhachHang = N'Khách vãng lai')
+    BEGIN
+        SET @Result = -5; -- Không thể xóa khách vãng lai
+        RETURN;
+    END
+    
+    -- Kiểm tra có hóa đơn liên quan không
+    IF EXISTS(SELECT 1 FROM SalesInvoices WHERE CustomerID = @CustomerID)
+    BEGIN
+        SET @Result = -4; -- Có giao dịch liên quan
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM Customers WHERE CustomerID = @CustomerID;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- 6. Tìm kiếm khách hàng
+IF OBJECT_ID('sp_SearchCustomers', 'P') IS NOT NULL
+    DROP PROCEDURE sp_SearchCustomers;
+GO
+
+CREATE PROCEDURE sp_SearchCustomers
+    @Keyword NVARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        CustomerID,
+        TenKhachHang,
+        SoDienThoai,
+        DiaChi
+    FROM Customers
+    WHERE TenKhachHang LIKE '%' + @Keyword + '%'
+       OR SoDienThoai LIKE '%' + @Keyword + '%'
+       OR DiaChi LIKE '%' + @Keyword + '%'
+    ORDER BY TenKhachHang;
+END
 GO

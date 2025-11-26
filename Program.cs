@@ -78,7 +78,7 @@ namespace DoubleTRice
                     return;
                 }
                 else {
-                    MessageBox.Show("hello");
+                    MessageBox.Show("cấu hình hệ thống!!!");
                 }
                 // ✅ CHẠY ỨNG DỤNG
                 Application.Run(new LoginUI());

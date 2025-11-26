@@ -252,10 +252,10 @@ namespace DoubleTRice.UI.ChildForms
 
         private void ManageUnitConversions()
         {
-            //if (selectedProduct == null) return;
+            if (selectedProduct == null) return;
 
-            //var unitForm = new UnitConversionDialog(selectedProduct.ProductID, selectedProduct.TenSanPham);
-            //unitForm.ShowDialog();
+            var unitForm = new UnitConversionDialog(selectedProduct.ProductID, selectedProduct.TenSanPham);
+            unitForm.ShowDialog();
         }
         #endregion
 
