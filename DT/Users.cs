@@ -15,8 +15,7 @@ namespace DoubleTRice.DT
         public string MatKhauHash { get; set; }
         public string VaiTro { get; set; }
 
-
-        // NEW PROPERTIES cho User Management 21-11
+        // NEW PROPERTIES cho User Management 21-11 edit by tiendinh 
         public bool IsLocked { get; set; }
         public int FailedLoginAttempts { get; set; }
         public DateTime? LastLoginDate { get; set; }

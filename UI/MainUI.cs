@@ -267,9 +267,16 @@ namespace DoubleTRice.UI
 
         private void BtnGoodsReceipt_Click(object sender, EventArgs e)
         {
-            CloseChildForm();
-
-            LoadUserControl(CreatePlaceholder("Module Nhập hàng"));
+            try
+            {
+                var goodsReceiptForm = new GoodsReceiptManagementUI();
+                OpenChildForm(goodsReceiptForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form nhap hang: {ex.Message}", "Lỗi",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnSalesInvoice_Click(object sender, EventArgs e)
@@ -283,15 +290,33 @@ namespace DoubleTRice.UI
 
         private void BtnInventory_Click(object sender, EventArgs e)
         {
-            CloseChildForm();
+            //CloseChildForm();
 
-            LoadUserControl(CreatePlaceholder("Module Tồn kho"));
+            try
+            {
+                var InventoryForm = new GoodsReceiptManagementUI();
+                OpenChildForm(InventoryForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form kho: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //LoadUserControl(CreatePlaceholder("Module Tồn kho"));
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
-            LoadUserControl(CreatePlaceholder("Module Báo cáo"));
-
+            try
+            {
+                var adjustmentForm = new StockAdjustmentManagementUI();
+                OpenChildForm(adjustmentForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form dieuchinhkho: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 

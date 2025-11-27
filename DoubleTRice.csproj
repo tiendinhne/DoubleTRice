@@ -54,8 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\CustomerDAO.cs" />
+    <Compile Include="DAO\GoodsReceiptDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\DataProvider.cs" />
+    <Compile Include="DAO\StockAdjustmentDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DT\CustomerPayments.cs" />
@@ -112,6 +114,24 @@
     <Compile Include="UI\ChildForms\CustomerManagementUI.Designer.cs">
       <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptAddEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptAddEditDialog.Designer.cs">
+      <DependentUpon>GoodsReceiptAddEditDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptDetailDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptDetailDialog.Designer.cs">
+      <DependentUpon>GoodsReceiptDetailDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\GoodsReceiptManagementUI.Designer.cs">
+      <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\ProductAddEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +149,18 @@
     </Compile>
     <Compile Include="UI\ChildForms\ResetPasswordDialog.Designer.cs">
       <DependentUpon>ResetPasswordDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\StockAdjustmentAddDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\StockAdjustmentAddDialog.Designer.cs">
+      <DependentUpon>StockAdjustmentAddDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\StockAdjustmentManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\StockAdjustmentManagementUI.Designer.cs">
+      <DependentUpon>StockAdjustmentManagementUI.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ChildForms\SupplierAddEditDialog.cs">
       <SubType>Form</SubType>
@@ -208,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
+      <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\UnitConversionDialog.resx">
       <DependentUpon>UnitConversionDialog.cs</DependentUpon>

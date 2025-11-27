@@ -227,26 +227,52 @@ namespace DoubleTRice.DAO
         /// <summary>
         /// Lấy danh sách tất cả users
         /// </summary>
-        //public List<Users> GetAllUsers()
-        //{
-        //    try
-        //    {
-        //        string query = "SELECT * FROM Users";
-        //        DataTable data = DataProvider.Instance.ExecuteQuery(query);
+        public List<Users> GetAllUsers()
+        {
+            try
+            {
+                string query = "SELECT * FROM Users";
+                DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-        //        List<Users> users = new List<Users>();
-        //        foreach (DataRow row in data.Rows)
-        //        {
-        //            users.Add(new Users(row));
-        //        }
+                List<Users> users = new List<Users>();
+                foreach (DataRow row in data.Rows)
+                {
+                    users.Add(new Users(row));
+                }
 
-        //        return users;
-        //    }
-        //    catch
-        //    {
-        //        return new List<Users>();
-        //    }
-        //}
+                return users;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetAllUsers error: {ex.Message}");
+                return new List<Users>();
+            }
+        }
+        /// <summary>
+        /// Lấy user theo username
+        /// </summary>
+        public Users GetUserByUsername(string username)
+        {
+            try
+            {
+                string query = "SELECT * FROM Users WHERE TenDangNhap = @Username";
+                object[] parameters = { username };
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+
+                if (data.Rows.Count > 0)
+                {
+                    return new Users(data.Rows[0]);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetUserByUsername error: {ex.Message}");
+                return null;
+            }
+        }
+
         #endregion
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoubleTRice.DT;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -128,5 +129,11 @@ namespace DoubleTRice.LOGIC
             return $"User: {HoTen} | Role: {VaiTro} | Login: {LoginTime:dd/MM/yyyy HH:mm}";
         }
         #endregion
+
+        //class SessionManager để lưu thông tin user đang đăng nhập:
+        public static class SessionManager
+        {
+            public static Users CurrentUser { get; set; }
+        }
     }
 }

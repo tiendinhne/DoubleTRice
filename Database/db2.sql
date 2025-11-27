@@ -30,7 +30,7 @@ INSERT INTO Units (TenDVT) VALUES
 (N'Bao 25kg'),
 (N'Bao 50kg');
 
-select * from Units
+--select * from Units
 --delete from Units
 
 -- Chèn khách vãng lai
@@ -65,3 +65,30 @@ GO
 -- xóa ID18 
 
 ---- 26-11 by tien dinh : thêm khách hàng Tiên Đinh - 1234567890- Long An 
+-- Dữ liệu INSERT mẫu cho bảng Suppliers
+SET IDENTITY_INSERT Suppliers ON; -- Cho phép chèn giá trị vào cột IDENTITY (nếu cần thiết)
+GO
+
+INSERT INTO Suppliers (SupplierID, TenNhaCungCap, SoDienThoai, DiaChi) VALUES
+(1, N'Công ty Gạo Vàng', '0901112223', N'45 Lê Lợi, TP.HCM'),
+(2, N'Hợp tác xã Lúa Mới', '0915444555', N'Thôn 3, Xã Tân Phong, Long An'),
+(3, N'Doanh nghiệp Tư nhân Tấn Phát', '0987654321', N'203/A1 Quốc lộ 1, Tiền Giang'),
+(4, N'Công ty CP Xuất nhập khẩu An Giang', '02963888999', N'123 Trần Hưng Đạo, Châu Đốc, An Giang'),
+(5, N'Nhà cung cấp Sĩ Lẻ Minh Khang', '0909000111', N'Kho B, Chợ Đầu Mối Bình Điền');
+
+GO
+SET IDENTITY_INSERT Suppliers OFF;
+GO
+
+-- Kiểm tra lại dữ liệu
+--SELECT * FROM Suppliers;
+
+-- Dữ liệu INSERT mẫu cho bảng Customers
+INSERT INTO Customers ( TenKhachHang, SoDienThoai, DiaChi) VALUES
+(N'Nguyễn Văn A', '0912345678', N'789 Trường Chinh, Quận 10, TP.HCM'),
+(N'Lê Thị B', '0908765432', N'12/3 Khu Phố 4, Thủ Đức, TP.HCM'),
+(N'Quán ăn Tiên', '0977112233', N'22 Bến Vân Đồn, Quận 4, TP.HCM'),
+(N'Anh Vũ', '0123456789', N'Tổ 15, Phường 2, Đà Lạt');
+
+-- Kiểm tra lại dữ liệu
+--SELECT * FROM Customers;

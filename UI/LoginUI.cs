@@ -190,12 +190,12 @@ namespace DoubleTRice.UI
 
             // DEBUG: Kiểm tra hash
             string hashedPassword = PasswordHelper.HashPassword(password);
-            MessageBox.Show(
-                $"Username: {username}\n" +
-                $"Password: {password}\n" +
-                $"Hashed: {hashedPassword}",
-                "Debug - Password Hash"
-            );
+            //MessageBox.Show(
+            //    $"Username: {username}\n" +
+            //    $"Password: {password}\n" +
+            //    $"Hashed: {hashedPassword}",
+            //    "Debug - Password Hash"
+            //);
 
             if (string.IsNullOrEmpty(username))
             {
@@ -234,15 +234,15 @@ namespace DoubleTRice.UI
             {
                 // Call login service
                 var result = AuthenticationService.Login(username, password);
-                MessageBox.Show(
-                    $"Success: {result.Success}\n" +
-                    $"ResultCode: {result.ResultCode}\n" +
-                    $"UserID: {result.UserID}\n" +
-                    $"HoTen: {result.HoTen}\n" +
-                    $"VaiTro: {result.VaiTro}\n" +
-                    $"Message: {result.Message}",
-                    "Debug - Login Result"
-                );
+                ////*MessageBox.Show(
+                //    $"Success: {result.Success}\n" +
+                //    $"ResultCode: {result.ResultCode}\n" +
+                //    $"UserID: {result.UserID}\n" +
+                //    $"HoTen: {result.HoTen}\n" +
+                //    $"VaiTro: {result.VaiTro}\n" +
+                //    $"Message: {result.Message}",
+                //    "Debug - Login Result"
+                //);
 
                 if (result.Success)
                 {
