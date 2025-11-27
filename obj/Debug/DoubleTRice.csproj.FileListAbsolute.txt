@@ -16,6 +16,8 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\bin\Debug\Guna.UI2.dll
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTR.12A89E87.Up2Date
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.pdb
-J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe.config
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.UnitConversionDialog.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.GoodsReceiptManagementUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\bin\Debug\Newtonsoft.Json.dll
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\bin\Debug\Newtonsoft.Json.xml
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ConnectionSettingsForm.resources

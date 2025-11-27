@@ -24,28 +24,67 @@ namespace DoubleTRice
 
             try
             {
-                // ✅ TEST CONNECTION TRƯỚC KHI CHẠY
-                if (!DataProvider.Instance.TestConnection())
+                // --- BẮT ĐẦU LOGIC CẤU HÌNH KẾT NỐI DATABASE ---
+                string finalConnectionString = null;
+                bool isConnected = false;
+
+                // 1. Tải cấu hình đã lưu và thử kết nối
+                // Ta dùng ConnectionSettingsForm để tận dụng LoadSavedSettings và GetConnectionString.
+                using (ConnectionSettingsForm configLoader = new ConnectionSettingsForm())
                 {
-                    MessageBox.Show(
-                        "❌ Không thể kết nối đến database!\n\n" +
-                        "Vui lòng kiểm tra:\n" +
-                        "1. SQL Server đang chạy\n" +
-                        "2. Database 'QuanLyBanGao' đã được tạo\n" +
-                        "3. Connection string trong DataProvider.cs",
-                        "Lỗi kết nối Database",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    string savedConnStr = configLoader.GetConnectionString();
+
+                    if (!string.IsNullOrEmpty(savedConnStr))
+                    {
+                        // Set tạm chuỗi kết nối để kiểm tra
+                        DataProvider.ConnectionString = savedConnStr;
+                        if (DataProvider.Instance.TestConnection())
+                        {
+                            finalConnectionString = savedConnStr;
+                            isConnected = true;
+                        }
+                    }
+                }
+                // 2. Nếu chưa kết nối thành công, hiển thị Form Cấu hình để người dùng nhập/chỉnh sửa
+                if (!isConnected)
+                {
+                    // Tạo một instance mới để hiển thị dialog (nếu chưa kết nối lần đầu)
+                    using (ConnectionSettingsForm configForm = new ConnectionSettingsForm())
+                    {
+                        DialogResult result = configForm.ShowDialog();
+
+                        if (result == DialogResult.OK)
+                        {
+                            // Nếu người dùng kết nối thành công, lấy chuỗi kết nối mới
+                            finalConnectionString = configForm.GetConnectionString();
+                            isConnected = true;
+                        }
+                        else
+                        {
+                            // Nếu người dùng Cancel/Đóng Form mà chưa kết nối thành công, thoát ứng dụng
+                            MessageBox.Show("Ứng dụng không thể kết nối đến CSDL. Chương trình sẽ thoát.",
+                                "Lỗi kết nối", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            return;
+                        }
+                    }
+                }
+
+                // 3. Set chuỗi kết nối cuối cùng cho DataProvider và chạy LoginUI
+                if (isConnected)
+                {
+                    DataProvider.ConnectionString = finalConnectionString;
+                }
+                else
+                {
+                    // Should not happen if previous logic is correct
                     return;
                 }
-                else {
-                    MessageBox.Show("cấu hình hệ thống!!!");
 
-                    //form cau hinh he thong
-                }
+                // --- KẾT THÚC LOGIC CẤU HÌNH KẾT NỐI DATABASE ---
+
                 // ✅ CHẠY ỨNG DỤNG
                 Application.Run(new LoginUI());
+
             }
             catch (Exception ex)
             {

@@ -30,16 +30,26 @@ namespace DoubleTRice.DAO
                 DataProvider.instance = value;
             }
         }
-        private string connStr = "Data Source=E14G3;Initial Catalog=QuanLyBanGao;Integrated Security=True; TrustServerCertificate=True;";
-       // private string masterConnStr = "Data Source=E14G3;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
+        private static string _connectionString; // Biến tĩnh để lưu trữ chuỗi kết nối
+        // Property để set chuỗi kết nối từ bên ngoài
+        public static string ConnectionString
+        {
+            get => _connectionString;
+            set => _connectionString = value;
+        }
+
+        //private string connStr = "Data Source=E14G3;Initial Catalog=QuanLyBanGao;Integrated Security=True; TrustServerCertificate=True;";
+        // private string masterConnStr = "Data Source=E14G3;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
         private DataProvider() { }
 
         // ham dung cho select
         public DataTable ExecuteQuery(string query, object[] parameters = null, bool isStoredProc = false)
         {
             DataTable data = new DataTable();
+            // SỬ DỤNG CHUỖI KẾT NỐI ĐÃ ĐƯỢC CẤU HÌNH
+            if (string.IsNullOrEmpty(_connectionString)) return data;
 
-            using (SqlConnection connection = new SqlConnection(connStr))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 try
                 {
@@ -104,7 +114,8 @@ namespace DoubleTRice.DAO
         public int ExecuteNonQuery(string query, object[] parameters)
         {
             int data = 0;
-            using (SqlConnection connection = new SqlConnection(connStr))
+            if (string.IsNullOrEmpty(_connectionString)) return 0;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -132,7 +143,9 @@ namespace DoubleTRice.DAO
         public object ExecuteScalar(string query, Dictionary<string, object> parameters = null, bool isStoredProcedure = false)
         {
             object data = null;
-            using (SqlConnection connection = new SqlConnection(connStr))
+            if (string.IsNullOrEmpty(_connectionString)) return null;
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -155,7 +168,8 @@ namespace DoubleTRice.DAO
         public object ExecuteProcedureWithOutput(string procName, Dictionary<string, object> inputParams, string outputParamName)
         {
             object outputValue = null;
-            using (SqlConnection connection = new SqlConnection(connStr))
+            if (string.IsNullOrEmpty(_connectionString)) return null;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(procName, connection))
@@ -232,9 +246,11 @@ namespace DoubleTRice.DAO
         //}
         public bool TestConnection()
         {
+            if (string.IsNullOrEmpty(_connectionString)) return false;
+
             try
             {
-                using (SqlConnection connection = new SqlConnection(connStr))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     return true;
@@ -271,8 +287,9 @@ namespace DoubleTRice.DAO
         public Dictionary<string, object> ExecuteProcedureWithMultipleOutputs(string procName, Dictionary<string, object> inputParams, Dictionary<string, SqlDbType> outputParams)
         {
             Dictionary<string, object> outputValues = new Dictionary<string, object>();
+            if (string.IsNullOrEmpty(_connectionString)) return outputValues;
 
-            using (SqlConnection connection = new SqlConnection(connStr))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(procName, connection))
