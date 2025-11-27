@@ -1,5 +1,6 @@
 ﻿using DoubleTRice.DAO;
 using DoubleTRice.DT;
+using DoubleTRice.LOGIC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DoubleTRice.UI.ChildForms
         private List<Suppliers> allSuppliers;
         private List<Products> allProducts;
         private List<Units> allUnits;
-        private List<GoodsReceiptDetailItem> receiptItems; // Danh sách hàng đang nhập
+        private List<GoodsReceiptDetailDisplay> receiptItems; // Danh sách hàng đang nhập (dùng cho hiển thị)
         private int currentUserID; // ID người dùng hiện tại
         #endregion
 
@@ -22,14 +23,14 @@ namespace DoubleTRice.UI.ChildForms
         {
             InitializeComponent();
             InitializeData();
-            currentUserID = SessionManager.CurrentUser?.UserID ?? 0; // Lấy từ session
+            currentUserID = UserSession.CurrentUser?.UserID ?? 0; // Lấy từ session
         }
         #endregion
 
         #region Initialize
         private void InitializeData()
         {
-            receiptItems = new List<GoodsReceiptDetailItem>();
+            receiptItems = new List<GoodsReceiptDetailDisplay>();
 
             // Load nhà cung cấp
             LoadSuppliers();
@@ -149,19 +150,19 @@ namespace DoubleTRice.UI.ChildForms
                 {
                     // Cập nhật số lượng
                     existingItem.SoLuong += soLuong;
-                    existingItem.ThanhTien = (decimal)existingItem.SoLuong * existingItem.DonGia;
+                    existingItem.ThanhTien = (decimal)existingItem.SoLuong * existingItem.DonGiaNhap;
                 }
                 else
                 {
                     // Thêm mới
-                    receiptItems.Add(new GoodsReceiptDetailItem
+                    receiptItems.Add(new GoodsReceiptDetailDisplay
                     {
                         ProductID = product.ProductID,
                         ProductName = product.TenSanPham,
                         UnitID = conversion.UnitID,
                         UnitName = unitName,
                         SoLuong = soLuong,
-                        DonGia = donGia,
+                        DonGiaNhap = donGia,
                         ThanhTien = thanhTien
                     });
                 }
@@ -188,8 +189,8 @@ namespace DoubleTRice.UI.ChildForms
                     item.ProductName,
                     item.UnitName,
                     item.SoLuong,
-                    item.DonGia.ToString("N0"),
-                    item.ThanhTien.ToString("N0")
+                    item.DonGiaNhap.ToString("N0"),
+                    (item.ThanhTien ?? 0).ToString("N0")
                 );
             }
         }
@@ -206,7 +207,7 @@ namespace DoubleTRice.UI.ChildForms
 
         private void CalculateTotal()
         {
-            decimal total = receiptItems.Sum(i => i.ThanhTien);
+            decimal total = receiptItems.Sum(i => i.ThanhTien ?? 0);
             lblTotal.Text = $"Tổng tiền: {total:N0} đ";
         }
         #endregion
@@ -261,15 +262,16 @@ namespace DoubleTRice.UI.ChildForms
                     return;
                 }
 
-                // Thêm chi tiết
+                // Thêm chi tiết - Chuyển đổi sang GoodsReceiptDetails
                 foreach (var item in receiptItems)
                 {
+                    // Sử dụng class GoodsReceiptDetails đúng chuẩn
                     GoodsReceiptDAO.Instance.InsertGoodsReceiptDetail(
                         newReceiptID,
                         item.ProductID,
                         item.UnitID,
                         item.SoLuong,
-                        item.DonGia);
+                        item.DonGiaNhap);
                 }
 
                 // Cập nhật tổng tiền
@@ -384,25 +386,37 @@ namespace DoubleTRice.UI.ChildForms
 
     #region Helper Classes
     /// <summary>
-    /// Class tạm để lưu thông tin sản phẩm trong phiếu nhập
+    /// Class để hiển thị thông tin sản phẩm trong DataGridView
+    /// Chứa thêm thông tin tên sản phẩm và đơn vị để hiển thị
     /// </summary>
-    public class GoodsReceiptDetailItem
+    public class GoodsReceiptDetailDisplay
     {
+        // Các thuộc tính từ GoodsReceiptDetails
         public int ProductID { get; set; }
-        public string ProductName { get; set; }
         public int UnitID { get; set; }
-        public string UnitName { get; set; }
         public double SoLuong { get; set; }
-        public decimal DonGia { get; set; }
-        public decimal ThanhTien { get; set; }
-    }
+        public decimal DonGiaNhap { get; set; }
+        public decimal? ThanhTien { get; set; }
 
-    /// <summary>
-    /// Giả lập SessionManager - thay bằng class thật trong dự án
-    /// </summary>
-    public static class SessionManager
-    {
-        public static Users CurrentUser { get; set; }
+        // Các thuộc tính bổ sung để hiển thị
+        public string ProductName { get; set; }
+        public string UnitName { get; set; }
+
+        /// <summary>
+        /// Chuyển đổi sang GoodsReceiptDetails để lưu vào database
+        /// </summary>
+        public GoodsReceiptDetails ToGoodsReceiptDetails(int receiptID)
+        {
+            return new GoodsReceiptDetails
+            {
+                ReceiptID = receiptID,
+                ProductID = this.ProductID,
+                UnitID = this.UnitID,
+                SoLuong = this.SoLuong,
+                DonGiaNhap = this.DonGiaNhap,
+                ThanhTien = this.ThanhTien
+            };
+        }
     }
     #endregion
 }

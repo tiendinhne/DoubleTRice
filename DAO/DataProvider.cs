@@ -46,21 +46,41 @@ namespace DoubleTRice.DAO
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        // Set command type
                         if (isStoredProc)
                         {
                             command.CommandType = CommandType.StoredProcedure;
                         }
+                        // Add parameters
                         if (parameters != null)
                         {
-                            SqlCommandBuilder.DeriveParameters(command);
-                            int paramIndex = 0;
-
-                            foreach (SqlParameter param in command.Parameters)
+                            if (isStoredProc)
                             {
-                                if (param.ParameterName != "@RETURN_VALUE")
+                                // Nếu là Stored Procedure: dùng DeriveParameters
+                                SqlCommandBuilder.DeriveParameters(command);
+                                int paramIndex = 0;
+                                foreach (SqlParameter param in command.Parameters)
                                 {
-                                    param.Value = parameters[paramIndex] ?? DBNull.Value;
-                                    paramIndex++;
+                                    if (param.ParameterName != "@RETURN_VALUE")
+                                    {
+                                        param.Value = parameters[paramIndex] ?? DBNull.Value;
+                                        paramIndex++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Nếu là câu SQL thông thường: extract parameters từ query
+                                MatchCollection matches = Regex.Matches(query, @"@\w+");
+                                if (matches.Count != parameters.Length)
+                                {
+                                    throw new ArgumentException($"Số lượng tham số không khớp. Query cần {matches.Count} tham số, nhưng nhận được {parameters.Length}.");
+                                }
+
+                                for (int i = 0; i < matches.Count; i++)
+                                {
+                                    string paramName = matches[i].Value;
+                                    command.Parameters.AddWithValue(paramName, parameters[i] ?? DBNull.Value);
                                 }
                             }
                         }
@@ -73,8 +93,9 @@ namespace DoubleTRice.DAO
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi SQL: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Diagnostics.Debug.WriteLine($"ExecuteQuery error: {ex}");
                 }
-                connection.Close();
+                //connection.Close();
             }
             return data;
         }

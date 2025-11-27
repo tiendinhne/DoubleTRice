@@ -241,8 +241,8 @@ namespace DoubleTRice.UI.ChildForms
         {
             if (selectedReceipt == null) return;
 
-            //var detailForm = new GoodsReceiptDetailDialog(selectedReceipt.ReceiptID);
-            //detailForm.ShowDialog();
+            var detailForm = new GoodsReceiptDetailDialog(selectedReceipt.ReceiptID);
+            detailForm.ShowDialog();
         }
 
         private void DeleteReceipt()

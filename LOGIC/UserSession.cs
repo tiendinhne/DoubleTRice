@@ -12,6 +12,8 @@ namespace DoubleTRice.LOGIC
     /// </summary>
     public static class UserSession
     {
+        public static Users CurrentUser { get; set; }
+
         #region Properties
         /// <summary>
         /// ID người dùng
@@ -129,11 +131,5 @@ namespace DoubleTRice.LOGIC
             return $"User: {HoTen} | Role: {VaiTro} | Login: {LoginTime:dd/MM/yyyy HH:mm}";
         }
         #endregion
-
-        //class SessionManager để lưu thông tin user đang đăng nhập:
-        public static class SessionManager
-        {
-            public static Users CurrentUser { get; set; }
-        }
     }
 }

@@ -40,7 +40,7 @@ namespace DoubleTRice.DAO
                     ORDER BY NgayDieuChinh DESC";
 
                 object[] parameters = { startDate, endDate };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 List<StockAdjustments> adjustments = new List<StockAdjustments>();
                 foreach (DataRow row in data.Rows)
@@ -66,7 +66,7 @@ namespace DoubleTRice.DAO
             {
                 string query = "SELECT * FROM StockAdjustments WHERE AdjustmentID = @AdjustmentID";
                 object[] parameters = { adjustmentID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 if (data.Rows.Count > 0)
                 {
@@ -188,7 +188,7 @@ namespace DoubleTRice.DAO
                     ORDER BY NgayDieuChinh DESC";
 
                 object[] parameters = { limit, productID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 List<StockAdjustments> adjustments = new List<StockAdjustments>();
                 foreach (DataRow row in data.Rows)
@@ -221,7 +221,7 @@ namespace DoubleTRice.DAO
                     WHERE CONVERT(DATE, NgayDieuChinh) BETWEEN @StartDate AND @EndDate";
 
                 object[] parameters = { startDate, endDate };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 if (data.Rows.Count > 0)
                 {

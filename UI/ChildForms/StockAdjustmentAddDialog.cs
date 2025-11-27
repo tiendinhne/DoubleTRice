@@ -1,5 +1,6 @@
 ﻿using DoubleTRice.DAO;
 using DoubleTRice.DT;
+using DoubleTRice.LOGIC;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,7 +21,7 @@ namespace DoubleTRice.UI.ChildForms
         {
             InitializeComponent();
             InitializeData();
-            currentUserID = SessionManager.CurrentUser?.UserID ?? 0;
+            currentUserID = UserSession.CurrentUser?.UserID ?? 0;
         }
         #endregion
 

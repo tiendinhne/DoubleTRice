@@ -41,7 +41,7 @@ namespace DoubleTRice.DAO
                     ORDER BY NgayNhap DESC";
 
                 object[] parameters = { startDate, endDate };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 List<GoodsReceipts> receipts = new List<GoodsReceipts>();
                 foreach (DataRow row in data.Rows)
@@ -67,7 +67,7 @@ namespace DoubleTRice.DAO
             {
                 string query = "SELECT * FROM GoodsReceipts WHERE ReceiptID = @ReceiptID";
                 object[] parameters = { receiptID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 if (data.Rows.Count > 0)
                 {
@@ -186,7 +186,7 @@ namespace DoubleTRice.DAO
             {
                 string query = "SELECT * FROM GoodsReceiptDetails WHERE ReceiptID = @ReceiptID";
                 object[] parameters = { receiptID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
 
                 List<GoodsReceiptDetails> details = new List<GoodsReceiptDetails>();
                 foreach (DataRow row in data.Rows)
