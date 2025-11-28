@@ -12,38 +12,22 @@ namespace DoubleTRice.LOGIC
     /// </summary>
     public static class UserSession
     {
+        // ✅ Giữ nguyên property này
         public static Users CurrentUser { get; set; }
 
-        #region Properties
-        /// <summary>
-        /// ID người dùng
-        /// </summary>
-        public static int UserID { get; private set; }
+        #region Properties - SỬ DỤNG CurrentUser thay vì lưu riêng lẻ
 
-        /// <summary>
-        /// Họ tên người dùng
-        /// </summary>
-        public static string HoTen { get; private set; }
+        public static int UserID => CurrentUser?.UserID ?? 0;
 
-        /// <summary>
-        /// Tên đăng nhập
-        /// </summary>
-        public static string TenDangNhap { get; private set; }
+        public static string HoTen => CurrentUser?.HoTen;
 
-        /// <summary>
-        /// Vai trò (Admin, Thu Ngân, Thủ Kho, Kế Toán)
-        /// </summary>
-        public static string VaiTro { get; private set; }
+        public static string TenDangNhap => CurrentUser?.TenDangNhap;
 
-        /// <summary>
-        /// Thời gian đăng nhập
-        /// </summary>
+        public static string VaiTro => CurrentUser?.VaiTro;
+
         public static DateTime LoginTime { get; private set; }
 
-        /// <summary>
-        /// Kiểm tra đã đăng nhập chưa
-        /// </summary>
-        public static bool IsLoggedIn => UserID > 0;
+        public static bool IsLoggedIn => CurrentUser != null && CurrentUser.UserID > 0;
         #endregion
 
         #region Methods
@@ -52,10 +36,15 @@ namespace DoubleTRice.LOGIC
         /// </summary>
         public static void Initialize(int userID, string hoTen, string tenDangNhap, string vaiTro)
         {
-            UserID = userID;
-            HoTen = hoTen;
-            TenDangNhap = tenDangNhap;
-            VaiTro = vaiTro;
+            // ✅ Set CurrentUser
+            CurrentUser = new Users
+            {
+                UserID = userID,
+                HoTen = hoTen,
+                TenDangNhap = tenDangNhap,
+                VaiTro = vaiTro
+            };
+
             LoginTime = DateTime.Now;
         }
 
@@ -64,48 +53,19 @@ namespace DoubleTRice.LOGIC
         /// </summary>
         public static void Clear()
         {
-            UserID = 0;
-            HoTen = null;
-            TenDangNhap = null;
-            VaiTro = null;
+            CurrentUser = null;
             LoginTime = DateTime.MinValue;
         }
 
-        /// <summary>
-        /// Kiểm tra quyền Admin
-        /// </summary>
-        public static bool IsAdmin()
-        {
-            return VaiTro?.ToUpper() == "ADMIN";
-        }
+        // ✅ Giữ nguyên các phương thức còn lại
+        public static bool IsAdmin() => VaiTro?.ToUpper() == "ADMIN";
 
-        /// <summary>
-        /// Kiểm tra quyền Thu Ngân
-        /// </summary>
-        public static bool IsThuNgan()
-        {
-            return VaiTro?.ToUpper() == "THU NGÂN";
-        }
+        public static bool IsThuNgan() => VaiTro?.ToUpper() == "THU NGÂN";
 
-        /// <summary>
-        /// Kiểm tra quyền Thủ Kho
-        /// </summary>
-        public static bool IsThuKho()
-        {
-            return VaiTro?.ToUpper() == "THỦ KHO";
-        }
+        public static bool IsThuKho() => VaiTro?.ToUpper() == "THỦ KHO";
 
-        /// <summary>
-        /// Kiểm tra quyền Kế Toán
-        /// </summary>
-        public static bool IsKeToan()
-        {
-            return VaiTro?.ToUpper() == "KẾ TOÁN";
-        }
+        public static bool IsKeToan() => VaiTro?.ToUpper() == "KẾ TOÁN";
 
-        /// <summary>
-        /// Kiểm tra có quyền truy cập chức năng không
-        /// </summary>
         public static bool HasPermission(params string[] allowedRoles)
         {
             if (allowedRoles == null || allowedRoles.Length == 0)
@@ -120,9 +80,6 @@ namespace DoubleTRice.LOGIC
             return false;
         }
 
-        /// <summary>
-        /// Lấy thông tin session dưới dạng string
-        /// </summary>
         public static string GetSessionInfo()
         {
             if (!IsLoggedIn)

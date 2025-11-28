@@ -1,4 +1,5 @@
 ﻿using DoubleTRice.DAO;
+using DoubleTRice.DT;
 using DoubleTRice.LOGIC;
 using System;
 using System.Drawing;
@@ -152,7 +153,9 @@ namespace DoubleTRice.UI
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             PerformLogin();
+          
         }
+
 
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)

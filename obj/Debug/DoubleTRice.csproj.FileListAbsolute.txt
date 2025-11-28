@@ -21,3 +21,6 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.GoodsR
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\bin\Debug\Newtonsoft.Json.dll
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\bin\Debug\Newtonsoft.Json.xml
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ConnectionSettingsForm.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ForgotPasswordUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.StockAdjustmentManagementUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe.config

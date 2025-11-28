@@ -23,7 +23,21 @@ namespace DoubleTRice.UI.ChildForms
         {
             InitializeComponent();
             InitializeData();
-            currentUserID = UserSession.CurrentUser?.UserID ?? 0; // Lấy từ session
+
+            // ✅ SỬA: Dùng UserSession thay vì SessionManager
+            currentUserID = UserSession.CurrentUser?.UserID ?? 0;
+
+            // ✅ THÊM DEBUG
+            System.Diagnostics.Debug.WriteLine($"[Constructor] CurrentUser: {UserSession.CurrentUser?.HoTen ?? "NULL"}");
+            System.Diagnostics.Debug.WriteLine($"[Constructor] currentUserID: {currentUserID}");
+
+            // ✅ KIỂM TRA
+            if (currentUserID == 0)
+            {
+                MessageBox.Show("⚠️ LỖI: Không lấy được thông tin user!\nVui lòng đăng nhập lại.",
+                    "Lỗi Session", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
         #endregion
 
@@ -417,6 +431,14 @@ namespace DoubleTRice.UI.ChildForms
                 ThanhTien = this.ThanhTien
             };
         }
+    }
+
+    /// <summary>
+    /// Giả lập SessionManager - thay bằng class thật trong dự án
+    /// </summary>
+    public static class SessionManager
+    {
+        public static Users CurrentUser { get; set; }
     }
     #endregion
 }

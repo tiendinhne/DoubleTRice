@@ -225,7 +225,7 @@ namespace DoubleTRice.UI
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(250, 62);
             this.btnReports.TabIndex = 9;
-            this.btnReports.Text = "📈 Báo cáo";
+            this.btnReports.Text = "📈 Điều chỉnh kho";
             this.btnReports.Click += new System.EventHandler(this.BtnReports_Click);
             // 
             // lblSeparator3

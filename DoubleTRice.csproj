@@ -253,6 +253,9 @@
     <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\StockAdjustmentManagementUI.resx">
+      <DependentUpon>StockAdjustmentManagementUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\UnitConversionDialog.resx">
       <DependentUpon>UnitConversionDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -264,6 +267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DanhMucUI.resx">
       <DependentUpon>DanhMucUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ForgotPasswordUI.resx">
+      <DependentUpon>ForgotPasswordUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoginUI.resx">
       <DependentUpon>LoginUI.cs</DependentUpon>

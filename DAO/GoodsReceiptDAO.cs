@@ -41,7 +41,7 @@ namespace DoubleTRice.DAO
                     ORDER BY NgayNhap DESC";
 
                 object[] parameters = { startDate, endDate };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
 
                 List<GoodsReceipts> receipts = new List<GoodsReceipts>();
                 foreach (DataRow row in data.Rows)
@@ -67,7 +67,7 @@ namespace DoubleTRice.DAO
             {
                 string query = "SELECT * FROM GoodsReceipts WHERE ReceiptID = @ReceiptID";
                 object[] parameters = { receiptID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
 
                 if (data.Rows.Count > 0)
                 {
@@ -88,37 +88,49 @@ namespace DoubleTRice.DAO
         /// Lưu ý: MaPhieuNhap sẽ được trigger tự động tạo
         /// </summary>
         public (int result, int newReceiptID) InsertGoodsReceipt(
-            int supplierID,
-            int userID,
-            DateTime ngayNhap,
-            string ghiChu = null)
-        {
-            try
+        int supplierID,
+        int userID,
+        DateTime ngayNhap,
+        string ghiChu = null)
             {
-                string query = @"
-                    INSERT INTO GoodsReceipts (SupplierID, UserID, NgayNhap, GhiChu, TongTien)
-                    VALUES (@SupplierID, @UserID, @NgayNhap, @GhiChu, 0);
-                    SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine($"DAO.InsertGoodsReceipt - START");
+                    System.Diagnostics.Debug.WriteLine($"  SupplierID: {supplierID}");
+                    System.Diagnostics.Debug.WriteLine($"  UserID: {userID}");
+                    System.Diagnostics.Debug.WriteLine($"  NgayNhap: {ngayNhap}");
+                    System.Diagnostics.Debug.WriteLine($"  GhiChu: {ghiChu ?? "(null)"}");
 
-                object[] parameters = { supplierID, userID, ngayNhap, ghiChu ?? (object)DBNull.Value };
-                object result = DataProvider.Instance.ExecuteScalar(query,
-                    new Dictionary<string, object>
-                    {
-                        { "@SupplierID", supplierID },
-                        { "@UserID", userID },
-                        { "@NgayNhap", ngayNhap },
-                        { "@GhiChu", ghiChu ?? (object)DBNull.Value }
-                    }, false);
+                    string query = @"
+                INSERT INTO GoodsReceipts (SupplierID, UserID, NgayNhap, GhiChu, TongTien)
+                VALUES (@SupplierID, @UserID, @NgayNhap, @GhiChu, 0);
+                SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
-                int newReceiptID = result != null ? Convert.ToInt32(result) : 0;
-                return (0, newReceiptID);
-            }
-            catch (Exception ex)
+                    // ✅ SỬA: Sử dụng Dictionary thay vì object[]
+                    var parameters = new Dictionary<string, object>
             {
-                System.Diagnostics.Debug.WriteLine($"InsertGoodsReceipt error: {ex.Message}");
-                return (-99, 0);
+                { "@SupplierID", supplierID },
+                { "@UserID", userID },
+                { "@NgayNhap", ngayNhap },
+                { "@GhiChu", ghiChu ?? (object)DBNull.Value }
+            };
+
+                    object result = DataProvider.Instance.ExecuteScalar(query, parameters, false); // ✅ Thêm false
+
+                    int newReceiptID = result != null ? Convert.ToInt32(result) : 0;
+
+                    System.Diagnostics.Debug.WriteLine($"  NewReceiptID: {newReceiptID}");
+                    System.Diagnostics.Debug.WriteLine($"DAO.InsertGoodsReceipt - SUCCESS");
+
+                    return (0, newReceiptID);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ DAO.InsertGoodsReceipt ERROR: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"   StackTrace: {ex.StackTrace}");
+                    return (-99, 0);
+                }
             }
-        }
 
         /// <summary>
         /// Thêm chi tiết phiếu nhập (sản phẩm)
@@ -186,7 +198,7 @@ namespace DoubleTRice.DAO
             {
                 string query = "SELECT * FROM GoodsReceiptDetails WHERE ReceiptID = @ReceiptID";
                 object[] parameters = { receiptID };
-                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
+                DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters, false);
 
                 List<GoodsReceiptDetails> details = new List<GoodsReceiptDetails>();
                 foreach (DataRow row in data.Rows)

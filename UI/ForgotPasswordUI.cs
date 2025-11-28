@@ -260,5 +260,16 @@ namespace DoubleTRice.UI
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            //exit form changepwd
+            this.Close();
+        }
+
+        private void lblInstruction_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
