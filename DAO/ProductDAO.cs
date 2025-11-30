@@ -359,5 +359,33 @@ namespace DoubleTRice.DAO
         }
 
         #endregion
+
+        /// <summary>
+        /// Lấy giá bán theo sản phẩm và đơn vị
+        /// </summary>
+        public PriceList GetPriceByProductAndUnit(int productID, int unitID)
+        {
+            try
+            {
+                string query = @"
+            SELECT TOP 1 PriceID, ProductID, UnitID, GiaBan, NgayApDung
+            FROM PriceList
+            WHERE ProductID = @productID AND UnitID = @unitID
+            ORDER BY NgayApDung DESC";
+
+                object[] parameters = new object[] { productID, unitID };
+                DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters,false );
+
+                if (dt.Rows.Count > 0)
+                    return new PriceList(dt.Rows[0]);
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetPriceByProductAndUnit error: {ex}");
+                return null;
+            }
+        }
     }
 }

@@ -76,16 +76,16 @@ namespace DoubleTRice.UI
             // Collect all separators
             Label[] separators = new Label[]
             {
-                lblSeparator1,
+                //lblSeparator1,
                 lblSeparator2,
-                lblSeparator3,
+                //lblSeparator3,
                 lblSeparator4
             };
 
             // Collect navbar buttons
             Guna2Button[] navbarButtons = new Guna2Button[]
             {
-                btnNotification,
+                //btnNotification,
                 btnSettings
             };
 
@@ -109,7 +109,7 @@ namespace DoubleTRice.UI
                 pnlMenu: pnlMenu,
                 menuButtons: menuButtons,
                 separators: separators,
-                txtSearch: txtSearch,
+                txtSearch: null ,
                 navbarButtons: navbarButtons,
                 statusLabels: statusLabels,
                 accountPanel: panel1,
@@ -281,10 +281,16 @@ namespace DoubleTRice.UI
 
         private void BtnSalesInvoice_Click(object sender, EventArgs e)
         {
-            CloseChildForm();
-
-            LoadUserControl(CreatePlaceholder("Module Bán hàng"));
-
+            try
+            {
+                var posForm = new POSForm();
+                OpenChildForm(posForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Bán hàng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             //them cong no
         }
 
@@ -373,9 +379,9 @@ namespace DoubleTRice.UI
         private void UpdateNavbarControlsPosition()
         {
             int rightX = pnlNavbar.Width - 320;
-            btnNotification.Location = new Point(rightX, 38);
+           // btnNotification.Location = new Point(rightX, 38);
             btnSettings.Location = new Point(rightX - 97, 38);
-            txtSearch.Location = new Point(15, 23);
+            //txtSearch.Location = new Point(15, 23);
         }
         #endregion
 

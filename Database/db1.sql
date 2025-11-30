@@ -55,6 +55,7 @@ CREATE TABLE Products (
     CONSTRAINT FK_Products_BaseUnit FOREIGN KEY (BaseUnitID) REFERENCES Units(UnitID)
 );
 
+
 CREATE TABLE ProductUnitConversions (
     ConversionID INT IDENTITY(1,1) PRIMARY KEY,
     ProductID INT NOT NULL,
@@ -101,7 +102,6 @@ CREATE TABLE GoodsReceipts (
     CONSTRAINT FK_Receipts_User FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT UQ_MaPhieuNhap UNIQUE(MaPhieuNhap)
 );
-
 CREATE TABLE GoodsReceiptDetails (
     ReceiptDetailID INT IDENTITY(1,1) PRIMARY KEY,
     ReceiptID INT NOT NULL,

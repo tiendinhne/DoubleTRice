@@ -354,7 +354,7 @@ namespace DoubleTRice.UI.ChildForms
             "Tất cả",
             "Nhập thừa",
             "Xuất hủy"});
-            this.cboTypeFilter.Location = new System.Drawing.Point(620, 10);
+            this.cboTypeFilter.Location = new System.Drawing.Point(674, 12);
             this.cboTypeFilter.Name = "cboTypeFilter";
             this.cboTypeFilter.Size = new System.Drawing.Size(200, 36);
             this.cboTypeFilter.StartIndex = 0;
@@ -368,7 +368,7 @@ namespace DoubleTRice.UI.ChildForms
             this.dtpEndDate.FillColor = System.Drawing.Color.White;
             this.dtpEndDate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpEndDate.Location = new System.Drawing.Point(400, 10);
+            this.dtpEndDate.Location = new System.Drawing.Point(433, 8);
             this.dtpEndDate.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpEndDate.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpEndDate.Name = "dtpEndDate";
@@ -380,9 +380,9 @@ namespace DoubleTRice.UI.ChildForms
             // lblTo
             // 
             this.lblTo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTo.Location = new System.Drawing.Point(350, 15);
+            this.lblTo.Location = new System.Drawing.Point(372, 15);
             this.lblTo.Name = "lblTo";
-            this.lblTo.Size = new System.Drawing.Size(40, 30);
+            this.lblTo.Size = new System.Drawing.Size(68, 30);
             this.lblTo.TabIndex = 2;
             this.lblTo.Text = "đến";
             this.lblTo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -394,7 +394,7 @@ namespace DoubleTRice.UI.ChildForms
             this.dtpStartDate.FillColor = System.Drawing.Color.White;
             this.dtpStartDate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpStartDate.Location = new System.Drawing.Point(140, 10);
+            this.dtpStartDate.Location = new System.Drawing.Point(160, 8);
             this.dtpStartDate.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpStartDate.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpStartDate.Name = "dtpStartDate";
@@ -408,7 +408,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblDateRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblDateRange.Location = new System.Drawing.Point(20, 15);
             this.lblDateRange.Name = "lblDateRange";
-            this.lblDateRange.Size = new System.Drawing.Size(120, 30);
+            this.lblDateRange.Size = new System.Drawing.Size(145, 30);
             this.lblDateRange.TabIndex = 3;
             this.lblDateRange.Text = "📅 Thời gian:";
             this.lblDateRange.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -60,6 +60,7 @@
     <Compile Include="DAO\GoodsReceiptDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\DataProvider.cs" />
+    <Compile Include="DAO\SalesInvoiceDAO.cs" />
     <Compile Include="DAO\StockAdjustmentDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
@@ -135,6 +136,12 @@
     <Compile Include="UI\ChildForms\GoodsReceiptManagementUI.Designer.cs">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\POSForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\POSForm.Designer.cs">
+      <DependentUpon>POSForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\ProductAddEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +153,12 @@
     </Compile>
     <Compile Include="UI\ChildForms\ProductManagementUI.Designer.cs">
       <DependentUpon>ProductManagementUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\ProductSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\ProductSelectionDialog.Designer.cs">
+      <DependentUpon>ProductSelectionDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ChildForms\ResetPasswordDialog.cs">
       <SubType>Form</SubType>
@@ -253,8 +266,23 @@
     <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\POSForm.resx">
+      <DependentUpon>POSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\ProductManagementUI.resx">
+      <DependentUpon>ProductManagementUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\ProductSelectionDialog.resx">
+      <DependentUpon>ProductSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\ResetPasswordDialog.resx">
+      <DependentUpon>ResetPasswordDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\StockAdjustmentManagementUI.resx">
       <DependentUpon>StockAdjustmentManagementUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\SupplierManagementUI.resx">
+      <DependentUpon>SupplierManagementUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\UnitConversionDialog.resx">
       <DependentUpon>UnitConversionDialog.cs</DependentUpon>

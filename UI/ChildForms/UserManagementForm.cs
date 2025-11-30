@@ -29,6 +29,18 @@ namespace DoubleTRice.UI.ChildForms
         private void UserManagementForm_Load(object sender, EventArgs e)
         {
             CheckAdminPermission();
+            // VÔ HIỆU HÓA INLINE EDITING
+            dgvUsers.ReadOnly = true;  // Ngăn chặn edit trực tiếp
+            dgvUsers.EditMode = DataGridViewEditMode.EditProgrammatically;
+            // NGĂN DOUBLE CLICK ĐỂ EDIT
+            dgvUsers.CellDoubleClick += (s, args) =>
+            {
+                if (args.RowIndex >= 0)
+                {
+                    // Có thể mở form edit nếu muốn
+                    // EditUser();
+                }
+            };
             LoadData();
         }
         private void CheckAdminPermission()
@@ -49,24 +61,20 @@ namespace DoubleTRice.UI.ChildForms
                 // Show loading
                 dgvUsers.DataSource = null;
                 this.Cursor = Cursors.WaitCursor;
-
-                // 🔍 DEBUG: Test connection
-                MessageBox.Show("Bắt đầu load dữ liệu...", "Debug");
-
-                // Load users từ DAO
                 allUsers = UserDAO.Instance.GetAllUsersAdmin();
 
-                // 🔍 DEBUG: Kiểm tra số lượng
-                MessageBox.Show($"Đã load {allUsers.Count} users", "Debug");
-
+                // THÊM KIỂM TRA NÀY
+                if (allUsers == null || allUsers.Count == 0)
+                {
+                    dgvUsers.Rows.Clear();
+                    // Có thể thêm thông báo nếu cần
+                    return;
+                }
                 // Bind to DataGridView
                 DisplayUsers(allUsers);
 
                 // Format cells
                 FormatDataGridView();
-
-                // 🔍 DEBUG: Kiểm tra rows
-                MessageBox.Show($"DataGridView có {dgvUsers.Rows.Count} rows", "Debug");
             }
             catch (Exception ex)
             {
@@ -230,52 +238,52 @@ namespace DoubleTRice.UI.ChildForms
             menu.Show(dgvUsers, cellRect.Left, cellRect.Bottom);
         }
 
-        private void DgvUsers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            // Inline editing - tự động save khi edit xong
-            if (e.RowIndex < 0) return;
+        //private void DgvUsers_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    // Inline editing - tự động save khi edit xong
+        //    if (e.RowIndex < 0) return;
 
-            try
-            {
-                int userID = Convert.ToInt32(dgvUsers.Rows[e.RowIndex].Cells["colUserID"].Value);
-                string hoTen = dgvUsers.Rows[e.RowIndex].Cells["colHoTen"].Value?.ToString();
-                string tenDangNhap = dgvUsers.Rows[e.RowIndex].Cells["colTenDangNhap"].Value?.ToString();
-                string vaiTro = dgvUsers.Rows[e.RowIndex].Cells["colVaiTro"].Value?.ToString();
+        //    try
+        //    {
+        //        int userID = Convert.ToInt32(dgvUsers.Rows[e.RowIndex].Cells["colUserID"].Value);
+        //        string hoTen = dgvUsers.Rows[e.RowIndex].Cells["colHoTen"].Value?.ToString();
+        //        string tenDangNhap = dgvUsers.Rows[e.RowIndex].Cells["colTenDangNhap"].Value?.ToString();
+        //        string vaiTro = dgvUsers.Rows[e.RowIndex].Cells["colVaiTro"].Value?.ToString();
 
-                // Validate
-                if (string.IsNullOrWhiteSpace(hoTen) ||
-                    string.IsNullOrWhiteSpace(tenDangNhap) ||
-                    string.IsNullOrWhiteSpace(vaiTro))
-                {
-                    MessageBox.Show("Vui lòng điền đầy đủ thông tin!",
-                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    LoadData(); // Rollback
-                    return;
-                }
+        //        // Validate
+        //        if (string.IsNullOrWhiteSpace(hoTen) ||
+        //            string.IsNullOrWhiteSpace(tenDangNhap) ||
+        //            string.IsNullOrWhiteSpace(vaiTro))
+        //        {
+        //            MessageBox.Show("Vui lòng điền đầy đủ thông tin!",
+        //                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            LoadData(); // Rollback
+        //            return;
+        //        }
 
-                // Update
-                int result = UserDAO.Instance.UpdateUser(userID, hoTen, tenDangNhap, vaiTro);
+        //        // Update
+        //        int result = UserDAO.Instance.UpdateUser(userID, hoTen, tenDangNhap, vaiTro);
 
-                if (result == 0)
-                {
-                    MessageBox.Show("Cập nhật thành công!",
-                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show(GetErrorMessage(result),
-                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    LoadData(); // Rollback
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi: {ex.Message}",
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                LoadData();
-            }
-        }
+        //        if (result == 0)
+        //        {
+        //            MessageBox.Show("Cập nhật thành công!",
+        //                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            LoadData();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show(GetErrorMessage(result),
+        //                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            LoadData(); // Rollback
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Lỗi: {ex.Message}",
+        //            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        LoadData();
+        //    }
+        //}
         #endregion
 
         #region CRUD Operations
