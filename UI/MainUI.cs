@@ -208,8 +208,16 @@ namespace DoubleTRice.UI
         #region Event Handlers - Sidebar Menu
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
-            CloseChildForm(); // Đóng form con nếu có
-            LoadDashboard();
+            try
+            {
+                var productsForm = new TrangChuUI();
+                OpenChildForm(productsForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form Sản phẩm: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnProducts_Click(object sender, EventArgs e)
@@ -283,13 +291,17 @@ namespace DoubleTRice.UI
         {
             try
             {
-                var posForm = new POSForm();
-                OpenChildForm(posForm);
+                var posForm = new POSDialog();
+                if (posForm.ShowDialog() == DialogResult.OK)
+                {
+                    MessageBox.Show("Giao dịch thành công!",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi mở form Bán hàng: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //them cong no
         }

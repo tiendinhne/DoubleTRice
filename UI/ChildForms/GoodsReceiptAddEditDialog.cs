@@ -289,7 +289,21 @@ namespace DoubleTRice.UI.ChildForms
                 }
 
                 // Cập nhật tổng tiền
+
                 GoodsReceiptDAO.Instance.UpdateGoodsReceiptTotalAmount(newReceiptID);
+                // Sau khi UpdateGoodsReceiptTotalAmount
+                var verifyReceipt = GoodsReceiptDAO.Instance.GetGoodsReceiptByID(newReceiptID);
+                MessageBox.Show(
+                    $"ReceiptID: {newReceiptID}\n" +
+                    $"Số items: {receiptItems.Count}\n" +
+                    $"Tổng tính (UI): {receiptItems.Sum(i => i.ThanhTien ?? 0):N0} đ\n" +
+                    $"Tổng trong DB: {verifyReceipt?.TongTien ?? 0:N0} đ",
+                    "Debug Tổng tiền",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                // ✅ THÊM: Kiểm tra lại TongTien sau khi cập nhật
+                var savedReceipt = GoodsReceiptDAO.Instance.GetGoodsReceiptByID(newReceiptID);
+                System.Diagnostics.Debug.WriteLine($"[SAVE] ReceiptID: {newReceiptID}, TongTien: {savedReceipt?.TongTien ?? 0}");
 
                 MessageBox.Show("Tạo phiếu nhập thành công!\nKho đã được cập nhật tự động.",
                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -307,6 +321,7 @@ namespace DoubleTRice.UI.ChildForms
                 this.Cursor = Cursors.Default;
                 btnSave.Enabled = true;
             }
+
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

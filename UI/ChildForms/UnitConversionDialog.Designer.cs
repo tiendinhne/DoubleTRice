@@ -22,9 +22,9 @@ namespace DoubleTRice.UI.ChildForms
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlMain = new Guna.UI2.WinForms.Guna2Panel();
             this.pnlList = new Guna.UI2.WinForms.Guna2Panel();
             this.dgvConversions = new Guna.UI2.WinForms.Guna2DataGridView();
@@ -72,7 +72,7 @@ namespace DoubleTRice.UI.ChildForms
             this.pnlList.Location = new System.Drawing.Point(20, 249);
             this.pnlList.Name = "pnlList";
             this.pnlList.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.pnlList.Size = new System.Drawing.Size(660, 291);
+            this.pnlList.Size = new System.Drawing.Size(660, 297);
             this.pnlList.TabIndex = 0;
             // 
             // dgvConversions
@@ -80,15 +80,15 @@ namespace DoubleTRice.UI.ChildForms
             this.dgvConversions.AllowUserToAddRows = false;
             this.dgvConversions.AllowUserToDeleteRows = false;
             this.dgvConversions.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
-            this.dgvConversions.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvConversions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.dgvConversions.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvConversions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvConversions.ColumnHeadersHeight = 40;
             this.dgvConversions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colConversionID,
@@ -96,14 +96,14 @@ namespace DoubleTRice.UI.ChildForms
             this.colConversionValue,
             this.colEdit,
             this.colDelete});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvConversions.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvConversions.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvConversions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvConversions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
             this.dgvConversions.Location = new System.Drawing.Point(0, 10);
@@ -113,7 +113,7 @@ namespace DoubleTRice.UI.ChildForms
             this.dgvConversions.RowHeadersVisible = false;
             this.dgvConversions.RowHeadersWidth = 62;
             this.dgvConversions.RowTemplate.Height = 40;
-            this.dgvConversions.Size = new System.Drawing.Size(660, 281);
+            this.dgvConversions.Size = new System.Drawing.Size(660, 287);
             this.dgvConversions.TabIndex = 0;
             this.dgvConversions.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvConversions.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -256,9 +256,9 @@ namespace DoubleTRice.UI.ChildForms
             this.btnAddConversion.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.btnAddConversion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnAddConversion.ForeColor = System.Drawing.Color.White;
-            this.btnAddConversion.Location = new System.Drawing.Point(493, 57);
+            this.btnAddConversion.Location = new System.Drawing.Point(489, 61);
             this.btnAddConversion.Name = "btnAddConversion";
-            this.btnAddConversion.Size = new System.Drawing.Size(122, 54);
+            this.btnAddConversion.Size = new System.Drawing.Size(142, 71);
             this.btnAddConversion.TabIndex = 5;
             this.btnAddConversion.Text = "➕ Thêm";
             this.btnAddConversion.Click += new System.EventHandler(this.BtnAddConversion_Click);
@@ -293,7 +293,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblError.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblError.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblError.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblError.Location = new System.Drawing.Point(20, 540);
+            this.lblError.Location = new System.Drawing.Point(20, 546);
             this.lblError.Name = "lblError";
             this.lblError.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
             this.lblError.Size = new System.Drawing.Size(660, 0);
@@ -305,12 +305,12 @@ namespace DoubleTRice.UI.ChildForms
             // 
             this.btnClose.BorderRadius = 8;
             this.btnClose.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnClose.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(120)))), ((int)(((byte)(140)))));
+            this.btnClose.FillColor = System.Drawing.Color.Navy;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(20, 540);
+            this.btnClose.Location = new System.Drawing.Point(20, 546);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(660, 40);
+            this.btnClose.Size = new System.Drawing.Size(660, 34);
             this.btnClose.TabIndex = 4;
             this.btnClose.Text = "Đóng";
             this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);

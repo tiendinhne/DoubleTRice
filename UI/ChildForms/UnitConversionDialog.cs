@@ -25,6 +25,9 @@ namespace DoubleTRice.UI.ChildForms
             this.productID = productID;
             this.productName = productName;
 
+            // ✅ Khởi tạo các list trước
+            allUnits = new List<Units>();
+            conversions = new List<ProductUnitConversions>();
             LoadData();
         }
         #endregion
@@ -34,6 +37,8 @@ namespace DoubleTRice.UI.ChildForms
         {
             try
             {
+                // ✅ KHỞI TẠO conversions TRƯỚC KHI SỬ DỤNG
+                conversions = new List<ProductUnitConversions>();
                 // Load product info
                 var product = ProductDAO.Instance.GetProductByID(productID);
                 if (product != null)
@@ -44,6 +49,9 @@ namespace DoubleTRice.UI.ChildForms
 
                 // Load all units
                 allUnits = ProductDAO.Instance.GetAllUnits();
+                // ✅ Load conversions TRƯỚC KHI gọi LoadUnitsComboBox
+                conversions = ProductDAO.Instance.GetProductUnitConversions(productID);
+
                 LoadUnitsComboBox();
 
                 // Load existing conversions
@@ -52,12 +60,23 @@ namespace DoubleTRice.UI.ChildForms
             catch (Exception ex)
             {
                 ShowError($"Lỗi tải dữ liệu: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"LoadData error: {ex}");
             }
         }
 
         private void LoadUnitsComboBox()
         {
             cboUnit.Items.Clear();
+
+            // ✅ Kiểm tra null cho conversions và allUnits
+            if (conversions == null)
+                conversions = new List<ProductUnitConversions>();
+
+            if (allUnits == null || allUnits.Count == 0)
+            {
+                ShowError("Không có đơn vị tính nào trong hệ thống");
+                return;
+            }
 
             // Chỉ hiển thị các đơn vị chưa có quy đổi (trừ base unit)
             var availableUnits = allUnits.Where(u =>
@@ -74,15 +93,30 @@ namespace DoubleTRice.UI.ChildForms
             {
                 cboUnit.SelectedIndex = 0;
             }
+            else
+            {
+                // Thông báo nếu không còn đơn vị nào để thêm
+                ShowError("Đã thêm tất cả các đơn vị tính có sẵn");
+            }
         }
 
         private void LoadConversions()
         {
             try
             {
-                conversions = ProductDAO.Instance.GetProductUnitConversions(productID);
+                // ✅ Lấy lại conversions nếu chưa có
+                if (conversions == null)
+                {
+                    conversions = ProductDAO.Instance.GetProductUnitConversions(productID);
+                }
 
                 dgvConversions.Rows.Clear();
+
+                if (conversions == null || conversions.Count == 0)
+                {
+                    // Không có quy đổi nào
+                    return;
+                }
 
                 foreach (var conv in conversions)
                 {
@@ -100,8 +134,9 @@ namespace DoubleTRice.UI.ChildForms
             catch (Exception ex)
             {
                 ShowError($"Lỗi tải quy đổi: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"LoadConversions error: {ex}");
             }
-        }
+        }        
         #endregion
 
         #region Event Handlers

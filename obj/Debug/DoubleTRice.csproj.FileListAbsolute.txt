@@ -28,4 +28,4 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.Suppli
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductManagementUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ResetPasswordDialog.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductSelectionDialog.resources
-J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.POSForm.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SalesInvoiceManagementUI.resources

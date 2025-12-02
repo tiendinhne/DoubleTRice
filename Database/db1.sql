@@ -18,8 +18,7 @@ CREATE TABLE Users (
     TenDangNhap VARCHAR(100) NOT NULL,
     MatKhauHash VARCHAR(255) NOT NULL, -- Luôn lưu mật khẩu đã hash
     VaiTro NVARCHAR(100) NOT NULL,
-    CONSTRAINT UQ_TenDangNhap UNIQUE(TenDangNhap),
-    
+    CONSTRAINT UQ_TenDangNhap UNIQUE(TenDangNhap),  
 );
 
 CREATE TABLE Suppliers (
@@ -47,14 +46,14 @@ CREATE TABLE Units (
 );
 
 
-CREATE TABLE Products (
+
+CREATE TABLE  (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     TenSanPham NVARCHAR(255) NOT NULL,
     BaseUnitID INT NOT NULL, -- Đơn vị tính cơ sở (luôn là 'kg')
     TonKhoToiThieu FLOAT DEFAULT 0,
     CONSTRAINT FK_Products_BaseUnit FOREIGN KEY (BaseUnitID) REFERENCES Units(UnitID)
 );
-
 
 CREATE TABLE ProductUnitConversions (
     ConversionID INT IDENTITY(1,1) PRIMARY KEY,
@@ -65,6 +64,7 @@ CREATE TABLE ProductUnitConversions (
     CONSTRAINT FK_Conversions_Unit FOREIGN KEY (UnitID) REFERENCES Units(UnitID),
     CONSTRAINT UQ_Product_Unit_Conversion UNIQUE(ProductID, UnitID)
 );
+--select * from ProductUnitConversions 
 
 CREATE TABLE ProductInventory (
     ProductID INT PRIMARY KEY,
@@ -102,6 +102,8 @@ CREATE TABLE GoodsReceipts (
     CONSTRAINT FK_Receipts_User FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT UQ_MaPhieuNhap UNIQUE(MaPhieuNhap)
 );
+
+
 CREATE TABLE GoodsReceiptDetails (
     ReceiptDetailID INT IDENTITY(1,1) PRIMARY KEY,
     ReceiptID INT NOT NULL,
@@ -141,7 +143,6 @@ CREATE TABLE PriceList (
     CONSTRAINT FK_PriceList_Unit FOREIGN KEY (UnitID) REFERENCES Units(UnitID),
     CONSTRAINT UQ_Product_Unit_Price UNIQUE(ProductID, UnitID)
 );
-
 CREATE TABLE SalesInvoices (
     InvoiceID INT IDENTITY(1,1) PRIMARY KEY,
     MaHoaDon VARCHAR(20), -- Mã hiển thị (HD...)
@@ -1991,3 +1992,473 @@ BEGIN
     ORDER BY TenKhachHang;
 END
 GO
+
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ HÓA ĐƠN BÁN HÀNG
+-- Date: 01/12/2025 by tiendinh 
+-- ===================================================================
+
+USE QuanLyBanGao;
+GO
+
+-- ===================================================================
+-- 1. SP LẤY TẤT CẢ HÓA ĐƠN THEO KHOẢNG THỜI GIAN
+-- ===================================================================
+IF OBJECT_ID('sp_GetSalesInvoicesByDateRange', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSalesInvoicesByDateRange;
+GO
+EXEC sp_GetSalesInvoicesByDateRange 
+    @StartDate = '2025-12-01', 
+    @EndDate = '2025-12-31'
+
+CREATE PROCEDURE sp_GetSalesInvoicesByDateRange
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        InvoiceID,
+        MaHoaDon,
+        CustomerID,
+        UserID,
+        NgayBan,
+        TongTien
+    FROM SalesInvoices
+    WHERE CONVERT(DATE, NgayBan) BETWEEN @StartDate AND @EndDate
+    ORDER BY NgayBan DESC;
+END
+GO
+
+-- ===================================================================
+-- 2. SP LẤY CHI TIẾT HÓA ĐƠN THEO ID
+-- ===================================================================
+IF OBJECT_ID('sp_GetSalesInvoiceByID', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSalesInvoiceByID;
+GO
+
+CREATE PROCEDURE sp_GetSalesInvoiceByID
+    @InvoiceID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Lấy thông tin header
+    SELECT 
+        InvoiceID,
+        MaHoaDon,
+        CustomerID,
+        UserID,
+        NgayBan,
+        TongTien
+    FROM SalesInvoices
+    WHERE InvoiceID = @InvoiceID;
+    
+    -- Lấy chi tiết
+    SELECT 
+        InvoiceDetailID,
+        InvoiceID,
+        ProductID,
+        UnitID,
+        SoLuong,
+        DonGiaBan,
+        ThanhTien
+    FROM SalesInvoiceDetails
+    WHERE InvoiceID = @InvoiceID;
+END
+GO
+
+-- ===================================================================
+-- 3. SP TẠO HÓA ĐƠN MỚI (TRANSACTION)
+-- ===================================================================
+IF OBJECT_ID('sp_InsertSalesInvoice', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertSalesInvoice;
+GO
+
+CREATE PROCEDURE sp_InsertSalesInvoice
+    @CustomerID INT,
+    @UserID INT,
+    @TongTien DECIMAL(18,2),
+    @Details NVARCHAR(MAX), -- JSON string: [{"ProductID":1,"UnitID":1,"SoLuong":2,"DonGiaBan":25000}]
+    @Result INT OUTPUT,
+    @NewInvoiceID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+    
+    SET @Result = -1;
+    SET @NewInvoiceID = 0;
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        -- 1. Insert Invoice Header
+        INSERT INTO SalesInvoices (CustomerID, UserID, NgayBan, TongTien)
+        VALUES (@CustomerID, @UserID, GETDATE(), @TongTien);
+        
+        SET @NewInvoiceID = SCOPE_IDENTITY();
+        
+        -- 2. Parse JSON và insert details
+        DECLARE @ProductID INT, @UnitID INT, @SoLuong FLOAT, @DonGiaBan DECIMAL(18,2);
+        DECLARE @GiaTriQuyDoi FLOAT, @SoLuongTon FLOAT;
+        
+        -- Tạo temp table để lưu details từ JSON
+        CREATE TABLE #TempDetails (
+            ProductID INT,
+            UnitID INT,
+            SoLuong FLOAT,
+            DonGiaBan DECIMAL(18,2)
+        );
+        
+        -- Parse JSON (SQL Server 2016+)
+        INSERT INTO #TempDetails (ProductID, UnitID, SoLuong, DonGiaBan)
+        SELECT 
+            JSON_VALUE(value, '$.ProductID'),
+            JSON_VALUE(value, '$.UnitID'),
+            JSON_VALUE(value, '$.SoLuong'),
+            JSON_VALUE(value, '$.DonGiaBan')
+        FROM OPENJSON(@Details);
+        
+        -- 3. Validate tồn kho và insert details
+        DECLARE detail_cursor CURSOR FOR 
+        SELECT ProductID, UnitID, SoLuong, DonGiaBan FROM #TempDetails;
+        
+        OPEN detail_cursor;
+        FETCH NEXT FROM detail_cursor INTO @ProductID, @UnitID, @SoLuong, @DonGiaBan;
+        
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            -- Lấy giá trị quy đổi
+            SELECT @GiaTriQuyDoi = GiaTriQuyDoi 
+            FROM ProductUnitConversions 
+            WHERE ProductID = @ProductID AND UnitID = @UnitID;
+            
+            IF @GiaTriQuyDoi IS NULL
+            BEGIN
+                SET @Result = -3; -- Không tìm thấy quy đổi
+                ROLLBACK TRANSACTION;
+                RETURN;
+            END
+            
+            -- Kiểm tra tồn kho
+            SELECT @SoLuongTon = SoLuongTon 
+            FROM ProductInventory 
+            WHERE ProductID = @ProductID;
+            
+            IF @SoLuongTon < (@SoLuong * @GiaTriQuyDoi)
+            BEGIN
+                SET @Result = -4; -- Không đủ hàng
+                ROLLBACK TRANSACTION;
+                RETURN;
+            END
+            
+            -- Insert detail
+            INSERT INTO SalesInvoiceDetails (InvoiceID, ProductID, UnitID, SoLuong, DonGiaBan)
+            VALUES (@NewInvoiceID, @ProductID, @UnitID, @SoLuong, @DonGiaBan);
+            
+            FETCH NEXT FROM detail_cursor INTO @ProductID, @UnitID, @SoLuong, @DonGiaBan;
+        END
+        
+        CLOSE detail_cursor;
+        DEALLOCATE detail_cursor;
+        DROP TABLE #TempDetails;
+        
+        -- 4. Trigger sẽ tự động trừ kho (đã có sẵn: trg_UpdateStockOnSale)
+        
+        COMMIT TRANSACTION;
+        SET @Result = 0; -- Thành công
+        
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- 4. SP XÓA HÓA ĐƠN (CHỈ TRONG NGÀY)
+-- ===================================================================
+IF OBJECT_ID('sp_DeleteSalesInvoice', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteSalesInvoice;
+GO
+
+CREATE PROCEDURE sp_DeleteSalesInvoice
+    @InvoiceID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+    
+    SET @Result = -1;
+    
+    DECLARE @NgayBan DATETIME;
+    
+    -- Kiểm tra hóa đơn tồn tại
+    SELECT @NgayBan = NgayBan
+    FROM SalesInvoices
+    WHERE InvoiceID = @InvoiceID;
+    
+    IF @NgayBan IS NULL
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Chỉ cho phép xóa trong ngày
+    IF CONVERT(DATE, @NgayBan) != CONVERT(DATE, GETDATE())
+    BEGIN
+        SET @Result = -2; -- Quá thời gian cho phép
+        RETURN;
+    END
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        -- 1. Cộng lại kho (reverse trigger effect)
+        UPDATE pi
+        SET pi.SoLuongTon = pi.SoLuongTon + (sid.SoLuong * puc.GiaTriQuyDoi)
+        FROM ProductInventory pi
+        INNER JOIN SalesInvoiceDetails sid ON pi.ProductID = sid.ProductID
+        INNER JOIN ProductUnitConversions puc ON sid.ProductID = puc.ProductID 
+            AND sid.UnitID = puc.UnitID
+        WHERE sid.InvoiceID = @InvoiceID;
+        
+        -- 2. Xóa details
+        DELETE FROM SalesInvoiceDetails WHERE InvoiceID = @InvoiceID;
+        
+        -- 3. Xóa payments
+        DELETE FROM CustomerPayments WHERE InvoiceID = @InvoiceID;
+        
+        -- 4. Xóa invoice
+        DELETE FROM SalesInvoices WHERE InvoiceID = @InvoiceID;
+        
+        COMMIT TRANSACTION;
+        SET @Result = 0; -- Thành công
+        
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- 5. SP TÍNH CÔNG NỢ KHÁCH HÀNG
+-- ===================================================================
+IF OBJECT_ID('sp_GetCustomerDebt', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetCustomerDebt;
+GO
+
+CREATE PROCEDURE sp_GetCustomerDebt
+    @CustomerID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Tổng tiền hàng đã mua
+    DECLARE @TongMuaHang DECIMAL(18,2) = 0;
+    SELECT @TongMuaHang = ISNULL(SUM(TongTien), 0)
+    FROM SalesInvoices
+    WHERE CustomerID = @CustomerID;
+    
+    -- Tổng tiền đã trả
+    DECLARE @TongDaTra DECIMAL(18,2) = 0;
+    SELECT @TongDaTra = ISNULL(SUM(SoTien), 0)
+    FROM CustomerPayments
+    WHERE CustomerID = @CustomerID;
+    
+    -- Công nợ hiện tại
+    SELECT 
+        @CustomerID AS CustomerID,
+        @TongMuaHang AS TongMuaHang,
+        @TongDaTra AS TongDaTra,
+        (@TongMuaHang - @TongDaTra) AS CongNoHienTai;
+END
+GO
+
+-- ===================================================================
+-- 6. SP TRẢ NỢ
+-- ===================================================================
+IF OBJECT_ID('sp_InsertCustomerPayment', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertCustomerPayment;
+GO
+
+CREATE PROCEDURE sp_InsertCustomerPayment
+    @CustomerID INT,
+    @InvoiceID INT,
+    @SoTien DECIMAL(18,2),
+    @PhuongThuc NVARCHAR(100),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Validate
+    IF @SoTien <= 0
+    BEGIN
+        SET @Result = -2; -- Số tiền không hợp lệ
+        RETURN;
+    END
+    
+    BEGIN TRY
+        INSERT INTO CustomerPayments (CustomerID, InvoiceID, NgayThanhToan, SoTien, PhuongThuc)
+        VALUES (@CustomerID, @InvoiceID, GETDATE(), @SoTien, @PhuongThuc);
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- 7. SP KIỂM TRA TỒN KHO TRƯỚC KHI BÁN
+-- ===================================================================
+IF OBJECT_ID('sp_CheckStockAvailability', 'P') IS NOT NULL
+    DROP PROCEDURE sp_CheckStockAvailability;
+GO
+
+CREATE PROCEDURE sp_CheckStockAvailability
+    @ProductID INT,
+    @UnitID INT,
+    @SoLuong FLOAT,
+    @IsAvailable BIT OUTPUT,
+    @SoLuongTonHienTai FLOAT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @GiaTriQuyDoi FLOAT;
+    
+    -- Lấy quy đổi
+    SELECT @GiaTriQuyDoi = GiaTriQuyDoi
+    FROM ProductUnitConversions
+    WHERE ProductID = @ProductID AND UnitID = @UnitID;
+    
+    IF @GiaTriQuyDoi IS NULL
+    BEGIN
+        SET @IsAvailable = 0;
+        SET @SoLuongTonHienTai = 0;
+        RETURN;
+    END
+    
+    -- Lấy tồn kho hiện tại
+    SELECT @SoLuongTonHienTai = SoLuongTon
+    FROM ProductInventory
+    WHERE ProductID = @ProductID;
+    
+    -- So sánh
+    IF @SoLuongTonHienTai >= (@SoLuong * @GiaTriQuyDoi)
+        SET @IsAvailable = 1;
+    ELSE
+        SET @IsAvailable = 0;
+END
+GO
+
+-- ===================================================================
+-- 8. SP BỔ SUNG: LẤY GIÁ BÁN HIỆN TẠI CỦA SẢN PHẨM
+-- ===================================================================
+IF OBJECT_ID('sp_GetCurrentPrice', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetCurrentPrice;
+GO
+
+CREATE PROCEDURE sp_GetCurrentPrice
+    @ProductID INT,
+    @UnitID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT TOP 1 GiaBan
+    FROM PriceList
+    WHERE ProductID = @ProductID AND UnitID = @UnitID
+    ORDER BY NgayApDung DESC;
+END
+GO
+
+--PRINT '✅ STORED PROCEDURES CHO BÁN HÀNG ĐÃ ĐƯỢC TẠO THÀNH CÔNG!';
+
+
+
+-- Test kiểm tra tồn kho
+DECLARE @IsAvailable BIT, @TonHienTai FLOAT;
+
+EXEC sp_CheckStockAvailability 
+    @ProductID = 21,
+    @UnitID = 1,
+    @SoLuong = 2,
+    @IsAvailable = @IsAvailable OUTPUT,
+    @SoLuongTonHienTai = @TonHienTai OUTPUT;
+
+SELECT @IsAvailable AS DuHang, @TonHienTai AS TonKho;
+
+select * from Units
+select * from ProductUnitConversions
+select * from Products
+
+select * from Pricelist
+
+-- ===================================================================
+-- Stored Procedure: Cập nhật Tổng tiền Phiếu nhập
+-- ===================================================================
+IF OBJECT_ID('sp_UpdateGoodsReceiptTotalAmount', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdateGoodsReceiptTotalAmount;
+GO
+
+CREATE PROCEDURE sp_UpdateGoodsReceiptTotalAmount
+    @ReceiptID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @TongTien DECIMAL(18, 2);
+    
+    -- Tính tổng từ chi tiết
+    SELECT @TongTien = SUM(ThanhTien)
+    FROM GoodsReceiptDetails
+    WHERE ReceiptID = @ReceiptID;
+    
+    -- Cập nhật vào phiếu nhập
+    UPDATE GoodsReceipts
+    SET TongTien = ISNULL(@TongTien, 0)
+    WHERE ReceiptID = @ReceiptID;
+    
+    -- Debug
+    PRINT 'Updated ReceiptID: ' + CAST(@ReceiptID AS VARCHAR) + 
+          ', TongTien: ' + CAST(ISNULL(@TongTien, 0) AS VARCHAR);
+END
+GO
+
+-- Kiểm tra
+SELECT * FROM sys.procedures WHERE name = 'sp_UpdateGoodsReceiptTotalAmount';
+GO
+
+-- Kiểm tra phiếu nhập vừa tạo
+SELECT TOP 1 * FROM GoodsReceipts ORDER BY ReceiptID DESC;
+
+
+-- Kiểm tra chi tiết
+SELECT * FROM GoodsReceiptDetails 
+WHERE ReceiptID = (SELECT TOP 1 ReceiptID FROM GoodsReceipts ORDER BY ReceiptID DESC);
+
+-- So sánh tổng tiền
+SELECT 
+    r.ReceiptID,
+    r.MaPhieuNhap,
+    r.TongTien AS [TongTien trong phiếu],
+    (SELECT SUM(ThanhTien) FROM GoodsReceiptDetails WHERE ReceiptID = r.ReceiptID) AS [Tổng chi tiết]
+FROM GoodsReceipts r
+ORDER BY r.ReceiptID DESC;

@@ -168,19 +168,15 @@ namespace DoubleTRice.DAO
         {
             try
             {
-                string query = @"
-                    UPDATE GoodsReceipts
-                    SET TongTien = (
-                        SELECT ISNULL(SUM(ThanhTien), 0)
-                        FROM GoodsReceiptDetails
-                        WHERE ReceiptID = @ReceiptID
-                    )
-                    WHERE ReceiptID = @ReceiptID";
-
+                string procName = "sp_UpdateGoodsReceiptTotalAmount";
                 object[] parameters = { receiptID };
-                int result = DataProvider.Instance.ExecuteNonQuery(query, parameters);
 
-                return result > 0 ? 0 : -1;
+                int result = DataProvider.Instance.ExecuteNonQuery(procName, parameters);
+
+                // Debug
+                System.Diagnostics.Debug.WriteLine($"[DAO] UpdateTotalAmount - ReceiptID: {receiptID}, Rows affected: {result}");
+
+                return result;
             }
             catch (Exception ex)
             {

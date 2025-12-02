@@ -248,6 +248,12 @@ namespace DoubleTRice.DAO
                 DataTable data = DataProvider.Instance.ExecuteQuery(procName, parameters, true);
 
                 List<ProductUnitConversions> conversions = new List<ProductUnitConversions>();
+                // ✅ Kiểm tra data không null
+                if (data == null || data.Rows.Count == 0)
+                {
+                    return conversions; // Trả về list rỗng thay vì null
+                }
+
                 foreach (DataRow row in data.Rows)
                 {
                     conversions.Add(new ProductUnitConversions(row));
