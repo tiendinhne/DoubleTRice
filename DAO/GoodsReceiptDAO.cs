@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace DoubleTRice.DAO
 {
@@ -171,16 +172,20 @@ namespace DoubleTRice.DAO
                 string procName = "sp_UpdateGoodsReceiptTotalAmount";
                 object[] parameters = { receiptID };
 
+                // ✅ SỬA: Gọi ExecuteNonQuery với flag isStoredProc = true
+                string query = procName;
                 int result = DataProvider.Instance.ExecuteNonQuery(procName, parameters);
 
                 // Debug
-                System.Diagnostics.Debug.WriteLine($"[DAO] UpdateTotalAmount - ReceiptID: {receiptID}, Rows affected: {result}");
+                System.Diagnostics.Debug.WriteLine($"[UpdateTotalAmount] ReceiptID: {receiptID}, Result: {result}");
 
                 return result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"UpdateGoodsReceiptTotalAmount error: {ex.Message}");
+                MessageBox.Show($"Lỗi cập nhật tổng tiền: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return -99;
             }
         }

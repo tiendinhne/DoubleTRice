@@ -291,17 +291,13 @@ namespace DoubleTRice.UI
         {
             try
             {
-                var posForm = new POSDialog();
-                if (posForm.ShowDialog() == DialogResult.OK)
-                {
-                    MessageBox.Show("Giao dịch thành công!",
-                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                var goodsReceiptForm = new SalesInvoiceManagementUI();
+                OpenChildForm(goodsReceiptForm);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi: {ex.Message}",
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi mở form nhap hang: {ex.Message}", "Lỗi",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //them cong no
         }

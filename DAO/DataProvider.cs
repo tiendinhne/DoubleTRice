@@ -111,34 +111,96 @@ namespace DoubleTRice.DAO
         }
 
         //dùng cho INSERT, UPDATE, DELETE
+        //public int ExecuteNonQuery(string query, object[] parameters)
+        //{
+        //    int data = 0;
+        //    if (string.IsNullOrEmpty(_connectionString)) return 0;
+        //    using (SqlConnection connection = new SqlConnection(_connectionString))
+        //    {
+        //        connection.Open();
+        //        using (SqlCommand command = new SqlCommand(query, connection))
+        //        {
+        //            if (parameters != null)
+        //            {
+        //                MatchCollection matches = Regex.Matches(query, @"@\w+");
+        //                if (matches.Count != parameters.Length)
+        //                {
+        //                    throw new ArgumentException("Số lượng tham số không khớp với câu lệnh SQL.");
+        //                }
+
+        //                for (int i = 0; i < matches.Count; i++)
+        //                {
+        //                    string paramName = matches[i].Value;
+        //                    command.Parameters.AddWithValue(paramName, parameters[i] ?? DBNull.Value);
+        //                }
+        //            }
+        //            data = command.ExecuteNonQuery();
+        //        }
+        //    }
+        //    return data;
+        //}
         public int ExecuteNonQuery(string query, object[] parameters)
         {
             int data = 0;
             if (string.IsNullOrEmpty(_connectionString)) return 0;
+
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (parameters != null)
-                    {
-                        MatchCollection matches = Regex.Matches(query, @"@\w+");
-                        if (matches.Count != parameters.Length)
-                        {
-                            throw new ArgumentException("Số lượng tham số không khớp với câu lệnh SQL.");
-                        }
+                    // ✅ QUAN TRỌNG: Kiểm tra có phải SP không
+                    bool isStoredProc = !query.Contains(" ") && !query.Contains("SELECT") &&
+                                       !query.Contains("UPDATE") && !query.Contains("DELETE") &&
+                                       !query.Contains("INSERT");
 
-                        for (int i = 0; i < matches.Count; i++)
+                    if (isStoredProc)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // ✅ Thêm parameters cho SP
+                        if (parameters != null)
                         {
-                            string paramName = matches[i].Value;
-                            command.Parameters.AddWithValue(paramName, parameters[i] ?? DBNull.Value);
+                            SqlCommandBuilder.DeriveParameters(command);
+                            int paramIndex = 0;
+                            foreach (SqlParameter param in command.Parameters)
+                            {
+                                if (param.ParameterName != "@RETURN_VALUE" && paramIndex < parameters.Length)
+                                {
+                                    param.Value = parameters[paramIndex] ?? DBNull.Value;
+                                    paramIndex++;
+                                }
+                            }
                         }
                     }
+                    else
+                    {
+                        // SQL thông thường
+                        if (parameters != null)
+                        {
+                            MatchCollection matches = Regex.Matches(query, @"@\w+");
+                            if (matches.Count != parameters.Length)
+                            {
+                                throw new ArgumentException("Số lượng tham số không khớp với câu lệnh SQL.");
+                            }
+
+                            for (int i = 0; i < matches.Count; i++)
+                            {
+                                string paramName = matches[i].Value;
+                                command.Parameters.AddWithValue(paramName, parameters[i] ?? DBNull.Value);
+                            }
+                        }
+                    }
+
                     data = command.ExecuteNonQuery();
+
+                    // Debug
+                    System.Diagnostics.Debug.WriteLine($"[ExecuteNonQuery] Query: {query}, Rows affected: {data}");
                 }
             }
             return data;
         }
+
         //dùng khi chỉ cần 1 giá trị (ô duy nhất)
         public object ExecuteScalar(string query, Dictionary<string, object> parameters = null, bool isStoredProcedure = false)
         {
