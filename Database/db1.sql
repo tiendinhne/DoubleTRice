@@ -2907,4 +2907,346 @@ BEGIN
 END
 GO
 
-PRINT '✅ Stored Procedures cho quản lý công nợ đã được tạo thành công!';
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ CÔNG NỢ NHÀ CUNG CẤP
+-- Date: 04/12/2025
+-- ===================================================================
+
+USE QuanLyBanGao;
+GO
+
+-- ===================================================================
+-- 1. SP LẤY DANH SÁCH NHÀ CUNG CẤP CÓ CÔNG NỢ
+-- ===================================================================
+IF OBJECT_ID('sp_GetAllSupplierDebts', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllSupplierDebts;
+GO
+
+CREATE PROCEDURE sp_GetAllSupplierDebts
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        s.SupplierID,
+        s.TenNhaCungCap,
+        s.SoDienThoai,
+        s.DiaChi,
+        
+        -- Tổng tiền hàng đã nhập (chưa trả)
+        ISNULL(SUM(gr.TongTien), 0) AS TongNhapHang,
+        
+        -- Tổng tiền đã trả
+        ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.SupplierID = s.SupplierID
+        ), 0) AS TongDaTra,
+        
+        -- Công nợ hiện tại = Nhập hàng - Đã trả
+        ISNULL(SUM(gr.TongTien), 0) - ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.SupplierID = s.SupplierID
+        ), 0) AS CongNoHienTai
+        
+    FROM Suppliers s
+    LEFT JOIN GoodsReceipts gr ON s.SupplierID = gr.SupplierID
+    GROUP BY s.SupplierID, s.TenNhaCungCap, s.SoDienThoai, s.DiaChi
+    
+    -- Chỉ lấy NCC còn nợ
+    HAVING ISNULL(SUM(gr.TongTien), 0) - ISNULL((
+        SELECT SUM(sp.SoTien)
+        FROM SupplierPayments sp
+        WHERE sp.SupplierID = s.SupplierID
+    ), 0) > 0
+    
+    ORDER BY CongNoHienTai DESC;
+END
+GO
+
+-- ===================================================================
+-- 2. SP LẤY CHI TIẾT CÔNG NỢ 1 NHÀ CUNG CẤP
+-- ===================================================================
+IF OBJECT_ID('sp_GetSupplierDebtDetails', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSupplierDebtDetails;
+GO
+
+CREATE PROCEDURE sp_GetSupplierDebtDetails
+    @SupplierID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- 1. Thông tin tổng quan
+    SELECT 
+        s.SupplierID,
+        s.TenNhaCungCap,
+        s.SoDienThoai,
+        s.DiaChi,
+        ISNULL(SUM(gr.TongTien), 0) AS TongNhapHang,
+        ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.SupplierID = s.SupplierID
+        ), 0) AS TongDaTra,
+        ISNULL(SUM(gr.TongTien), 0) - ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.SupplierID = s.SupplierID
+        ), 0) AS CongNoHienTai
+    FROM Suppliers s
+    LEFT JOIN GoodsReceipts gr ON s.SupplierID = gr.SupplierID
+    WHERE s.SupplierID = @SupplierID
+    GROUP BY s.SupplierID, s.TenNhaCungCap, s.SoDienThoai, s.DiaChi;
+    
+    -- 2. Danh sách phiếu nhập chưa trả đủ
+    SELECT 
+        gr.ReceiptID,
+        gr.MaPhieuNhap,
+        gr.NgayNhap,
+        gr.TongTien,
+        ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.ReceiptID = gr.ReceiptID
+        ), 0) AS DaTra,
+        gr.TongTien - ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.ReceiptID = gr.ReceiptID
+        ), 0) AS ConLai
+    FROM GoodsReceipts gr
+    WHERE gr.SupplierID = @SupplierID
+      AND gr.TongTien > ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.ReceiptID = gr.ReceiptID
+        ), 0)
+    ORDER BY gr.NgayNhap ASC;
+    
+    -- 3. Lịch sử thanh toán
+    SELECT 
+        sp.PaymentID,
+        gr.MaPhieuNhap,
+        sp.NgayThanhToan,
+        sp.SoTien,
+        sp.PhuongThuc
+    FROM SupplierPayments sp
+    LEFT JOIN GoodsReceipts gr ON sp.ReceiptID = gr.ReceiptID
+    WHERE sp.SupplierID = @SupplierID
+    ORDER BY sp.NgayThanhToan DESC;
+END
+GO
+
+-- ===================================================================
+-- 3. SP LẤY LỊCH SỬ CÔNG NỢ NCC THEO THỜI GIAN
+-- ===================================================================
+IF OBJECT_ID('sp_GetSupplierDebtHistory', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSupplierDebtHistory;
+GO
+
+CREATE PROCEDURE sp_GetSupplierDebtHistory
+    @StartDate DATE,
+    @EndDate DATE,
+    @SupplierID INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        gr.ReceiptID,
+        gr.MaPhieuNhap,
+        gr.NgayNhap,
+        gr.SupplierID,
+        s.TenNhaCungCap,
+        s.SoDienThoai,
+        gr.TongTien,
+        ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.ReceiptID = gr.ReceiptID
+        ), 0) AS DaTra,
+        gr.TongTien - ISNULL((
+            SELECT SUM(sp.SoTien)
+            FROM SupplierPayments sp
+            WHERE sp.ReceiptID = gr.ReceiptID
+        ), 0) AS ConLai,
+        CASE 
+            WHEN gr.TongTien <= ISNULL((
+                SELECT SUM(sp.SoTien)
+                FROM SupplierPayments sp
+                WHERE sp.ReceiptID = gr.ReceiptID
+            ), 0) THEN N'Đã thanh toán'
+            ELSE N'Còn nợ'
+        END AS TrangThai
+    FROM GoodsReceipts gr
+    INNER JOIN Suppliers s ON gr.SupplierID = s.SupplierID
+    WHERE gr.NgayNhap BETWEEN @StartDate AND @EndDate
+      AND (@SupplierID IS NULL OR gr.SupplierID = @SupplierID)
+    ORDER BY gr.NgayNhap DESC;
+END
+GO
+
+-- ===================================================================
+-- 4. SP THỐNG KÊ CÔNG NỢ NCC
+-- ===================================================================
+IF OBJECT_ID('sp_GetSupplierDebtStatistics', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetSupplierDebtStatistics;
+GO
+
+CREATE PROCEDURE sp_GetSupplierDebtStatistics
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        -- Số nhà cung cấp còn nợ
+        COUNT(DISTINCT s.SupplierID) AS SoNhaCungCapNo,
+        
+        -- Số phiếu nhập còn nợ
+        COUNT(DISTINCT gr.ReceiptID) AS SoPhieuNhapNo,
+        
+        -- Tổng giá trị phiếu nhập
+        ISNULL(SUM(gr.TongTien), 0) AS TongGiaTriNhapHang,
+        
+        -- Tổng đã trả
+        ISNULL((SELECT SUM(SoTien) FROM SupplierPayments), 0) AS TongDaTra,
+        
+        -- Tổng công nợ
+        ISNULL(SUM(gr.TongTien), 0) - ISNULL((SELECT SUM(SoTien) FROM SupplierPayments), 0) AS TongCongNo
+        
+    FROM Suppliers s
+    INNER JOIN GoodsReceipts gr ON s.SupplierID = gr.SupplierID
+    WHERE gr.TongTien > ISNULL((
+        SELECT SUM(sp.SoTien)
+        FROM SupplierPayments sp
+        WHERE sp.ReceiptID = gr.ReceiptID
+    ), 0);
+END
+GO
+
+-- ===================================================================
+-- 5. SP TRẢ NỢ NHÀ CUNG CẤP (MỞ RỘNG)
+-- ===================================================================
+IF OBJECT_ID('sp_InsertSupplierPayment', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertSupplierPayment;
+GO
+
+CREATE PROCEDURE sp_InsertSupplierPayment
+    @SupplierID INT,
+    @ReceiptID INT,
+    @SoTien DECIMAL(18,2),
+    @PhuongThuc NVARCHAR(100),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET @Result = -1;
+    
+    -- Validate
+    IF @SoTien <= 0
+    BEGIN
+        SET @Result = -2; -- Số tiền không hợp lệ
+        RETURN;
+    END
+    
+    -- Kiểm tra phiếu nhập có tồn tại không
+    IF NOT EXISTS(SELECT 1 FROM GoodsReceipts WHERE ReceiptID = @ReceiptID)
+    BEGIN
+        SET @Result = -3; -- Phiếu nhập không tồn tại
+        RETURN;
+    END
+    
+    -- Lấy số tiền còn nợ
+    DECLARE @TongTien DECIMAL(18,2);
+    DECLARE @DaTra DECIMAL(18,2);
+    DECLARE @ConLai DECIMAL(18,2);
+    
+    SELECT @TongTien = TongTien FROM GoodsReceipts WHERE ReceiptID = @ReceiptID;
+    
+    SELECT @DaTra = ISNULL(SUM(SoTien), 0)
+    FROM SupplierPayments
+    WHERE ReceiptID = @ReceiptID;
+    
+    SET @ConLai = @TongTien - @DaTra;
+    
+    -- Cảnh báo nếu trả quá số nợ
+    IF @SoTien > @ConLai
+    BEGIN
+        SET @Result = -4; -- Số tiền trả vượt quá công nợ
+        -- Nhưng vẫn cho phép (có thể trả trước)
+    END
+    
+    BEGIN TRY
+        INSERT INTO SupplierPayments (SupplierID, ReceiptID, NgayThanhToan, SoTien, PhuongThuc)
+        VALUES (@SupplierID, @ReceiptID, GETDATE(), @SoTien, @PhuongThuc);
+        
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- 6. SP XÓA THANH TOÁN NCC (ADMIN ONLY)
+-- ===================================================================
+IF OBJECT_ID('sp_DeleteSupplierPayment', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteSupplierPayment;
+GO
+
+CREATE PROCEDURE sp_DeleteSupplierPayment
+    @PaymentID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET @Result = -1;
+    
+    IF NOT EXISTS(SELECT 1 FROM SupplierPayments WHERE PaymentID = @PaymentID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM SupplierPayments WHERE PaymentID = @PaymentID;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+-- ===================================================================
+-- TEST STORED PROCEDURES
+-- ===================================================================
+/*
+-- Test 1: Lấy danh sách NCC có nợ
+EXEC sp_GetAllSupplierDebts;
+
+-- Test 2: Chi tiết công nợ 1 NCC (thay SupplierID = 1)
+EXEC sp_GetSupplierDebtDetails @SupplierID = 1;
+
+-- Test 3: Lịch sử công nợ theo tháng
+EXEC sp_GetSupplierDebtHistory 
+    @StartDate = '2025-11-01', 
+    @EndDate = '2025-12-31';
+
+-- Test 4: Thống kê tổng quan
+EXEC sp_GetSupplierDebtStatistics;
+
+-- Test 5: Trả nợ NCC
+DECLARE @Result INT;
+EXEC sp_InsertSupplierPayment 
+    @SupplierID = 1,
+    @ReceiptID = 1,
+    @SoTien = 5000000,
+    @PhuongThuc = N'Chuyển khoản',
+    @Result = @Result OUTPUT;
+    
+SELECT @Result AS ResultCode;
+*/

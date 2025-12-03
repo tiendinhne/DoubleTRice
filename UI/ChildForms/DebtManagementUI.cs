@@ -12,12 +12,14 @@ namespace DoubleTRice.UI.ChildForms
         #region Fields
         private List<CustomerDebtSummary> allDebts;
         private CustomerDebtSummary selectedDebt;
+        private MainUI main;
         #endregion
 
         #region Constructor
-        public DebtManagementUI()
+        public DebtManagementUI(MainUI mainUI)
         {
             InitializeComponent();
+            this.main = mainUI;  // Lưu lại MainUI để sử dụng
             LoadData();
             LoadStatistics();
         }
@@ -227,5 +229,10 @@ namespace DoubleTRice.UI.ChildForms
             );
         }
         #endregion
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            main.OpenChildForm(new SupplierDebtManagementUI(main));
+        }
     }
 }

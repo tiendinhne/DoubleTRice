@@ -46,6 +46,7 @@ namespace DoubleTRice.UI
         private void OnDarkModeChanged(bool isDarkMode)
         {
             ApplyCurrentMode();
+            SetMenuVisibility(UserSession.VaiTro);  // ← Add dòng này
             //ap dung mode neu form con co
             if (currentChildForm != null)
             {
@@ -77,16 +78,18 @@ namespace DoubleTRice.UI
             Label[] separators = new Label[]
             {
                 //lblSeparator1,
-                lblSeparator2,
+               // lblSeparator2,
                 //lblSeparator3,
-                lblSeparator4
+                lblSeparator4,
+                //guna2HtmlLabel2,
+                //guna2HtmlLabel1
             };
 
             // Collect navbar buttons
             Guna2Button[] navbarButtons = new Guna2Button[]
             {
                 //btnNotification,
-                btnSettings
+               // btnSettings
             };
 
             // Collect status labels (không bao gồm lblStatusDate, lblStatusUser vì đã ẩn)
@@ -115,10 +118,31 @@ namespace DoubleTRice.UI
                 accountPanel: panel1,
                 accountLabels: accountLabels
             );
+            // Áp dụng màu cho 2 label nhóm menu
+            ApplyGroupLabelMode(lblGroupDanhMuc);
+            ApplyGroupLabelMode(lblGroupQuanLy);
 
             // Refresh lại controls trong body nếu có
             RefreshBodyContent();
         }
+        private void ApplyGroupLabelMode(Label lbl)
+        {
+            if (lbl == null) return;
+
+            if (Mode.IsDarkMode)
+            {
+                //Color DarkBackground = Color.FromArgb(0, 70, 67);     // #004643
+                //Color LightBackground = Color.FromArgb(240, 237, 229); // #f0ede5
+                lbl.ForeColor = Color.FromArgb(220, 220, 220);   // chữ sáng
+                lbl.BackColor = Color.FromArgb(0, 70, 67);      // nền sidebar đậm
+            }
+            else
+            {
+                lbl.ForeColor = Color.FromArgb(0, 70, 67);
+                lbl.BackColor = Color.FromArgb(240, 237, 229);   // nền sáng
+            }
+        }
+
 
         /// <summary>
         /// Refresh lại nội dung trong body panel
@@ -308,8 +332,8 @@ namespace DoubleTRice.UI
 
             try
             {
-                var InventoryForm = new DebtManagementUI();
-                OpenChildForm(InventoryForm);
+                var form = new DebtManagementUI(this); // ← TRUYỀN MainUI vào form con
+                OpenChildForm(form);
             }
             catch (Exception ex)
             {
@@ -341,27 +365,6 @@ namespace DoubleTRice.UI
         #endregion
 
         #region Event Handlers - Navbar----------------------------------
-        private void BtnNotification_Click(object sender, EventArgs e)
-        {
-
-            
-            OpenChildForm(new ChangePasswordForm());
-
-        }
-
-        private void BtnSettings_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    var goodsReceiptForm = new PaymentDialog();
-            //    OpenChildForm(goodsReceiptForm);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Lỗi khi mở form nhap hang: {ex.Message}", "Lỗi",
-            //                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-        }
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
@@ -392,7 +395,7 @@ namespace DoubleTRice.UI
         {
             int rightX = pnlNavbar.Width - 320;
            // btnNotification.Location = new Point(rightX, 38);
-            btnSettings.Location = new Point(rightX - 97, 38);
+            //btnSettings.Location = new Point(rightX - 97, 38);
             //txtSearch.Location = new Point(15, 23);
             // Các nút bên phải (từ phải sang trái)
             pictureBox2.Location = new Point(pnlNavbar.Width-20, 0);
@@ -417,39 +420,98 @@ namespace DoubleTRice.UI
         /// <summary>
         /// Phân quyền menu theo role
         /// </summary>
+        /// 
         public void SetMenuVisibility(string role)
         {
-            ResetMenuVisibility();
+            ResetMenuEnabled();  // bật hết lên trước rồi disable theo quyền
 
             switch (role.ToUpper())
             {
                 case "ADMIN":
-                    //load all Btn
                     break;
-                case "THU NGÂN":
-                    btnGoodsReceipt.Visible = false;
-                    btnReports.Visible = false;
-                    btnSuppliers.Visible = false;
-                    btnInventory.Visible = false;
-                    BtnUsers.Visible = false;//an
-                    break;
-                case "THỦ KHO":
-                    btnSalesInvoice.Visible = false;
-                    btnCustomers.Visible = false;
-                    btnReports.Visible = false;
-                    BtnUsers.Visible = false;//an
-                    break;
-                case "KẾ TOÁN":
-                    BtnUsers.Visible = false;//an
 
+                case "THU NGÂN": // Chỉ bán hàng
+                    DisableButton(btnGoodsReceipt);  // Nhập hàng
+                    DisableButton(btnReports);       // Điều chỉnh kho
+                    DisableButton(btnSuppliers);     // NCC
+                    DisableButton(btnInventory);     // Công nợ
+                    DisableButton(BtnUsers);         // Nhân viên
                     break;
+
+                case "THỦ KHO": // Chỉ nhập hàng + điều chỉnh kho
+                    DisableButton(btnSalesInvoice);  // Bán hàng
+                    DisableButton(btnCustomers);     // Khách hàng
+                    DisableButton(btnInventory);     // Công nợ
+                    DisableButton(BtnUsers);
+                    break;
+
+                case "KẾ TOÁN": // Chỉ công nợ
+                    DisableButton(btnGoodsReceipt);
+                    DisableButton(btnSuppliers);
+                    DisableButton(btnSalesInvoice);
+                    DisableButton(btnReports);
+                    DisableButton(BtnUsers);
+                    break;
+
                 default:
-                    HideAllMenuExceptDashboard();
-                    BtnUsers.Visible = false;//an
-
+                    DisableAllMenuExceptDashboard();
+                    DisableButton(BtnUsers);
                     break;
             }
         }
+        private void DisableAllMenuExceptDashboard()
+        {
+            foreach (Control ctrl in pnlMenu.Controls)
+            {
+                if (ctrl is Guna2Button btn && btn != btnDashboard)
+                    DisableButton(btn);
+            }
+        }
+
+        private void ResetMenuEnabled()
+        {
+            foreach (Control control in pnlMenu.Controls)
+            {
+                if (control is Guna2Button btn)
+                {
+                    btn.Enabled = true;
+
+                    btn.FillColor = Color.Transparent;
+                    btn.ForeColor = Mode.GetForeColor();
+
+                    btn.HoverState.FillColor = Color.FromArgb(0, 180, 140);
+                    btn.HoverState.ForeColor = Color.White;
+                }
+            }
+        }
+
+        private void DisableButton(Guna2Button btn)
+        {
+            btn.Enabled = false;
+
+            if (Mode.IsDarkMode)
+            {
+                // DARK MODE
+                btn.DisabledState.FillColor = Color.FromArgb(60, 60, 60);
+                btn.DisabledState.ForeColor = Color.FromArgb(120, 120, 120);
+                btn.DisabledState.CustomBorderColor = btn.DisabledState.FillColor;
+                btn.DisabledState.BorderColor = btn.DisabledState.FillColor;
+            }
+            else
+            {
+                // LIGHT MODE
+                btn.DisabledState.FillColor = Color.FromArgb(220, 220, 220);
+                btn.DisabledState.ForeColor = Color.Gray;
+                btn.DisabledState.CustomBorderColor = btn.DisabledState.FillColor;
+                btn.DisabledState.BorderColor = btn.DisabledState.FillColor;
+            }
+
+            // Tắt hover để không đổi màu khi rê chuột
+            btn.HoverState.FillColor = btn.DisabledState.FillColor;
+            btn.HoverState.ForeColor = btn.DisabledState.ForeColor;
+        }
+
+
 
         /// <summary>
         /// Chuyển đổi Dark/Light Mode thủ công
@@ -685,7 +747,42 @@ namespace DoubleTRice.UI
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            // setting form
+           
+        }
+
+        private void guna2HtmlLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void guna2CirclePictureBox1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var settingForm = new SettingForm())
+                {
+                    // Show as dialog (modal)
+                    settingForm.ShowDialog(this);
+
+                    // Nếu form được đóng do đổi mật khẩu thành công
+                    // → Application sẽ tự restart trong SettingForm.OnPasswordChanged()
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở cài đặt: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void guna2CirclePictureBox2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

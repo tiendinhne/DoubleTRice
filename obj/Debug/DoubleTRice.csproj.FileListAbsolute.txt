@@ -29,5 +29,7 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ResetP
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductSelectionDialog.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SalesInvoiceManagementUI.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.POSDialog.resources
-J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe.config
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.CustomerManagementUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.DebtManagementUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SupplierDebtManagementUI.resources
+J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.exe.config

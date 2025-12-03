@@ -105,7 +105,7 @@ namespace DoubleTRice.UI.ChildForms
             // lblNewPassword
             // 
             this.lblNewPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblNewPassword.Location = new System.Drawing.Point(30, 220);
+            this.lblNewPassword.Location = new System.Drawing.Point(33, 220);
             this.lblNewPassword.Name = "lblNewPassword";
             this.lblNewPassword.Size = new System.Drawing.Size(200, 36);
             this.lblNewPassword.TabIndex = 3;
@@ -168,7 +168,7 @@ namespace DoubleTRice.UI.ChildForms
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(30, 460);
+            this.btnSave.Location = new System.Drawing.Point(30, 493);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(195, 45);
             this.btnSave.TabIndex = 8;
@@ -180,7 +180,7 @@ namespace DoubleTRice.UI.ChildForms
             this.btnCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(245, 460);
+            this.btnCancel.Location = new System.Drawing.Point(272, 493);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(195, 45);
             this.btnCancel.TabIndex = 9;
