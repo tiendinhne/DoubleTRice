@@ -8,6 +8,9 @@ IF OBJECT_ID('sp_GetRevenueReport', 'P') IS NOT NULL
     DROP PROCEDURE sp_GetRevenueReport;
 GO
 
+--=======
+/*
+
 CREATE PROCEDURE sp_GetRevenueReport
     @StartDate DATE,
     @EndDate DATE
@@ -49,6 +52,53 @@ BEGIN
     ORDER BY Ngay;
 END
 GO
+--=====
+*/
+
+CREATE PROCEDURE sp_GetRevenueReport
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ;WITH RevenueData AS (
+        SELECT
+            CAST(si.NgayBan AS DATE) AS Ngay,
+            COUNT(DISTINCT si.InvoiceID) AS SoHoaDon,
+            SUM(si.TongTien) AS TongDoanhThu,
+            SUM(sid.SoLuong * puc.GiaTriQuyDoi * ISNULL(grd_latest.DonGiaNhap, 0)) AS TongGiaVon
+        FROM SalesInvoices si
+        INNER JOIN SalesInvoiceDetails sid 
+            ON si.InvoiceID = sid.InvoiceID
+        INNER JOIN ProductUnitConversions puc
+            ON sid.ProductID = puc.ProductID 
+           AND sid.UnitID = puc.UnitID
+
+        -- Lấy giá nhập gần nhất bằng OUTER APPLY (tốt nhất cho trường hợp TOP 1)
+        OUTER APPLY (
+            SELECT TOP 1 grd.DonGiaNhap
+            FROM GoodsReceiptDetails grd
+            INNER JOIN GoodsReceipts gr ON grd.ReceiptID = gr.ReceiptID
+            WHERE grd.ProductID = sid.ProductID
+              AND grd.UnitID = sid.UnitID
+              AND gr.NgayNhap <= si.NgayBan
+            ORDER BY gr.NgayNhap DESC
+        ) AS grd_latest
+
+        WHERE CAST(si.NgayBan AS DATE) BETWEEN @StartDate AND @EndDate
+        GROUP BY CAST(si.NgayBan AS DATE)
+    )
+    SELECT 
+        Ngay,
+        SoHoaDon,
+        TongDoanhThu,
+        TongGiaVon,
+        (TongDoanhThu - TongGiaVon) AS LoiNhuan
+    FROM RevenueData
+    ORDER BY Ngay;
+END
+
 
 -- ===================================================================
 -- 2. BÁO CÁO TỒN KHO & CẢNH BÁO
@@ -200,6 +250,7 @@ IF OBJECT_ID('sp_GetDashboardSummary', 'P') IS NOT NULL
     DROP PROCEDURE sp_GetDashboardSummary;
 GO
 
+/*
 CREATE PROCEDURE sp_GetDashboardSummary
     @Month INT,
     @Year INT
@@ -254,6 +305,96 @@ BEGIN
     WHERE CAST(NgayBan AS DATE) BETWEEN @StartDate AND @EndDate;
     
     -- Trả kết quả
+    SELECT 
+        @TongDoanhThu AS TongDoanhThuThang,
+        @TongLoiNhuan AS TongLoiNhuanThang,
+        @CongNoKhach AS TongCongNoKhach,
+        @CongNoNCC AS TongCongNoNCC,
+        @SoSPSapHet AS SoSanPhamSapHet,
+        @TongSoHD AS TongSoHoaDon;
+END
+GO
+*/
+
+DROP PROCEDURE sp_GetDashboardSummary;
+GO
+
+
+CREATE PROCEDURE sp_GetDashboardSummary
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @StartDate DATE = DATEFROMPARTS(@Year, @Month, 1);
+    DECLARE @EndDate DATE = EOMONTH(@StartDate);
+    
+    -- 1. TÍNH TỔNG DOANH THU
+    DECLARE @TongDoanhThu DECIMAL(18,2);
+    SELECT @TongDoanhThu = ISNULL(SUM(TongTien), 0)
+    FROM SalesInvoices
+    WHERE CAST(NgayBan AS DATE) BETWEEN @StartDate AND @EndDate;
+    
+    -- 2. TÍNH TỔNG GIÁ VỐN (Logic giống báo cáo doanh thu)
+    DECLARE @TongGiaVon DECIMAL(18,2);
+    
+    SELECT @TongGiaVon = ISNULL(SUM(
+        sid.SoLuong * puc.GiaTriQuyDoi * ISNULL(grd_latest.DonGiaNhap, 0)
+    ), 0)
+    FROM SalesInvoices si
+    INNER JOIN SalesInvoiceDetails sid ON si.InvoiceID = sid.InvoiceID
+    INNER JOIN ProductUnitConversions puc ON sid.ProductID = puc.ProductID AND sid.UnitID = puc.UnitID
+    -- Tìm giá nhập gần nhất
+    OUTER APPLY (
+        SELECT TOP 1 grd.DonGiaNhap
+        FROM GoodsReceiptDetails grd
+        INNER JOIN GoodsReceipts gr ON grd.ReceiptID = gr.ReceiptID
+        WHERE grd.ProductID = sid.ProductID 
+          -- Giả sử quy về đơn vị cơ sở để lấy giá, hoặc khớp UnitID nếu logic giá theo Unit
+          AND gr.NgayNhap <= si.NgayBan
+        ORDER BY gr.NgayNhap DESC
+    ) AS grd_latest
+    WHERE CAST(si.NgayBan AS DATE) BETWEEN @StartDate AND @EndDate;
+
+    -- 3. TÍNH LỢI NHUẬN THỰC TẾ
+    DECLARE @TongLoiNhuan DECIMAL(18,2) = @TongDoanhThu - ISNULL(@TongGiaVon, 0);
+    
+    -- 4. CÔNG NỢ KHÁCH (Logic cũ của bạn ổn)
+    DECLARE @CongNoKhach DECIMAL(18,2);
+    SELECT @CongNoKhach = ISNULL(SUM(si.TongTien - ISNULL(cp.TongDaTra, 0)), 0)
+    FROM SalesInvoices si
+    LEFT JOIN (
+        SELECT InvoiceID, SUM(SoTien) AS TongDaTra
+        FROM CustomerPayments
+        GROUP BY InvoiceID
+    ) cp ON si.InvoiceID = cp.InvoiceID;
+    
+    -- 5. CÔNG NỢ NCC (Logic cũ của bạn ổn)
+    DECLARE @CongNoNCC DECIMAL(18,2);
+    SELECT @CongNoNCC = ISNULL(SUM(gr.TongTien - ISNULL(sp.TongDaTra, 0)), 0)
+    FROM GoodsReceipts gr
+    LEFT JOIN (
+        SELECT ReceiptID, SUM(SoTien) AS TongDaTra
+        FROM SupplierPayments
+        WHERE ReceiptID IS NOT NULL
+        GROUP BY ReceiptID
+    ) sp ON gr.ReceiptID = sp.ReceiptID;
+    
+    -- 6. SẢN PHẨM SẮP HẾT
+    DECLARE @SoSPSapHet INT;
+    SELECT @SoSPSapHet = COUNT(*)
+    FROM Products p
+    LEFT JOIN ProductInventory pi ON p.ProductID = pi.ProductID
+    WHERE ISNULL(pi.SoLuongTon, 0) <= p.TonKhoToiThieu;
+    
+    -- 7. SỐ HÓA ĐƠN
+    DECLARE @TongSoHD INT;
+    SELECT @TongSoHD = COUNT(*)
+    FROM SalesInvoices
+    WHERE CAST(NgayBan AS DATE) BETWEEN @StartDate AND @EndDate;
+    
+    -- TRẢ KẾT QUẢ
     SELECT 
         @TongDoanhThu AS TongDoanhThuThang,
         @TongLoiNhuan AS TongLoiNhuanThang,

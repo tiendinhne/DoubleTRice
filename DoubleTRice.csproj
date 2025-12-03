@@ -108,6 +108,7 @@
     <Compile Include="DT\Users.cs" />
     <Compile Include="LOGIC\AuthenticationService.cs" />
     <Compile Include="LOGIC\AuthenticationResult.cs" />
+    <Compile Include="LOGIC\ExportHelper.cs" />
     <Compile Include="LOGIC\PasswordHelper.cs" />
     <Compile Include="LOGIC\ReportService.cs" />
     <Compile Include="LOGIC\UserSession.cs" />
@@ -280,10 +281,10 @@
     <Compile Include="UI\MainUI.Designer.cs">
       <DependentUpon>MainUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ReportForm.cs">
+    <Compile Include="UI\ChildForms\ReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ReportForm.Designer.cs">
+    <Compile Include="UI\ChildForms\ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\TrangChuUI.cs">
@@ -350,7 +351,7 @@
     <EmbeddedResource Include="UI\MainUI.resx">
       <DependentUpon>MainUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ReportForm.resx">
+    <EmbeddedResource Include="UI\ChildForms\ReportForm.resx">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrangChuUI.resx">

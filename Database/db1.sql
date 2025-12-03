@@ -529,9 +529,9 @@ GO
 -- TEST STORED PROCEDURES
 -- ===================================================================
 
--- Test 1: Login thành công
---DECLARE @Result INT, @UserID INT, @HoTen NVARCHAR(255), @VaiTro NVARCHAR(100);
---EXEC sp_Login 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', @Result OUTPUT, @UserID OUTPUT, @HoTen OUTPUT, @VaiTro OUTPUT;
+--Test 1: Login thành công
+DECLARE @Result INT, @UserID INT, @HoTen NVARCHAR(255), @VaiTro NVARCHAR(100);
+EXEC sp_Login 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', @Result OUTPUT, @UserID OUTPUT, @HoTen OUTPUT, @VaiTro OUTPUT;
 PRINT 'Test Login - Result: ' + CAST(@Result AS VARCHAR) + ', UserID: ' + CAST(ISNULL(@UserID, 0) AS VARCHAR) + ', HoTen: ' + ISNULL(@HoTen, 'NULL');
 
 -- Test 2: Đổi mật khẩu
@@ -2442,23 +2442,185 @@ BEGIN
 END
 GO
 
--- Kiểm tra
-SELECT * FROM sys.procedures WHERE name = 'sp_UpdateGoodsReceiptTotalAmount';
+-- ===================================================================
+-- TRIGGER TỰ ĐỘNG CẬP NHẬT GIÁ BÁN KHI NHẬP HÀNG
+-- Date: 02/12/2025
+-- ===================================================================
+
+USE QuanLyBanGao;
 GO
 
--- Kiểm tra phiếu nhập vừa tạo
-SELECT TOP 1 * FROM GoodsReceipts ORDER BY ReceiptID DESC;
+-- ===================================================================
+-- 1. DROP TRIGGER CŨ (NẾU CÓ)
+-- ===================================================================
+IF OBJECT_ID('trg_AutoUpdatePriceList', 'TR') IS NOT NULL
+    DROP TRIGGER trg_AutoUpdatePriceList;
+GO
+
+-- ===================================================================
+-- 2. TẠO TRIGGER MỚI
+-- ===================================================================
+CREATE TRIGGER trg_AutoUpdatePriceList
+ON GoodsReceiptDetails
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Biến cấu hình markup (%)
+    DECLARE @MarkupPercent FLOAT = 0.20; -- 20% lợi nhuận
+    
+    -- Duyệt qua từng dòng vừa insert
+    DECLARE @ProductID INT, @UnitID INT, @DonGiaNhap DECIMAL(18,2);
+    DECLARE @GiaBan DECIMAL(18,2);
+    
+    DECLARE detail_cursor CURSOR FOR 
+    SELECT 
+        i.ProductID, 
+        i.UnitID, 
+        i.DonGiaNhap
+    FROM inserted i;
+    
+    OPEN detail_cursor;
+    FETCH NEXT FROM detail_cursor INTO @ProductID, @UnitID, @DonGiaNhap;
+    
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Tính giá bán = Giá nhập × (1 + markup)
+        SET @GiaBan = @DonGiaNhap * (1 + @MarkupPercent);
+        
+        -- Làm tròn đến hàng nghìn (tùy chọn)
+        SET @GiaBan = ROUND(@GiaBan / 1000, 0) * 1000;
+        
+        -- Kiểm tra đã có giá chưa
+        IF EXISTS (
+            SELECT 1 FROM PriceList 
+            WHERE ProductID = @ProductID AND UnitID = @UnitID
+        )
+        BEGIN
+            -- UPDATE giá cũ (nếu giá mới cao hơn)
+            UPDATE PriceList
+            SET GiaBan = @GiaBan,
+                NgayApDung = GETDATE()
+            WHERE ProductID = @ProductID 
+              AND UnitID = @UnitID
+              AND @GiaBan > GiaBan; -- Chỉ update nếu giá mới cao hơn
+        END
+        ELSE
+        BEGIN
+            -- INSERT giá mới
+            INSERT INTO PriceList (ProductID, UnitID, GiaBan, NgayApDung)
+            VALUES (@ProductID, @UnitID, @GiaBan, GETDATE());
+        END
+        
+        FETCH NEXT FROM detail_cursor INTO @ProductID, @UnitID, @DonGiaNhap;
+    END
+    
+    CLOSE detail_cursor;
+    DEALLOCATE detail_cursor;
+END
+GO
+/*
+PRINT '✅ Trigger trg_AutoUpdatePriceList đã được tạo thành công!';
+PRINT '';
+PRINT '📌 Cách hoạt động:';
+PRINT '1. Khi nhập hàng với giá 20,000đ/kg';
+PRINT '2. Trigger tự động tính giá bán = 20,000 × 1.2 = 24,000đ';
+PRINT '3. Tự động INSERT/UPDATE vào bảng PriceList';
+PRINT '4. POS sẽ lấy giá này khi bán hàng';
+PRINT '';
+PRINT '⚙️ Cấu hình markup: 20% (có thể thay đổi trong trigger)';
+GO */
+
+-- ===================================================================
+-- 3. STORED PROCEDURE: CẬP NHẬT GIÁ CHO SẢN PHẨM CŨ (MANUAL) - SQL SERVER
+-- ===================================================================
+IF OBJECT_ID('sp_UpdatePriceFromLastPurchase', 'P') IS NOT NULL
+    DROP PROCEDURE sp_UpdatePriceFromLastPurchase;
+GO
+
+CREATE PROCEDURE sp_UpdatePriceFromLastPurchase
+    @ProductID INT = NULL -- NULL = update tất cả sản phẩm
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @MarkupPercent FLOAT = 0.20;
+
+    ;WITH LatestPurchase AS (
+        SELECT 
+            grd.ProductID,
+            grd.UnitID,
+            grd.DonGiaNhap,
+            ROW_NUMBER() OVER (
+                PARTITION BY grd.ProductID, grd.UnitID
+                ORDER BY gr.NgayNhap DESC
+            ) AS rn
+        FROM GoodsReceiptDetails grd
+        INNER JOIN GoodsReceipts gr 
+            ON grd.ReceiptID = gr.ReceiptID
+        WHERE (@ProductID IS NULL OR grd.ProductID = @ProductID)
+    )
+    MERGE PriceList AS target
+    USING (
+        SELECT 
+            ProductID,
+            UnitID,
+            ROUND(DonGiaNhap * (1 + @MarkupPercent) / 1000, 0) * 1000 AS GiaBan,
+            GETDATE() AS NgayApDung
+        FROM LatestPurchase
+        WHERE rn = 1
+    ) AS src
+    ON target.ProductID = src.ProductID 
+       AND target.UnitID = src.UnitID
+    WHEN MATCHED THEN
+        UPDATE SET 
+            GiaBan = src.GiaBan,
+            NgayApDung = src.NgayApDung
+    WHEN NOT MATCHED THEN
+        INSERT (ProductID, UnitID, GiaBan, NgayApDung)
+        VALUES (src.ProductID, src.UnitID, src.GiaBan, src.NgayApDung);
+
+    PRINT '✅ Đã cập nhật giá bán từ phiếu nhập gần nhất!';
+END
+GO
 
 
--- Kiểm tra chi tiết
-SELECT * FROM GoodsReceiptDetails 
-WHERE ReceiptID = (SELECT TOP 1 ReceiptID FROM GoodsReceipts ORDER BY ReceiptID DESC);
+-- ===================================================================
+-- 4. TEST TRIGGER
+-- ===================================================================
+/*
+-- Test: Thêm 1 phiếu nhập mới
+INSERT INTO GoodsReceipts (SupplierID, UserID, NgayNhap, TongTien)
+VALUES (1, 1, GETDATE(), 0);
 
--- So sánh tổng tiền
-SELECT 
-    r.ReceiptID,
-    r.MaPhieuNhap,
-    r.TongTien AS [TongTien trong phiếu],
-    (SELECT SUM(ThanhTien) FROM GoodsReceiptDetails WHERE ReceiptID = r.ReceiptID) AS [Tổng chi tiết]
-FROM GoodsReceipts r
-ORDER BY r.ReceiptID DESC;
+DECLARE @ReceiptID INT = SCOPE_IDENTITY();
+
+-- Thêm chi tiết (giá nhập 20,000đ)
+INSERT INTO GoodsReceiptDetails (ReceiptID, ProductID, UnitID, SoLuong, DonGiaNhap)
+VALUES (@ReceiptID, 1, 1, 10, 20000);
+
+-- Kiểm tra PriceList (phải có giá bán = 24,000đ)
+SELECT * FROM PriceList WHERE ProductID = 1;
+*/
+
+-- ===================================================================
+-- 5. CẬP NHẬT GIÁ CHO DỮ LIỆU CŨ (CHẠY 1 LẦN)
+-- ===================================================================
+
+-- Cập nhật giá cho TẤT CẢ sản phẩm từ phiếu nhập gần nhất
+--EXEC sp_UpdatePriceFromLastPurchase;
+
+-- Hoặc cập nhật cho 1 sản phẩm cụ thể
+--EXEC sp_UpdatePriceFromLastPurchase @ProductID = 1;
+
+-- Xem giá bán đã được tạo chưa
+/*SELECT 
+    p.TenSanPham,
+    u.TenDVT,
+    pl.GiaBan,
+    pl.NgayApDung
+FROM PriceList pl
+INNER JOIN Products p ON pl.ProductID = p.ProductID
+INNER JOIN Units u ON pl.UnitID = u.UnitID
+ORDER BY p.TenSanPham; */

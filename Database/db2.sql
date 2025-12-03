@@ -14,13 +14,8 @@ INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
 VALUES 
 (N'Gạo ST25', 1, 50),
 (N'Gạo Lài Sữa', 1, 30),
-(N'Gạo Nàng Hương Chợ Đào', 1, 20),
-(N'Gạo Tám Thơm Hải Hậu', 1, 40),
-(N'Gạo Bắc Hương', 1, 25),
-(N'Gạo Nhật Sushi', 1, 15),
-(N'Gạo Thơm Jasmine', 1, 35),
-(N'Gạo Nếp Cái Hoa Vàng', 1, 20);
-select * from Products;
+(N'Gạo Nàng Hương Chợ Đào', 1, 20);
+--select * from Products;
 
 
 -- Chèn đơn vị tính
@@ -94,12 +89,6 @@ INSERT INTO Customers ( TenKhachHang, SoDienThoai, DiaChi) VALUES
 --SELECT * FROM Customers;
 
 --- 30-11 
--- Thêm giá bán cho các sản phẩm
--- Giá theo kg
-INSERT INTO PriceList (ProductID, UnitID, GiaBan, NgayApDung) VALUES
-(1, 1, 25000, GETDATE()),  -- ST25 - kg - 25,000đ
-(2, 1, 22000, GETDATE()),  -- Lài Sữa - kg - 22,000đ
-(3, 1, 20000, GETDATE())  -- Nàng Hương - kg - 20,000đ
 -- Kiểm tra
 SELECT p.TenSanPham, u.TenDVT, pl.GiaBan
 FROM PriceList pl
@@ -129,15 +118,9 @@ GO
 SET NOCOUNT ON;
 GO
 
-PRINT '========================================';
-PRINT 'DỌN DẸP TOÀN DIỆN - PHIÊN BẢN CUỐI';
-PRINT '========================================';
-PRINT '';
-
 -- ===================================================================
 -- BƯỚC 1: BACKUP
 -- ===================================================================
-PRINT '>>> Bước 1: Tạo backup...';
 
 IF OBJECT_ID('dbo.Backup_Units_20251201', 'U') IS NOT NULL 
     DROP TABLE dbo.Backup_Units_20251201;
