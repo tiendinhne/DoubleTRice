@@ -29,3 +29,44 @@ J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.Produc
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ResetPasswordDialog.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductSelectionDialog.resources
 J:\HK5\CNPM\CUOI KI 25-26\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SalesInvoiceManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\DoubleTRice.exe.config
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\DoubleTRice.exe
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\DoubleTRice.pdb
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\BouncyCastle.Crypto.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\EPPlus.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\EPPlus.Interfaces.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\EPPlus.System.Drawing.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\Guna.UI2.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\itextsharp.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\Newtonsoft.Json.dll
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\EPPlus.xml
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\itextsharp.xml
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\bin\Debug\Newtonsoft.Json.xml
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.csproj.AssemblyReference.cache
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.exe.config
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.Properties.Resources.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.CaiDatUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ChangePasswordForm.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.GoodsReceiptManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ProductSelectionDialog.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.ResetPasswordDialog.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SalesInvoiceManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.StockAdjustmentManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.SupplierManagementUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.UnitConversionDialog.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ChildForms.UserManagementForm.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ConnectionSettingsForm.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.DanhMucUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ForgotPasswordUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.LoginUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.MainUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.ReportForm.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.UI.TrangChuUI.resources
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.csproj.GenerateResource.cache
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.csproj.CoreCompileInputs.cache
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTR.12A89E87.Up2Date
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.exe
+D:\TDTU\CongNghePhanMem\Practise\FinalTerm\resources_GIT\DoubleTRice\obj\Debug\DoubleTRice.pdb

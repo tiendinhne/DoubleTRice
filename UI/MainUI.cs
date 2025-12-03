@@ -680,5 +680,11 @@ namespace DoubleTRice.UI
         {
 
         }
+
+        private void btnBaoCao_Click(object sender, EventArgs e)
+        {
+            ReportForm form = new ReportForm();
+            form.ShowDialog();
+        }
     }
 }
