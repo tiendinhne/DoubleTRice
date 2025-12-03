@@ -1,6 +1,7 @@
 ﻿using DoubleTRice.DAO;
 using DoubleTRice.DT;
 using DoubleTRice.LOGIC;
+using DoubleTRice.UI.ChildForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -80,6 +81,11 @@ namespace DoubleTRice.UI
             {
                 MessageBox.Show("Lỗi Test DAO: " + ex.Message);
             }
+        }
+
+        private void guna2HtmlLabel1_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }

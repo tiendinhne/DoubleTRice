@@ -308,7 +308,7 @@ namespace DoubleTRice.UI
 
             try
             {
-                var InventoryForm = new GoodsReceiptManagementUI();
+                var InventoryForm = new DebtManagementUI();
                 OpenChildForm(InventoryForm);
             }
             catch (Exception ex)
@@ -351,12 +351,16 @@ namespace DoubleTRice.UI
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-            // Toggle Dark/Light Mode
-            Mode.ToggleMode();
-
-            string modeText = Mode.IsDarkMode ? "Dark Mode" : "Light Mode";
-            MessageBox.Show($"Đã chuyển sang {modeText}", "Cài đặt",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //try
+            //{
+            //    var goodsReceiptForm = new PaymentDialog();
+            //    OpenChildForm(goodsReceiptForm);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Lỗi khi mở form nhap hang: {ex.Message}", "Lỗi",
+            //                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
@@ -677,6 +681,11 @@ namespace DoubleTRice.UI
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            // setting form
         }
     }
 }

@@ -117,7 +117,7 @@ namespace DoubleTRice.UI
             this.BtnUsers.Location = new System.Drawing.Point(0, 496);
             this.BtnUsers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnUsers.Name = "BtnUsers";
-            this.BtnUsers.Size = new System.Drawing.Size(254, 62);
+            this.BtnUsers.Size = new System.Drawing.Size(250, 62);
             this.BtnUsers.TabIndex = 13;
             this.BtnUsers.Text = "Nhân viên";
             this.BtnUsers.Click += new System.EventHandler(this.BtnUsers_Click_1);
@@ -130,19 +130,21 @@ namespace DoubleTRice.UI
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 665);
+            this.panel1.Location = new System.Drawing.Point(0, 558);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(254, 185);
+            this.panel1.Size = new System.Drawing.Size(250, 158);
             this.panel1.TabIndex = 12;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // guna2CirclePictureBox1
             // 
+            this.guna2CirclePictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.guna2CirclePictureBox1.Image = global::DoubleTRice.Properties.Resources.smart_farm;
             this.guna2CirclePictureBox1.ImageRotate = 0F;
-            this.guna2CirclePictureBox1.Location = new System.Drawing.Point(12, 72);
+            this.guna2CirclePictureBox1.Location = new System.Drawing.Point(12, 52);
             this.guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
             this.guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(64, 65);
+            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(60, 60);
             this.guna2CirclePictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.guna2CirclePictureBox1.TabIndex = 6;
             this.guna2CirclePictureBox1.TabStop = false;
@@ -152,7 +154,7 @@ namespace DoubleTRice.UI
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(110, 108);
+            this.label3.Location = new System.Drawing.Point(79, 86);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
@@ -165,7 +167,7 @@ namespace DoubleTRice.UI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(96, 72);
+            this.label2.Location = new System.Drawing.Point(79, 52);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
@@ -184,14 +186,15 @@ namespace DoubleTRice.UI
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
-            this.label1.Size = new System.Drawing.Size(145, 34);
+            this.label1.Size = new System.Drawing.Size(202, 34);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Acount ABCCC";
+            this.label1.Text = "Acount Management";
             // 
             // lblSeparator4
             // 
             this.lblSeparator4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
-            this.lblSeparator4.Location = new System.Drawing.Point(4, 662);
+            this.lblSeparator4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblSeparator4.Location = new System.Drawing.Point(0, 716);
             this.lblSeparator4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSeparator4.Name = "lblSeparator4";
             this.lblSeparator4.Size = new System.Drawing.Size(250, 3);
@@ -208,7 +211,7 @@ namespace DoubleTRice.UI
             this.btnReports.Location = new System.Drawing.Point(0, 434);
             this.btnReports.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnReports.Name = "btnReports";
-            this.btnReports.Size = new System.Drawing.Size(254, 62);
+            this.btnReports.Size = new System.Drawing.Size(250, 62);
             this.btnReports.TabIndex = 9;
             this.btnReports.Text = "📈 Điều chỉnh kho";
             this.btnReports.Click += new System.EventHandler(this.BtnReports_Click);
@@ -224,7 +227,7 @@ namespace DoubleTRice.UI
             this.btnInventory.Location = new System.Drawing.Point(0, 372);
             this.btnInventory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnInventory.Name = "btnInventory";
-            this.btnInventory.Size = new System.Drawing.Size(254, 62);
+            this.btnInventory.Size = new System.Drawing.Size(250, 62);
             this.btnInventory.TabIndex = 7;
             this.btnInventory.Text = "📊 Tồn kho";
             this.btnInventory.Click += new System.EventHandler(this.BtnInventory_Click);
@@ -240,7 +243,7 @@ namespace DoubleTRice.UI
             this.btnSalesInvoice.Location = new System.Drawing.Point(0, 310);
             this.btnSalesInvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSalesInvoice.Name = "btnSalesInvoice";
-            this.btnSalesInvoice.Size = new System.Drawing.Size(254, 62);
+            this.btnSalesInvoice.Size = new System.Drawing.Size(250, 62);
             this.btnSalesInvoice.TabIndex = 6;
             this.btnSalesInvoice.Text = "🛒 Bán hàng";
             this.btnSalesInvoice.Click += new System.EventHandler(this.BtnSalesInvoice_Click);
@@ -256,7 +259,7 @@ namespace DoubleTRice.UI
             this.btnGoodsReceipt.Location = new System.Drawing.Point(0, 248);
             this.btnGoodsReceipt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGoodsReceipt.Name = "btnGoodsReceipt";
-            this.btnGoodsReceipt.Size = new System.Drawing.Size(254, 62);
+            this.btnGoodsReceipt.Size = new System.Drawing.Size(250, 62);
             this.btnGoodsReceipt.TabIndex = 5;
             this.btnGoodsReceipt.Text = "📥 Nhập hàng";
             this.btnGoodsReceipt.Click += new System.EventHandler(this.BtnGoodsReceipt_Click);
@@ -281,7 +284,7 @@ namespace DoubleTRice.UI
             this.btnCustomers.Location = new System.Drawing.Point(0, 186);
             this.btnCustomers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCustomers.Name = "btnCustomers";
-            this.btnCustomers.Size = new System.Drawing.Size(254, 62);
+            this.btnCustomers.Size = new System.Drawing.Size(250, 62);
             this.btnCustomers.TabIndex = 3;
             this.btnCustomers.Text = "👥 Khách hàng";
             this.btnCustomers.Click += new System.EventHandler(this.BtnCustomers_Click);
@@ -297,7 +300,7 @@ namespace DoubleTRice.UI
             this.btnSuppliers.Location = new System.Drawing.Point(0, 124);
             this.btnSuppliers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSuppliers.Name = "btnSuppliers";
-            this.btnSuppliers.Size = new System.Drawing.Size(254, 62);
+            this.btnSuppliers.Size = new System.Drawing.Size(250, 62);
             this.btnSuppliers.TabIndex = 2;
             this.btnSuppliers.Text = "🏭 Nhà cung cấp";
             this.btnSuppliers.Click += new System.EventHandler(this.BtnSuppliers_Click);
@@ -313,7 +316,7 @@ namespace DoubleTRice.UI
             this.btnProducts.Location = new System.Drawing.Point(0, 62);
             this.btnProducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnProducts.Name = "btnProducts";
-            this.btnProducts.Size = new System.Drawing.Size(254, 62);
+            this.btnProducts.Size = new System.Drawing.Size(250, 62);
             this.btnProducts.TabIndex = 1;
             this.btnProducts.Text = "📦 Sản phẩm";
             this.btnProducts.Click += new System.EventHandler(this.BtnProducts_Click);
@@ -329,7 +332,7 @@ namespace DoubleTRice.UI
             this.btnDashboard.Location = new System.Drawing.Point(0, 0);
             this.btnDashboard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Size = new System.Drawing.Size(254, 62);
+            this.btnDashboard.Size = new System.Drawing.Size(250, 62);
             this.btnDashboard.TabIndex = 0;
             this.btnDashboard.Text = "📊 Dashboard";
             this.btnDashboard.Click += new System.EventHandler(this.BtnDashboard_Click);
@@ -350,7 +353,7 @@ namespace DoubleTRice.UI
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.LOGOCNPM_1;
+            this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.wheat;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(250, 115);

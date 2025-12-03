@@ -459,8 +459,10 @@ namespace DoubleTRice.UI.ChildForms
                     }
                 }
 
-                // ✅ Format rõ ràng với thousand separator
-                txtTongTien.Text = tongTien.ToString("N0") + " đ";
+                //// ✅ Format rõ ràng với thousand separator
+                //txtTongTien.Text = tongTien.ToString("N0") + " đ";
+                // ✅ FIX: Format đúng cách
+                txtTongTien.Text = $"{tongTien:N0} đ";
 
                 // Debug
                 System.Diagnostics.Debug.WriteLine($"Tổng tiền: {tongTien:N0}");
@@ -475,13 +477,7 @@ namespace DoubleTRice.UI.ChildForms
             }
         }
         #endregion
-
-        // ... Continue in Part 2
-        // ===================================================================
-        // PART 2/2 - TIẾP TỤC TỪ POSDialog.cs
-        // Thêm các methods sau vào class POSDialog
-        // ===================================================================
-
+       
         #region Customer Management
         private void BtnSearchCustomer_Click(object sender, EventArgs e)
         {
@@ -581,45 +577,53 @@ namespace DoubleTRice.UI.ChildForms
         {
             try
             {
-                // Lấy số tiền, bỏ dấu phẩy
-                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Replace(".", "").Trim();
-                string tongTienText = txtTongTien.Text.Replace(",", "").Replace(".", "").Trim();
-
+                // ✅ FIX: Parse an toàn cả 2 giá trị
                 decimal tienKhachDua = 0;
                 decimal tongTien = 0;
 
-                // Parse an toàn
+                // Parse tiền khách đưa
+                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Replace("đ", "").Trim();
                 if (!string.IsNullOrEmpty(tienKhachDuaText))
                 {
                     decimal.TryParse(tienKhachDuaText, out tienKhachDua);
                 }
 
+                // Parse tổng tiền - Bỏ dấu phẩy và "đ"
+                string tongTienText = txtTongTien.Text.Replace(",", "").Replace("đ", "").Trim();
                 if (!string.IsNullOrEmpty(tongTienText))
                 {
                     decimal.TryParse(tongTienText, out tongTien);
                 }
 
+                // Tính tiền thừa
                 decimal tienThua = tienKhachDua - tongTien;
 
+                // Hiển thị với format
                 txtTienThua.Text = tienThua.ToString("N0");
 
-                // Đổi màu
+                // Đổi màu theo giá trị
                 if (tienThua < 0)
                 {
                     txtTienThua.ForeColor = Color.Red;
+                    //lblTienThua.Text = "Còn thiếu:";
                 }
                 else if (tienThua > 0)
                 {
                     txtTienThua.ForeColor = Color.Green;
+                    //lblTienThua.Text = "Tiền thừa:";
                 }
                 else
                 {
                     txtTienThua.ForeColor = Color.Black;
+                   // lblTienThua.Text = "Tiền thừa:";
                 }
+
+                System.Diagnostics.Debug.WriteLine($"Tổng tiền: {tongTien:N0}, Khách đưa: {tienKhachDua:N0}, Thừa: {tienThua:N0}");
             }
             catch (Exception ex)
             {
                 txtTienThua.Text = "0";
+                txtTienThua.ForeColor = Color.Black;
                 System.Diagnostics.Debug.WriteLine($"Error calculating change: {ex.Message}");
             }
         }
@@ -856,6 +860,11 @@ namespace DoubleTRice.UI.ChildForms
         #endregion
 
         private void lblCustomerDebt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTienThua_TextChanged(object sender, EventArgs e)
         {
 
         }

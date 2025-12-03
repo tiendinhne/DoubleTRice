@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\CustomerDAO.cs" />
+    <Compile Include="DAO\DebtManagementDAO.cs" />
     <Compile Include="DAO\GoodsReceiptDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\DataProvider.cs" />
@@ -118,6 +119,18 @@
     <Compile Include="UI\ChildForms\CustomerManagementUI.Designer.cs">
       <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\DebtDetailDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\DebtDetailDialog.Designer.cs">
+      <DependentUpon>DebtDetailDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\DebtManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\DebtManagementUI.Designer.cs">
+      <DependentUpon>DebtManagementUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\GoodsReceiptAddEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +148,12 @@
     </Compile>
     <Compile Include="UI\ChildForms\GoodsReceiptManagementUI.Designer.cs">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\PaymentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\PaymentDialog.Designer.cs">
+      <DependentUpon>PaymentDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ChildForms\POSDialog.cs">
       <SubType>Form</SubType>
@@ -274,6 +293,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\CustomerManagementUI.resx">
+      <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>

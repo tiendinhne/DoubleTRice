@@ -2653,3 +2653,258 @@ FROM PriceList pl
 INNER JOIN Products p ON pl.ProductID = p.ProductID
 INNER JOIN Units u ON pl.UnitID = u.UnitID
 ORDER BY p.TenSanPham; */
+
+
+-- ===================================================================
+-- STORED PROCEDURES CHO QUẢN LÝ CÔNG NỢ KHÁCH HÀNG
+-- Date: 03/12/2025
+-- ===================================================================
+
+USE QuanLyBanGao;
+GO
+
+-- ===================================================================
+-- 1. SP LẤY TỔNG HỢP CÔNG NỢ TẤT CẢ KHÁCH HÀNG
+-- ===================================================================
+IF OBJECT_ID('sp_GetAllCustomerDebts', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetAllCustomerDebts;
+GO
+
+CREATE PROCEDURE sp_GetAllCustomerDebts
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        c.CustomerID,
+        c.TenKhachHang,
+        c.SoDienThoai,
+        c.DiaChi,
+        ISNULL(SUM(si.TongTien), 0) AS TongMuaHang,
+        ISNULL(SUM(cp.SoTien), 0) AS TongDaTra,
+        (ISNULL(SUM(si.TongTien), 0) - ISNULL(SUM(cp.SoTien), 0)) AS CongNoHienTai
+    FROM Customers c
+    LEFT JOIN SalesInvoices si ON c.CustomerID = si.CustomerID
+    LEFT JOIN CustomerPayments cp ON si.InvoiceID = cp.InvoiceID
+    WHERE c.CustomerID != 1  -- Loại trừ khách vãng lai
+    GROUP BY c.CustomerID, c.TenKhachHang, c.SoDienThoai, c.DiaChi
+    HAVING (ISNULL(SUM(si.TongTien), 0) - ISNULL(SUM(cp.SoTien), 0)) > 0
+    ORDER BY CongNoHienTai DESC;
+END
+GO
+
+-- ===================================================================
+-- 2. SP LẤY CHI TIẾT CÔNG NỢ CỦA 1 KHÁCH HÀNG
+-- ===================================================================
+IF OBJECT_ID('sp_GetCustomerDebtDetails', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetCustomerDebtDetails;
+GO
+
+CREATE PROCEDURE sp_GetCustomerDebtDetails
+    @CustomerID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Thông tin khách hàng và tổng công nợ
+    SELECT 
+        c.CustomerID,
+        c.TenKhachHang,
+        c.SoDienThoai,
+        c.DiaChi,
+        ISNULL(SUM(si.TongTien), 0) AS TongMuaHang,
+        ISNULL(SUM(cp.SoTien), 0) AS TongDaTra,
+        (ISNULL(SUM(si.TongTien), 0) - ISNULL(SUM(cp.SoTien), 0)) AS CongNoHienTai
+    FROM Customers c
+    LEFT JOIN SalesInvoices si ON c.CustomerID = si.CustomerID
+    LEFT JOIN CustomerPayments cp ON si.InvoiceID = cp.InvoiceID
+    WHERE c.CustomerID = @CustomerID
+    GROUP BY c.CustomerID, c.TenKhachHang, c.SoDienThoai, c.DiaChi;
+    
+    -- Chi tiết các hóa đơn còn nợ
+    SELECT 
+        si.InvoiceID,
+        si.MaHoaDon,
+        si.NgayBan,
+        si.TongTien,
+        ISNULL(SUM(cp.SoTien), 0) AS DaTra,
+        (si.TongTien - ISNULL(SUM(cp.SoTien), 0)) AS ConLai,
+        CASE 
+            WHEN (si.TongTien - ISNULL(SUM(cp.SoTien), 0)) <= 0 THEN N'Đã thanh toán'
+            ELSE N'Còn nợ'
+        END AS TrangThai
+    FROM SalesInvoices si
+    LEFT JOIN CustomerPayments cp ON si.InvoiceID = cp.InvoiceID
+    WHERE si.CustomerID = @CustomerID
+    GROUP BY si.InvoiceID, si.MaHoaDon, si.NgayBan, si.TongTien
+    HAVING (si.TongTien - ISNULL(SUM(cp.SoTien), 0)) > 0
+    ORDER BY si.NgayBan DESC;
+    
+    -- Lịch sử thanh toán
+    SELECT 
+        cp.PaymentID,
+        cp.InvoiceID,
+        si.MaHoaDon,
+        cp.NgayThanhToan,
+        cp.SoTien,
+        cp.PhuongThuc
+    FROM CustomerPayments cp
+    INNER JOIN SalesInvoices si ON cp.InvoiceID = si.InvoiceID
+    WHERE cp.CustomerID = @CustomerID
+    ORDER BY cp.NgayThanhToan DESC;
+END
+GO
+
+-- ===================================================================
+-- 3. SP LẤY LỊCH SỬ CÔNG NỢ THEO THỜI GIAN
+-- ===================================================================
+IF OBJECT_ID('sp_GetDebtHistoryByDateRange', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetDebtHistoryByDateRange;
+GO
+
+CREATE PROCEDURE sp_GetDebtHistoryByDateRange
+    @StartDate DATE,
+    @EndDate DATE,
+    @CustomerID INT = NULL  -- NULL = tất cả khách hàng
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        si.InvoiceID,
+        si.MaHoaDon,
+        si.NgayBan,
+        c.CustomerID,
+        c.TenKhachHang,
+        c.SoDienThoai,
+        si.TongTien,
+        ISNULL(SUM(cp.SoTien), 0) AS DaTra,
+        (si.TongTien - ISNULL(SUM(cp.SoTien), 0)) AS ConLai,
+        CASE 
+            WHEN (si.TongTien - ISNULL(SUM(cp.SoTien), 0)) <= 0 THEN N'Đã thanh toán'
+            ELSE N'Còn nợ'
+        END AS TrangThai
+    FROM SalesInvoices si
+    INNER JOIN Customers c ON si.CustomerID = c.CustomerID
+    LEFT JOIN CustomerPayments cp ON si.InvoiceID = cp.InvoiceID
+    WHERE CONVERT(DATE, si.NgayBan) BETWEEN @StartDate AND @EndDate
+        AND (@CustomerID IS NULL OR si.CustomerID = @CustomerID)
+        AND c.CustomerID != 1  -- Loại trừ khách vãng lai
+    GROUP BY si.InvoiceID, si.MaHoaDon, si.NgayBan, c.CustomerID, 
+             c.TenKhachHang, c.SoDienThoai, si.TongTien
+    ORDER BY si.NgayBan DESC, c.TenKhachHang;
+END
+GO
+-- ===================================================================
+-- 4. SP THỐNG KÊ CÔNG NỢ THEO NHÓM THỜI GIAN (Đã sửa logic và tối ưu)
+-- ===================================================================
+IF OBJECT_ID('sp_GetDebtStatistics', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetDebtStatistics;
+GO
+
+CREATE PROCEDURE sp_GetDebtStatistics
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- CTE tính tổng tiền đã thanh toán cho mỗi hóa đơn.
+    -- Giúp tránh tính lặp và tối ưu hóa cho cả 2 query.
+    WITH PaymentsByInvoice AS (
+        SELECT
+            InvoiceID,
+            ISNULL(SUM(SoTien), 0) AS TongDaTra
+        FROM CustomerPayments
+        GROUP BY InvoiceID
+    )
+    
+    -- 1. Tổng quan công nợ
+    SELECT 
+        COUNT(DISTINCT c.CustomerID) AS SoKhachHangNo,
+        COUNT(DISTINCT si.InvoiceID) AS SoHoaDonNo,
+        SUM(si.TongTien) AS TongGiaTriHoaDon,
+        SUM(pbi.TongDaTra) AS TongDaTra,
+        SUM(si.TongTien - pbi.TongDaTra) AS TongCongNo
+    FROM SalesInvoices si
+    INNER JOIN Customers c ON si.CustomerID = c.CustomerID
+    LEFT JOIN PaymentsByInvoice pbi ON si.InvoiceID = pbi.InvoiceID
+    WHERE c.CustomerID != 1
+        AND (si.TongTien - ISNULL(pbi.TongDaTra, 0)) > 0;
+    
+    -- 2. Phân loại công nợ theo độ tuổi
+    SELECT 
+        CASE 
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 30 THEN N'Dưới 30 ngày'
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 60 THEN N'30-60 ngày'
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 90 THEN N'60-90 ngày'
+            ELSE N'Trên 90 ngày'
+        END AS NhomTuoi,
+        COUNT(si.InvoiceID) AS SoHoaDon,
+        SUM(si.TongTien - pbi.TongDaTra) AS TongCongNo
+    FROM SalesInvoices si
+    INNER JOIN Customers c ON si.CustomerID = c.CustomerID
+    LEFT JOIN PaymentsByInvoice pbi ON si.InvoiceID = pbi.InvoiceID
+    WHERE c.CustomerID != 1
+        AND (si.TongTien - ISNULL(pbi.TongDaTra, 0)) > 0
+    GROUP BY 
+        CASE 
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 30 THEN N'Dưới 30 ngày'
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 60 THEN N'30-60 ngày'
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 90 THEN N'60-90 ngày'
+            ELSE N'Trên 90 ngày'
+        END
+    ORDER BY 
+        CASE 
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 30 THEN 1
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 60 THEN 2
+            WHEN DATEDIFF(DAY, si.NgayBan, GETDATE()) <= 90 THEN 3
+            ELSE 4
+        END;
+END
+GO
+
+-- ===================================================================
+-- 5. SP XÓA THANH TOÁN (CHO ADMIN - TRƯỜNG HỢP NHẬP SAI)
+-- ===================================================================
+IF OBJECT_ID('sp_DeleteCustomerPayment', 'P') IS NOT NULL
+    DROP PROCEDURE sp_DeleteCustomerPayment;
+GO
+
+CREATE PROCEDURE sp_DeleteCustomerPayment
+    @PaymentID INT,
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SET @Result = -1;
+    
+    -- Kiểm tra thanh toán tồn tại
+    IF NOT EXISTS(SELECT 1 FROM CustomerPayments WHERE PaymentID = @PaymentID)
+    BEGIN
+        SET @Result = -1; -- Không tồn tại
+        RETURN;
+    END
+    
+    -- Chỉ cho phép xóa thanh toán trong ngày
+    DECLARE @NgayThanhToan DATETIME;
+    SELECT @NgayThanhToan = NgayThanhToan
+    FROM CustomerPayments
+    WHERE PaymentID = @PaymentID;
+    
+    IF CONVERT(DATE, @NgayThanhToan) != CONVERT(DATE, GETDATE())
+    BEGIN
+        SET @Result = -2; -- Quá thời gian cho phép
+        RETURN;
+    END
+    
+    BEGIN TRY
+        DELETE FROM CustomerPayments WHERE PaymentID = @PaymentID;
+        SET @Result = 0; -- Thành công
+    END TRY
+    BEGIN CATCH
+        SET @Result = -99; -- Lỗi hệ thống
+    END CATCH
+END
+GO
+
+PRINT '✅ Stored Procedures cho quản lý công nợ đã được tạo thành công!';
