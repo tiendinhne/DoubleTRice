@@ -308,7 +308,7 @@ namespace DoubleTRice.UI
 
             try
             {
-                var InventoryForm = new GoodsReceiptManagementUI();
+                var InventoryForm = new DebtManagementUI();
                 OpenChildForm(InventoryForm);
             }
             catch (Exception ex)
@@ -351,12 +351,16 @@ namespace DoubleTRice.UI
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-            // Toggle Dark/Light Mode
-            Mode.ToggleMode();
-
-            string modeText = Mode.IsDarkMode ? "Dark Mode" : "Light Mode";
-            MessageBox.Show($"Đã chuyển sang {modeText}", "Cài đặt",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //try
+            //{
+            //    var goodsReceiptForm = new PaymentDialog();
+            //    OpenChildForm(goodsReceiptForm);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Lỗi khi mở form nhap hang: {ex.Message}", "Lỗi",
+            //                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
@@ -390,6 +394,8 @@ namespace DoubleTRice.UI
            // btnNotification.Location = new Point(rightX, 38);
             btnSettings.Location = new Point(rightX - 97, 38);
             //txtSearch.Location = new Point(15, 23);
+            // Các nút bên phải (từ phải sang trái)
+            pictureBox2.Location = new Point(pnlNavbar.Width-20, 0);
         }
         #endregion
 
@@ -677,11 +683,17 @@ namespace DoubleTRice.UI
 
         }
 
+<<<<<<< HEAD
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
             //ReportForm form = new ReportForm();
             //form.ShowDialog();
             OpenChildForm(new ReportForm());
+=======
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            // setting form
+>>>>>>> origin/main
         }
     }
 }

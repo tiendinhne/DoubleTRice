@@ -201,7 +201,7 @@ namespace DoubleTRice.UI.ChildForms
 
             // Form
             this.AutoScaleDimensions = new SizeF(9F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.None;
             this.BackColor = Color.White;
             this.ClientSize = new Size(800, 600);
             this.Controls.Add(this.pnlMain);

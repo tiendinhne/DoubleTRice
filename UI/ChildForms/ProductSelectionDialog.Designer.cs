@@ -54,13 +54,15 @@ namespace DoubleTRice.UI.ChildForms
             // 
             // btnOK
             // 
+            this.btnOK.BackColor = System.Drawing.Color.Transparent;
             this.btnOK.BorderRadius = 8;
+            this.btnOK.DefaultAutoSize = true;
             this.btnOK.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.btnOK.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnOK.ForeColor = System.Drawing.Color.White;
             this.btnOK.Location = new System.Drawing.Point(125, 260);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(140, 45);
+            this.btnOK.Size = new System.Drawing.Size(190, 39);
             this.btnOK.TabIndex = 7;
             this.btnOK.Text = "✅ Thêm vào giỏ";
             this.btnOK.Click += new System.EventHandler(this.BtnOK_Click);
@@ -96,7 +98,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblQuantity.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lblQuantity.Location = new System.Drawing.Point(240, 120);
             this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(150, 25);
+            this.lblQuantity.Size = new System.Drawing.Size(150, 31);
             this.lblQuantity.TabIndex = 4;
             this.lblQuantity.Text = "Số lượng *";
             // 
@@ -143,7 +145,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
             this.lblTitle.Location = new System.Drawing.Point(20, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(410, 35);
+            this.lblTitle.Size = new System.Drawing.Size(410, 50);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "🛒 Chọn đơn vị và số lượng";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -161,6 +163,7 @@ namespace DoubleTRice.UI.ChildForms
             this.Name = "ProductSelectionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.pnlMain.ResumeLayout(false);
+            this.pnlMain.PerformLayout();
             this.ResumeLayout(false);
 
         }

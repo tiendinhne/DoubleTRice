@@ -63,6 +63,7 @@
             this.guna2HtmlLabel1.Size = new System.Drawing.Size(366, 22);
             this.guna2HtmlLabel1.TabIndex = 3;
             this.guna2HtmlLabel1.Text = "hiện thị thogno tin ứng dụng, gthieu ung dung sơ bộ";
+            this.guna2HtmlLabel1.Click += new System.EventHandler(this.guna2HtmlLabel1_Click);
             // 
             // guna2HtmlLabel2
             // 

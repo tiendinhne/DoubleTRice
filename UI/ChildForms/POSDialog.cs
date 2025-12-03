@@ -122,26 +122,118 @@ namespace DoubleTRice.UI.ChildForms
             }
         }
 
+        //private decimal GetProductPrice(int productID, int unitID)
+        //{
+        //    try
+        //    {
+        //        // Lấy giá vãng lai (8%) từ PriceList
+        //        string query = @"SELECT TOP 1 GiaBan FROM PriceList 
+        //                 WHERE ProductID = @ProductID 
+        //                   AND UnitID = @UnitID 
+        //                 ORDER BY NgayApDung DESC";
+
+        //        var result = DataProvider.Instance.ExecuteScalar(
+        //            query,
+        //            new Dictionary<string, object> {
+        //        { "@ProductID", productID },
+        //        { "@UnitID", unitID }
+        //            }
+        //        );
+
+        //        if (result == null || result == DBNull.Value)
+        //            return 0;
+
+        //        decimal giaVangLai = Convert.ToDecimal(result); // Giá đã +8%
+
+        //        // ✅ TÍNH GIÁ THEO LOẠI KHÁCH
+        //        // CustomerID = 1 → Khách vãng lai (giữ nguyên giá 8%)
+        //        // CustomerID khác → Khách quen (giảm xuống 5%)
+        //        if (currentCustomerID != 1) // Khách quen
+        //        {
+        //            // Công thức: Giá quen = (Giá vãng lai / 1.08) * 1.05
+        //            // Giải thích: 
+        //            // - Chia 1.08 để quay về giá nhập
+        //            // - Nhân 1.05 để áp dụng markup 5%
+        //            decimal giaNhap = giaVangLai / 1.08m;
+        //            decimal giaQuen = giaNhap * 1.05m;
+
+        //            // Làm tròn đến hàng nghìn
+        //            giaQuen = Math.Round(giaQuen / 1000, 0) * 1000;
+
+        //            return giaQuen;
+        //        }
+
+        //        return giaVangLai; // Khách vãng lai
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"GetProductPrice error: {ex.Message}");
+        //        return 0;
+        //    }
+        //}
+        /// <summary>
+        /// Tính giá bán dựa trên loại khách hàng
+        /// </summary>
+        private decimal CalculatePriceByCustomerType(decimal basePrice, int customerID)
+        {
+            // CustomerID = 1: Khách vãng lai (markup 8%)
+            // CustomerID khác: Khách quen (markup 5%)
+
+            if (customerID == 1)
+            {
+                // Khách vãng lai - giữ nguyên giá từ DB (đã +8%)
+                return basePrice;
+            }
+            else
+            {
+                // Khách quen - chuyển đổi từ giá 8% xuống 5%
+                const decimal MARKUP_VANGLAI = 1.08m;
+                const decimal MARKUP_QUEN = 1.05m;
+
+                // Quay về giá nhập
+                decimal giaNhap = basePrice / MARKUP_VANGLAI;
+
+                // Tính giá quen
+                decimal giaQuen = giaNhap * MARKUP_QUEN;
+
+                // Làm tròn đến hàng nghìn
+                return Math.Round(giaQuen / 1000, 0) * 1000;
+            }
+        }
+
+        // Sửa lại GetProductPrice
         private decimal GetProductPrice(int productID, int unitID)
         {
             try
             {
-                string query = "SELECT TOP 1 GiaBan FROM PriceList WHERE ProductID = @ProductID AND UnitID = @UnitID ORDER BY NgayApDung DESC";
+                string query = @"SELECT TOP 1 GiaBan FROM PriceList 
+                         WHERE ProductID = @ProductID 
+                           AND UnitID = @UnitID 
+                         ORDER BY NgayApDung DESC";
+
                 var result = DataProvider.Instance.ExecuteScalar(
                     query,
                     new Dictionary<string, object> {
-                        { "@ProductID", productID },
-                        { "@UnitID", unitID }
+                { "@ProductID", productID },
+                { "@UnitID", unitID }
                     }
                 );
 
-                return result != null ? Convert.ToDecimal(result) : 0;
+                if (result == null || result == DBNull.Value)
+                    return 0;
+
+                decimal basePrice = Convert.ToDecimal(result);
+
+                // ✅ Tính giá theo loại khách
+                return CalculatePriceByCustomerType(basePrice, currentCustomerID);
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"GetProductPrice error: {ex.Message}");
                 return 0;
             }
         }
+
         #endregion
 
         #region Event Handlers - Product Search & Add
@@ -354,20 +446,38 @@ namespace DoubleTRice.UI.ChildForms
 
         private void CalculateTotal()
         {
-            decimal tongTien = cartItems.Sum(item => item.ThanhTien);
-            txtTongTien.Text = tongTien.ToString("N0");
+            try
+            {
+                // ✅ Fix: Tính tổng với handling null/empty
+                decimal tongTien = 0;
 
-            // Tính tiền thừa
-            CalculateTienThua();
+                foreach (var item in cartItems)
+                {
+                    if (item != null && item.SoLuong > 0 && item.DonGiaBan > 0)
+                    {
+                        tongTien += item.ThanhTien;
+                    }
+                }
+
+                //// ✅ Format rõ ràng với thousand separator
+                //txtTongTien.Text = tongTien.ToString("N0") + " đ";
+                // ✅ FIX: Format đúng cách
+                txtTongTien.Text = $"{tongTien:N0} đ";
+
+                // Debug
+                System.Diagnostics.Debug.WriteLine($"Tổng tiền: {tongTien:N0}");
+
+                CalculateTienThua();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi tính tổng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTongTien.Text = "0 đ";
+            }
         }
         #endregion
-
-        // ... Continue in Part 2
-        // ===================================================================
-        // PART 2/2 - TIẾP TỤC TỪ POSDialog.cs
-        // Thêm các methods sau vào class POSDialog
-        // ===================================================================
-
+       
         #region Customer Management
         private void BtnSearchCustomer_Click(object sender, EventArgs e)
         {
@@ -454,33 +564,67 @@ namespace DoubleTRice.UI.ChildForms
             CalculateTienThua();
         }
 
+        private void TxtTienKhachDua_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Chỉ cho phép nhập số và phím điều khiển
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void CalculateTienThua()
         {
             try
             {
-                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Trim();
-                string tongTienText = txtTongTien.Text.Replace(",", "").Trim();
+                // ✅ FIX: Parse an toàn cả 2 giá trị
+                decimal tienKhachDua = 0;
+                decimal tongTien = 0;
 
-                decimal tienKhachDua = string.IsNullOrEmpty(tienKhachDuaText) ? 0 : decimal.Parse(tienKhachDuaText);
-                decimal tongTien = string.IsNullOrEmpty(tongTienText) ? 0 : decimal.Parse(tongTienText);
+                // Parse tiền khách đưa
+                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Replace("đ", "").Trim();
+                if (!string.IsNullOrEmpty(tienKhachDuaText))
+                {
+                    decimal.TryParse(tienKhachDuaText, out tienKhachDua);
+                }
 
+                // Parse tổng tiền - Bỏ dấu phẩy và "đ"
+                string tongTienText = txtTongTien.Text.Replace(",", "").Replace("đ", "").Trim();
+                if (!string.IsNullOrEmpty(tongTienText))
+                {
+                    decimal.TryParse(tongTienText, out tongTien);
+                }
+
+                // Tính tiền thừa
                 decimal tienThua = tienKhachDua - tongTien;
 
+                // Hiển thị với format
                 txtTienThua.Text = tienThua.ToString("N0");
 
-                // Đổi màu
+                // Đổi màu theo giá trị
                 if (tienThua < 0)
                 {
                     txtTienThua.ForeColor = Color.Red;
+                    //lblTienThua.Text = "Còn thiếu:";
+                }
+                else if (tienThua > 0)
+                {
+                    txtTienThua.ForeColor = Color.Green;
+                    //lblTienThua.Text = "Tiền thừa:";
                 }
                 else
                 {
-                    txtTienThua.ForeColor = Color.Green;
+                    txtTienThua.ForeColor = Color.Black;
+                   // lblTienThua.Text = "Tiền thừa:";
                 }
+
+                System.Diagnostics.Debug.WriteLine($"Tổng tiền: {tongTien:N0}, Khách đưa: {tienKhachDua:N0}, Thừa: {tienThua:N0}");
             }
-            catch
+            catch (Exception ex)
             {
                 txtTienThua.Text = "0";
+                txtTienThua.ForeColor = Color.Black;
+                System.Diagnostics.Debug.WriteLine($"Error calculating change: {ex.Message}");
             }
         }
         #endregion
@@ -714,5 +858,15 @@ namespace DoubleTRice.UI.ChildForms
             }
         }
         #endregion
+
+        private void lblCustomerDebt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTienThua_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

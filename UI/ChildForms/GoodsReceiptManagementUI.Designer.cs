@@ -307,9 +307,9 @@ namespace DoubleTRice.UI.ChildForms
             this.lblTotalAmount.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblTotalAmount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblTotalAmount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(120)))));
-            this.lblTotalAmount.Location = new System.Drawing.Point(830, 5);
+            this.lblTotalAmount.Location = new System.Drawing.Point(769, 5);
             this.lblTotalAmount.Name = "lblTotalAmount";
-            this.lblTotalAmount.Size = new System.Drawing.Size(200, 40);
+            this.lblTotalAmount.Size = new System.Drawing.Size(261, 40);
             this.lblTotalAmount.TabIndex = 0;
             this.lblTotalAmount.Text = "Tổng tiền: 0 đ";
             this.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -345,7 +345,7 @@ namespace DoubleTRice.UI.ChildForms
             this.dtpEndDate.FillColor = System.Drawing.Color.White;
             this.dtpEndDate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpEndDate.Location = new System.Drawing.Point(415, 8);
+            this.dtpEndDate.Location = new System.Drawing.Point(448, 12);
             this.dtpEndDate.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpEndDate.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpEndDate.Name = "dtpEndDate";
@@ -357,7 +357,7 @@ namespace DoubleTRice.UI.ChildForms
             // lblTo
             // 
             this.lblTo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTo.Location = new System.Drawing.Point(350, 15);
+            this.lblTo.Location = new System.Drawing.Point(383, 15);
             this.lblTo.Name = "lblTo";
             this.lblTo.Size = new System.Drawing.Size(59, 30);
             this.lblTo.TabIndex = 2;
@@ -371,7 +371,7 @@ namespace DoubleTRice.UI.ChildForms
             this.dtpStartDate.FillColor = System.Drawing.Color.White;
             this.dtpStartDate.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpStartDate.Location = new System.Drawing.Point(140, 10);
+            this.dtpStartDate.Location = new System.Drawing.Point(160, 12);
             this.dtpStartDate.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpStartDate.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpStartDate.Name = "dtpStartDate";
@@ -385,7 +385,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblDateRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblDateRange.Location = new System.Drawing.Point(20, 15);
             this.lblDateRange.Name = "lblDateRange";
-            this.lblDateRange.Size = new System.Drawing.Size(120, 30);
+            this.lblDateRange.Size = new System.Drawing.Size(153, 30);
             this.lblDateRange.TabIndex = 3;
             this.lblDateRange.Text = "📅 Thời gian:";
             this.lblDateRange.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

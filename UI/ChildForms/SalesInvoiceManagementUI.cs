@@ -298,13 +298,13 @@ namespace DoubleTRice.UI.ChildForms
 
             try
             {
-                //var paymentForm = new PaymentDialog(selectedInvoice.InvoiceID, selectedInvoice.CustomerID);
-                //if (paymentForm.ShowDialog() == DialogResult.OK)
-                //{
-                //    LoadData();
-                //    MessageBox.Show("Thanh toán thành công!",
-                //        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
+                var paymentForm = new PaymentDialog(selectedInvoice.InvoiceID, selectedInvoice.CustomerID);
+                if (paymentForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                    MessageBox.Show("Thanh toán thành công!",
+                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
