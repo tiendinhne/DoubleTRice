@@ -278,6 +278,9 @@
     <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\POSDialog.resx">
+      <DependentUpon>POSDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\ProductManagementUI.resx">
       <DependentUpon>ProductManagementUI.cs</DependentUpon>
     </EmbeddedResource>

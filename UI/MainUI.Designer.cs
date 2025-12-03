@@ -55,10 +55,10 @@ namespace DoubleTRice.UI
             this.lblStatusDate = new System.Windows.Forms.Label();
             this.lblStatusUser = new System.Windows.Forms.Label();
             this.pnlNavbar = new Guna.UI2.WinForms.Guna2Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnSettings = new Guna.UI2.WinForms.Guna2Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.pnlBody = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
             this.pnlSidebar.SuspendLayout();
@@ -80,7 +80,7 @@ namespace DoubleTRice.UI
             this.pnlSidebar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(250, 742);
+            this.pnlSidebar.Size = new System.Drawing.Size(250, 740);
             this.pnlSidebar.TabIndex = 0;
             // 
             // pnlMenu
@@ -100,10 +100,10 @@ namespace DoubleTRice.UI
             this.pnlMenu.Controls.Add(this.btnProducts);
             this.pnlMenu.Controls.Add(this.btnDashboard);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlMenu.Location = new System.Drawing.Point(0, 116);
+            this.pnlMenu.Location = new System.Drawing.Point(0, 115);
             this.pnlMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(250, 626);
+            this.pnlMenu.Size = new System.Drawing.Size(250, 625);
             this.pnlMenu.TabIndex = 0;
             // 
             // BtnUsers
@@ -130,7 +130,7 @@ namespace DoubleTRice.UI
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 664);
+            this.panel1.Location = new System.Drawing.Point(0, 665);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(254, 185);
             this.panel1.TabIndex = 12;
@@ -139,10 +139,10 @@ namespace DoubleTRice.UI
             // 
             this.guna2CirclePictureBox1.Image = global::DoubleTRice.Properties.Resources.smart_farm;
             this.guna2CirclePictureBox1.ImageRotate = 0F;
-            this.guna2CirclePictureBox1.Location = new System.Drawing.Point(12, 73);
+            this.guna2CirclePictureBox1.Location = new System.Drawing.Point(12, 72);
             this.guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
             this.guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(64, 65);
             this.guna2CirclePictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.guna2CirclePictureBox1.TabIndex = 6;
             this.guna2CirclePictureBox1.TabStop = false;
@@ -152,11 +152,11 @@ namespace DoubleTRice.UI
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(109, 108);
+            this.label3.Location = new System.Drawing.Point(110, 108);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(10, 10, 0, 0);
-            this.label3.Size = new System.Drawing.Size(60, 35);
+            this.label3.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
+            this.label3.Size = new System.Drawing.Size(60, 34);
             this.label3.TabIndex = 5;
             this.label3.Text = "Role";
             // 
@@ -165,11 +165,11 @@ namespace DoubleTRice.UI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(96, 73);
+            this.label2.Location = new System.Drawing.Point(96, 72);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(10, 10, 0, 0);
-            this.label2.Size = new System.Drawing.Size(107, 35);
+            this.label2.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
+            this.label2.Size = new System.Drawing.Size(107, 34);
             this.label2.TabIndex = 4;
             this.label2.Text = "Username";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -183,15 +183,15 @@ namespace DoubleTRice.UI
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(10, 10, 0, 0);
-            this.label1.Size = new System.Drawing.Size(145, 35);
+            this.label1.Padding = new System.Windows.Forms.Padding(10, 9, 0, 0);
+            this.label1.Size = new System.Drawing.Size(145, 34);
             this.label1.TabIndex = 2;
             this.label1.Text = "Acount ABCCC";
             // 
             // lblSeparator4
             // 
             this.lblSeparator4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
-            this.lblSeparator4.Location = new System.Drawing.Point(4, 661);
+            this.lblSeparator4.Location = new System.Drawing.Point(4, 662);
             this.lblSeparator4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSeparator4.Name = "lblSeparator4";
             this.lblSeparator4.Size = new System.Drawing.Size(250, 3);
@@ -344,7 +344,7 @@ namespace DoubleTRice.UI
             this.pnlBrand.Location = new System.Drawing.Point(0, 0);
             this.pnlBrand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlBrand.Name = "pnlBrand";
-            this.pnlBrand.Size = new System.Drawing.Size(250, 116);
+            this.pnlBrand.Size = new System.Drawing.Size(250, 115);
             this.pnlBrand.TabIndex = 0;
             // 
             // pictureBox1
@@ -353,7 +353,7 @@ namespace DoubleTRice.UI
             this.pictureBox1.Image = global::DoubleTRice.Properties.Resources.LOGOCNPM_1;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(250, 116);
+            this.pictureBox1.Size = new System.Drawing.Size(250, 115);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
@@ -375,7 +375,7 @@ namespace DoubleTRice.UI
             this.lblStatusUser.AutoSize = true;
             this.lblStatusUser.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.lblStatusUser.ForeColor = System.Drawing.Color.White;
-            this.lblStatusUser.Location = new System.Drawing.Point(60, 76);
+            this.lblStatusUser.Location = new System.Drawing.Point(60, 75);
             this.lblStatusUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatusUser.Name = "lblStatusUser";
             this.lblStatusUser.Size = new System.Drawing.Size(132, 21);
@@ -385,27 +385,17 @@ namespace DoubleTRice.UI
             // pnlNavbar
             // 
             this.pnlNavbar.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.pnlNavbar.Controls.Add(this.label4);
             this.pnlNavbar.Controls.Add(this.button1);
             this.pnlNavbar.Controls.Add(this.pictureBox2);
             this.pnlNavbar.Controls.Add(this.btnSettings);
+            this.pnlNavbar.Controls.Add(this.label4);
             this.pnlNavbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlNavbar.Location = new System.Drawing.Point(250, 0);
             this.pnlNavbar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlNavbar.Name = "pnlNavbar";
-            this.pnlNavbar.Size = new System.Drawing.Size(1050, 116);
+            this.pnlNavbar.Size = new System.Drawing.Size(1050, 115);
             this.pnlNavbar.TabIndex = 1;
             this.pnlNavbar.Resize += new System.EventHandler(this.PnlNavbar_Resize);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(39, 41);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Tên trang";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // button1
             // 
@@ -423,7 +413,7 @@ namespace DoubleTRice.UI
             this.pictureBox2.Image = global::DoubleTRice.Properties.Resources.cancelred;
             this.pictureBox2.Location = new System.Drawing.Point(1024, 0);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(26, 26);
+            this.pictureBox2.Size = new System.Drawing.Size(26, 27);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
@@ -435,7 +425,7 @@ namespace DoubleTRice.UI
             this.btnSettings.FillColor = System.Drawing.Color.Transparent;
             this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSettings.Location = new System.Drawing.Point(877, 41);
+            this.btnSettings.Location = new System.Drawing.Point(878, 42);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 46);
@@ -443,14 +433,24 @@ namespace DoubleTRice.UI
             this.btnSettings.Text = "⚙️";
             this.btnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 15);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(77, 20);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Tên trang";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
             // pnlBody
             // 
             this.pnlBody.BackColor = System.Drawing.Color.LavenderBlush;
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBody.Location = new System.Drawing.Point(250, 116);
+            this.pnlBody.Location = new System.Drawing.Point(250, 115);
             this.pnlBody.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlBody.Name = "pnlBody";
-            this.pnlBody.Size = new System.Drawing.Size(1050, 626);
+            this.pnlBody.Size = new System.Drawing.Size(1050, 625);
             this.pnlBody.TabIndex = 2;
             // 
             // guna2BorderlessForm1
@@ -463,7 +463,7 @@ namespace DoubleTRice.UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 742);
+            this.ClientSize = new System.Drawing.Size(1300, 740);
             this.Controls.Add(this.pnlBody);
             this.Controls.Add(this.pnlNavbar);
             this.Controls.Add(this.pnlSidebar);

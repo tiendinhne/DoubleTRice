@@ -2458,7 +2458,7 @@ IF OBJECT_ID('trg_AutoUpdatePriceList', 'TR') IS NOT NULL
 GO
 
 -- ===================================================================
--- 2. TẠO TRIGGER MỚI
+-- 2. TẠO TRIGGER MỚI - CẬP NHẬT 2 MỨC GIÁ
 -- ===================================================================
 CREATE TRIGGER trg_AutoUpdatePriceList
 ON GoodsReceiptDetails
@@ -2467,18 +2467,15 @@ AS
 BEGIN
     SET NOCOUNT ON;
     
-    -- Biến cấu hình markup (%)
-    DECLARE @MarkupPercent FLOAT = 0.20; -- 20% lợi nhuận
+    -- Markup cho 2 loại khách
+    DECLARE @MarkupVangLai FLOAT = 0.08; -- 8% cho khách vãng lai
+    DECLARE @MarkupQuen FLOAT = 0.05;     -- 5% cho khách quen
     
-    -- Duyệt qua từng dòng vừa insert
     DECLARE @ProductID INT, @UnitID INT, @DonGiaNhap DECIMAL(18,2);
-    DECLARE @GiaBan DECIMAL(18,2);
+    DECLARE @GiaBanVangLai DECIMAL(18,2), @GiaBanQuen DECIMAL(18,2);
     
     DECLARE detail_cursor CURSOR FOR 
-    SELECT 
-        i.ProductID, 
-        i.UnitID, 
-        i.DonGiaNhap
+    SELECT i.ProductID, i.UnitID, i.DonGiaNhap
     FROM inserted i;
     
     OPEN detail_cursor;
@@ -2486,31 +2483,21 @@ BEGIN
     
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- Tính giá bán = Giá nhập × (1 + markup)
-        SET @GiaBan = @DonGiaNhap * (1 + @MarkupPercent);
+        -- Tính 2 mức giá
+        SET @GiaBanVangLai = ROUND(@DonGiaNhap * (1 + @MarkupVangLai) / 1000, 0) * 1000;
+        SET @GiaBanQuen = ROUND(@DonGiaNhap * (1 + @MarkupQuen) / 1000, 0) * 1000;
         
-        -- Làm tròn đến hàng nghìn (tùy chọn)
-        SET @GiaBan = ROUND(@GiaBan / 1000, 0) * 1000;
-        
-        -- Kiểm tra đã có giá chưa
-        IF EXISTS (
-            SELECT 1 FROM PriceList 
-            WHERE ProductID = @ProductID AND UnitID = @UnitID
-        )
+        -- Update/Insert giá cho khách vãng lai (mặc định)
+        IF EXISTS (SELECT 1 FROM PriceList WHERE ProductID = @ProductID AND UnitID = @UnitID)
         BEGIN
-            -- UPDATE giá cũ (nếu giá mới cao hơn)
             UPDATE PriceList
-            SET GiaBan = @GiaBan,
-                NgayApDung = GETDATE()
-            WHERE ProductID = @ProductID 
-              AND UnitID = @UnitID
-              AND @GiaBan > GiaBan; -- Chỉ update nếu giá mới cao hơn
+            SET GiaBan = @GiaBanVangLai, NgayApDung = GETDATE()
+            WHERE ProductID = @ProductID AND UnitID = @UnitID;
         END
         ELSE
         BEGIN
-            -- INSERT giá mới
             INSERT INTO PriceList (ProductID, UnitID, GiaBan, NgayApDung)
-            VALUES (@ProductID, @UnitID, @GiaBan, GETDATE());
+            VALUES (@ProductID, @UnitID, @GiaBanVangLai, GETDATE());
         END
         
         FETCH NEXT FROM detail_cursor INTO @ProductID, @UnitID, @DonGiaNhap;
@@ -2520,6 +2507,48 @@ BEGIN
     DEALLOCATE detail_cursor;
 END
 GO
+
+
+-- ===================================================================
+-- 3. HÀM TÍNH GIÁ THEO LOẠI KHÁCH
+-- ===================================================================
+IF OBJECT_ID('fn_GetPriceByCustomerType', 'FN') IS NOT NULL
+    DROP FUNCTION fn_GetPriceByCustomerType;
+GO
+
+CREATE FUNCTION fn_GetPriceByCustomerType
+(
+    @ProductID INT,
+    @UnitID INT,
+    @CustomerID INT
+)
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @GiaBan DECIMAL(18,2);
+    DECLARE @IsVangLai BIT;
+    
+    -- Kiểm tra loại khách (CustomerID = 1 là khách vãng lai)
+    SET @IsVangLai = CASE WHEN @CustomerID = 1 THEN 1 ELSE 0 END;
+    
+    -- Lấy giá nhập gần nhất
+    DECLARE @GiaNhap DECIMAL(18,2);
+    SELECT TOP 1 @GiaNhap = grd.DonGiaNhap
+    FROM GoodsReceiptDetails grd
+    INNER JOIN GoodsReceipts gr ON grd.ReceiptID = gr.ReceiptID
+    WHERE grd.ProductID = @ProductID AND grd.UnitID = @UnitID
+    ORDER BY gr.NgayNhap DESC;
+    
+    -- Tính giá bán
+    IF @IsVangLai = 1
+        SET @GiaBan = ROUND(@GiaNhap * 1.08 / 1000, 0) * 1000; -- 8%
+    ELSE
+        SET @GiaBan = ROUND(@GiaNhap * 1.05 / 1000, 0) * 1000; -- 5%
+    
+    RETURN ISNULL(@GiaBan, 0);
+END
+GO
+
 /*
 PRINT '✅ Trigger trg_AutoUpdatePriceList đã được tạo thành công!';
 PRINT '';

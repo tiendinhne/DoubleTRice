@@ -390,6 +390,8 @@ namespace DoubleTRice.UI
            // btnNotification.Location = new Point(rightX, 38);
             btnSettings.Location = new Point(rightX - 97, 38);
             //txtSearch.Location = new Point(15, 23);
+            // Các nút bên phải (từ phải sang trái)
+            pictureBox2.Location = new Point(pnlNavbar.Width-20, 0);
         }
         #endregion
 

@@ -175,6 +175,7 @@ namespace DoubleTRice.UI
             this.txtPassword.TabIndex = 4;
             this.txtPassword.TextOffset = new System.Drawing.Point(8, 0);
             this.txtPassword.IconRightClick += new System.EventHandler(this.TxtPassword_IconRightClick);
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // pnlRememberForgot
             // 
@@ -190,11 +191,13 @@ namespace DoubleTRice.UI
             // 
             this.chkRememberMe.AutoSize = true;
             this.chkRememberMe.BackColor = System.Drawing.Color.Transparent;
+            this.chkRememberMe.Checked = true;
             this.chkRememberMe.CheckedState.BorderColor = System.Drawing.Color.White;
             this.chkRememberMe.CheckedState.BorderRadius = 0;
             this.chkRememberMe.CheckedState.BorderThickness = 0;
             this.chkRememberMe.CheckedState.FillColor = System.Drawing.Color.Blue;
             this.chkRememberMe.CheckMarkColor = System.Drawing.Color.Teal;
+            this.chkRememberMe.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRememberMe.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkRememberMe.Dock = System.Windows.Forms.DockStyle.Left;
             this.chkRememberMe.Font = new System.Drawing.Font("Segoe UI", 9F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
@@ -205,7 +208,7 @@ namespace DoubleTRice.UI
             this.chkRememberMe.Size = new System.Drawing.Size(157, 30);
             this.chkRememberMe.TabIndex = 0;
             this.chkRememberMe.Text = "Remember me";
-            this.chkRememberMe.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(100)))));
+            this.chkRememberMe.UncheckedState.BorderColor = System.Drawing.Color.RosyBrown;
             this.chkRememberMe.UncheckedState.BorderRadius = 0;
             this.chkRememberMe.UncheckedState.BorderThickness = 0;
             this.chkRememberMe.UncheckedState.FillColor = System.Drawing.Color.Transparent;
@@ -285,6 +288,7 @@ namespace DoubleTRice.UI
             this.lblFooter.TabIndex = 0;
             this.lblFooter.Text = "© 2025 by tiendinh & tienpham";
             this.lblFooter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblFooter.Click += new System.EventHandler(this.lblFooter_Click);
             // 
             // lblVersion
             // 
@@ -295,7 +299,7 @@ namespace DoubleTRice.UI
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(50, 33);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "v1.1.0";
+            this.lblVersion.Text = "v5.12";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // picBackground

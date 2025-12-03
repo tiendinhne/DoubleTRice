@@ -552,5 +552,15 @@ namespace DoubleTRice.UI
         {
             Application.Exit();
         }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblFooter_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
