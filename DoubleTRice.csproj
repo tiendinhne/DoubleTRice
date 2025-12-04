@@ -89,6 +89,7 @@
     <Compile Include="DAO\SalesInvoiceDAO.cs" />
     <Compile Include="DAO\StockAdjustmentDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
+    <Compile Include="DAO\SupplierDebtDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DT\CustomerPayments.cs" />
     <Compile Include="DT\Customers.cs" />
@@ -243,6 +244,18 @@
     <Compile Include="UI\ChildForms\SupplierAddEditDialog.Designer.cs">
       <DependentUpon>SupplierAddEditDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\SupplierDebtDetailDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierDebtDetailDialog.Designer.cs">
+      <DependentUpon>SupplierDebtDetailDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierDebtManagementUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\SupplierDebtManagementUI.Designer.cs">
+      <DependentUpon>SupplierDebtManagementUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\SupplierManagementUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,11 +313,19 @@
     <Compile Include="UI\MainUI.Designer.cs">
       <DependentUpon>MainUI.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="UI\ChildForms\ReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\ChildForms\ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
+=======
+    <Compile Include="UI\ChildForms\SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\SettingForm.Designer.cs">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+>>>>>>> 5482afb0f055a8a8149e02a58f0a62ae4f1015f5
     </Compile>
     <Compile Include="UI\TrangChuUI.cs">
       <SubType>Form</SubType>
@@ -331,6 +352,9 @@
     <EmbeddedResource Include="UI\ChildForms\CustomerManagementUI.resx">
       <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\DebtManagementUI.resx">
+      <DependentUpon>DebtManagementUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\GoodsReceiptManagementUI.resx">
       <DependentUpon>GoodsReceiptManagementUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -351,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\StockAdjustmentManagementUI.resx">
       <DependentUpon>StockAdjustmentManagementUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ChildForms\SupplierDebtManagementUI.resx">
+      <DependentUpon>SupplierDebtManagementUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ChildForms\SupplierManagementUI.resx">
       <DependentUpon>SupplierManagementUI.cs</DependentUpon>

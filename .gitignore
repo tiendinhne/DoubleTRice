@@ -16,3 +16,18 @@ Release/
 # Others
 *.dll
 *.log
+
+
+/bin/
+/obj/
+/.vs/
+
+
+/bin/
+/obj/
+/.vs/
+/*.user
+*.suo
+*.cache
+*.pdb
+*.db
