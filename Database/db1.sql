@@ -47,7 +47,7 @@ CREATE TABLE Units (
 
 
 
-CREATE TABLE  (
+CREATE TABLE Products (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     TenSanPham NVARCHAR(255) NOT NULL,
     BaseUnitID INT NOT NULL, -- Đơn vị tính cơ sở (luôn là 'kg')
