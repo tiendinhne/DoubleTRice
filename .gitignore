@@ -1,3 +1,4 @@
+
 # Visual Studio
 .vs/
 *.suo
@@ -16,3 +17,10 @@ Release/
 # Others
 *.dll
 *.log
+
+.vs/
+bin/
+obj/
+*.exe
+*.dll
+*.cache

@@ -252,7 +252,35 @@ namespace DoubleTRice.DAO
                 return -99;
             }
         }
+        // Trong GoodsReceiptDAO.cs
+        public List<GoodsReceipts> GetReceiptsBySupplier(int supplierID)
+        {
+            try
+            {
+                string query = @"
+            SELECT * FROM GoodsReceipts
+            WHERE SupplierID = @SupplierID
+            ORDER BY NgayNhap DESC";
 
+                DataTable data = DataProvider.Instance.ExecuteQuery(
+                    query,
+                    new object[] { supplierID },
+                    isStoredProc: false
+                );
+
+                List<GoodsReceipts> list = new List<GoodsReceipts>();
+                foreach (DataRow row in data.Rows)
+                {
+                    list.Add(new GoodsReceipts(row));
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi: {ex.Message}");
+            }
+        }
         #endregion
     }
 }

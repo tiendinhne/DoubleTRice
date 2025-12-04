@@ -180,7 +180,7 @@ namespace DoubleTRice.UI
                     ShowError("❌ Không kết nối được database!\nKiểm tra SQL Server đã chạy chưa.");
                     return;
                 }
-                MessageBox.Show("✅ Kết nối DB thành công!", "Debug");
+                //MessageBox.Show("✅ Kết nối DB thành công!", "Debug");
             }
             catch (Exception ex)
             {
@@ -322,8 +322,10 @@ namespace DoubleTRice.UI
         {
             this.Hide();
             MainUI mainUI = new MainUI();
-            mainUI.SetUserInfo(hoTen, vaiTro);
-            mainUI.SetMenuVisibility(vaiTro);
+            // Truyền đúng username + role từ UserSession
+            mainUI.SetUserInfo(UserSession.TenDangNhap, UserSession.VaiTro); mainUI.SetMenuVisibility(vaiTro);
+            // Kích hoạt phân quyền toàn bộ menu
+            mainUI.SetMenuVisibility(UserSession.VaiTro);
             mainUI.FormClosed += (s, args) => this.Close();
             mainUI.Show();
         }

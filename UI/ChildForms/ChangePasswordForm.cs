@@ -1,14 +1,29 @@
-﻿using System;
+﻿using DoubleTRice.LOGIC;
+using DoubleTRice.UI.BASE;
+using Guna.UI2.WinForms;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Guna.UI2.WinForms;
-using DoubleTRice.LOGIC;
-
 
 namespace DoubleTRice.UI.ChildForms
 {
     public partial class ChangePasswordForm : Form
     {
+        #region Event
+        /// <summary>
+        /// Event được raise khi đổi mật khẩu thành công
+        /// </summary>
+        public event EventHandler PasswordChanged;
+
+        /// <summary>
+        /// Raise PasswordChanged event
+        /// </summary>
+        protected virtual void OnPasswordChanged()
+        {
+            PasswordChanged?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
+
         #region Constructor
         public ChangePasswordForm()
         {
@@ -21,8 +36,52 @@ namespace DoubleTRice.UI.ChildForms
             // Hide error initially
             lblError.Visible = false;
 
+            // Apply mode colors
+            ApplyMode();
+
             // Focus on old password
             txtOldPassword.Focus();
+
+            // Wire up text changed events to hide error
+            txtOldPassword.TextChanged += TxtPassword_TextChanged;
+            txtNewPassword.TextChanged += TxtPassword_TextChanged;
+            txtConfirmPassword.TextChanged += TxtPassword_TextChanged;
+
+            // Wire up button events
+            btnSave.Click += BtnSave_Click;
+            btnCancel.Click += BtnCancel_Click;
+        }
+
+        private void ApplyMode()
+        {
+            bool isDark = Mode.IsDarkMode;
+
+            // Panel
+            pnlMain.FillColor = Mode.GetBodyColor();
+
+            // Title
+            lblTitle.ForeColor = isDark
+                ? Color.FromArgb(0, 200, 150)
+                : Color.FromArgb(0, 150, 120);
+
+            // Labels
+            Color labelColor = Mode.GetForeColor();
+            lblOldPassword.ForeColor = labelColor;
+            lblNewPassword.ForeColor = labelColor;
+            lblConfirmPassword.ForeColor = labelColor;
+
+            // TextBoxes
+            Color textBoxBg = isDark ? Color.FromArgb(40, 40, 40) : Color.White;
+            Color textBoxFore = Mode.GetForeColor();
+
+            txtOldPassword.FillColor = textBoxBg;
+            txtOldPassword.ForeColor = textBoxFore;
+            txtNewPassword.FillColor = textBoxBg;
+            txtNewPassword.ForeColor = textBoxFore;
+            txtConfirmPassword.FillColor = textBoxBg;
+            txtConfirmPassword.ForeColor = textBoxFore;
+
+            this.BackColor = Mode.GetBodyColor();
         }
         #endregion
 
@@ -39,6 +98,7 @@ namespace DoubleTRice.UI.ChildForms
             // Show loading
             btnSave.Text = "Đang xử lý...";
             btnSave.Enabled = false;
+            btnCancel.Enabled = false;
             this.Cursor = Cursors.WaitCursor;
 
             try
@@ -52,8 +112,10 @@ namespace DoubleTRice.UI.ChildForms
 
                 if (result.Success)
                 {
-                    MessageBox.Show("Đổi mật khẩu thành công!", "Thành công",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // ✅ RAISE EVENT trước khi đóng form
+                    OnPasswordChanged();
+
+                    // Set DialogResult và đóng form
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -67,12 +129,13 @@ namespace DoubleTRice.UI.ChildForms
             }
             catch (Exception ex)
             {
-                ShowError($"Lỗi: {ex.Message}");
+                ShowError($"Lỗi hệ thống: {ex.Message}");
             }
             finally
             {
                 btnSave.Text = "💾 Lưu thay đổi";
                 btnSave.Enabled = true;
+                btnCancel.Enabled = true;
                 this.Cursor = Cursors.Default;
             }
         }
@@ -95,21 +158,21 @@ namespace DoubleTRice.UI.ChildForms
             // Check empty
             if (string.IsNullOrWhiteSpace(txtOldPassword.Text))
             {
-                ShowError("Vui lòng nhập mật khẩu cũ");
+                ShowError("⚠️ Vui lòng nhập mật khẩu hiện tại");
                 txtOldPassword.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtNewPassword.Text))
             {
-                ShowError("Vui lòng nhập mật khẩu mới");
+                ShowError("⚠️ Vui lòng nhập mật khẩu mới");
                 txtNewPassword.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtConfirmPassword.Text))
             {
-                ShowError("Vui lòng nhập lại mật khẩu mới");
+                ShowError("⚠️ Vui lòng nhập lại mật khẩu mới");
                 txtConfirmPassword.Focus();
                 return false;
             }
@@ -117,7 +180,7 @@ namespace DoubleTRice.UI.ChildForms
             // Validate password rules
             if (!PasswordHelper.ValidatePassword(txtNewPassword.Text, out string error))
             {
-                ShowError(error);
+                ShowError($"⚠️ {error}");
                 txtNewPassword.Focus();
                 return false;
             }
@@ -125,7 +188,7 @@ namespace DoubleTRice.UI.ChildForms
             // Check password match
             if (txtNewPassword.Text != txtConfirmPassword.Text)
             {
-                ShowError("Mật khẩu mới và nhập lại không khớp");
+                ShowError("⚠️ Mật khẩu mới và nhập lại không khớp");
                 txtConfirmPassword.Focus();
                 return false;
             }
@@ -133,7 +196,7 @@ namespace DoubleTRice.UI.ChildForms
             // Check new password != old password
             if (txtOldPassword.Text == txtNewPassword.Text)
             {
-                ShowError("Mật khẩu mới không được trùng với mật khẩu cũ");
+                ShowError("⚠️ Mật khẩu mới không được trùng với mật khẩu hiện tại");
                 txtNewPassword.Focus();
                 return false;
             }
@@ -146,6 +209,7 @@ namespace DoubleTRice.UI.ChildForms
         {
             lblError.Text = message;
             lblError.Visible = true;
+            lblError.ForeColor = Color.FromArgb(220, 53, 69); // Red color
         }
 
         private void HideError()
@@ -154,14 +218,16 @@ namespace DoubleTRice.UI.ChildForms
         }
         #endregion
 
+        #region Designer Event Handlers (Keep for compatibility)
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
         {
-
+            HideError();
         }
 
         private void lblConfirmPassword_Click(object sender, EventArgs e)
         {
-
+            // Empty - designer event
         }
+        #endregion
     }
 }
