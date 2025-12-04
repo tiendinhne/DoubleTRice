@@ -1,0 +1,48 @@
+* [33m5482afb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m bsung code
+* [33me9fd1cf[m[33m ([m[1;32mPham[m[33m)[m Cleanup ignored files from main
+* [33mc46ab97[m donev1
+* [33m2bf8f4b[m congno KH
+* [33m2cc2991[m 3-12
+* [33m1e2d9a0[m còn công nợ là xong
+* [33m10035bf[m 2-12
+* [33m3891bf3[m backup sql
+* [33m0a1165b[m fix kho
+* [33m155618b[m connect sql
+* [33m8a658f7[m fix excutequery to KHO
+* [33m001d86d[m Kho
+* [33mea7314d[m Update README to remove repo structure section
+* [33m1ce16fd[m crud customer-supplier
+* [33mf11aee5[m product CRUD
+* [33m2e0ffe2[m qly danh muc sanpham v1
+* [33m6e69e41[m qly danh muc sanpham
+* [33mc904a35[m qly user v2
+* [33m16c4244[m qly user
+*   [33mec51a83[m 20-11
+[32m|[m[33m\[m  
+[32m|[m * [33m8dd145f[m Update Readme with form details
+* [33m|[m [33m7dddd7e[m 20-11
+[33m|[m[33m/[m  
+* [33m1b3a9e1[m migration + seed data
+* [33m9ac1ec8[m Merger db1 lan 1 19/11
+* [33m3374559[m done login
+* [33m4e521fd[m login v3
+* [33ma935dd4[m 17-11 v3
+* [33ma3f9522[m 17-11 v2
+*   [33md912ccd[m Complete merge with origin/main
+[34m|[m[35m\[m  
+[34m|[m * [33m5659951[m Initialize README with project requirements and structure
+* [35m|[m [33m262505f[m[33m ([m[1;31morigin/backup-MainUI[m[33m, [m[1;32mbackup-MainUI[m[33m)[m 17-11
+* [35m|[m [33m8e5ce4b[m login all
+* [35m|[m [33m046eadd[m mode
+* [35m|[m [33meb4c54d[m MainUi
+* [35m|[m [33mcee041d[m ver3
+* [35m|[m [33mad94a2d[m ver2 by grok
+* [35m|[m [33m6a4967e[m[33m ([m[1;32mDinh[m[33m)[m fix UI main
+* [35m|[m [33me30e5b9[m[33m ([m[1;31morigin/Dinh[m[33m)[m fix guna and fomr
+* [35m|[m [33m8015bd8[m DAO
+* [35m|[m [33m0ed4ceb[m DTO
+* [35m|[m [33mea1d5a1[m test1
+* [35m|[m [33m74690f4[m basic
+* [35m|[m [33md775d9a[m base
+[35m|[m[35m/[m  
+* [33meef03fe[m[33m ([m[1;31morigin/UI[m[33m, [m[1;32mUI[m[33m)[m inittal commit
