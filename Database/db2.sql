@@ -8,7 +8,7 @@ GO
 USE QuanLyBanGao;
 GO
 
-
+/*
 -- them du liẹu cho san phẩm
 INSERT INTO Products (TenSanPham, BaseUnitID, TonKhoToiThieu)
 VALUES 
@@ -16,7 +16,7 @@ VALUES
 (N'Gạo Lài Sữa', 1, 30),
 (N'Gạo Nàng Hương Chợ Đào', 1, 20);
 --select * from Products;
-
+*/
 
 -- Chèn đơn vị tính
 INSERT INTO Units (TenDVT) VALUES 
@@ -90,12 +90,13 @@ INSERT INTO Customers ( TenKhachHang, SoDienThoai, DiaChi) VALUES
 
 --- 30-11 
 -- Kiểm tra
+/*
 SELECT p.TenSanPham, u.TenDVT, pl.GiaBan
 FROM PriceList pl
 INNER JOIN Products p ON pl.ProductID = p.ProductID
 INNER JOIN Units u ON pl.UnitID = u.UnitID
 ORDER BY p.TenSanPham, u.TenDVT;
-
+*/
 
 --BACKUP DATABASE QuanLyBanGao 
 --TO DISK = 'D:\QuanLyBanGao_Backup.bak'
@@ -110,10 +111,10 @@ ORDER BY p.TenSanPham, u.TenDVT;
    - Khách vãng lai trùng: 3 bản ghi
    
    ⚠️ QUAN TRỌNG: BACKUP DATABASE TRƯỚC KHI CHẠY!
-   =================================================================== */
+   =================================================================== 
 
-USE QuanLyBanGao;
-GO
+--USE QuanLyBanGao;
+--GO
 
 SET NOCOUNT ON;
 GO
@@ -519,3 +520,4 @@ PRINT '========================================';
 PRINT 'HOÀN TẤT!';
 PRINT '========================================';
 GO
+*/

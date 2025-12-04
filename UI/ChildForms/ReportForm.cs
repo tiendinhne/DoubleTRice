@@ -2,41 +2,43 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DoubleTRice.DT;
-using DoubleTRice.LOGIC; // Namespace chứa ExportHelper
+using DoubleTRice.LOGIC;
 using Guna.UI2.WinForms;
 
 namespace DoubleTRice.UI.ChildForms
 {
     public partial class ReportForm : BaseChildForm
     {
-        // Màu chủ đạo (Teal)
         private Color primaryColor = Color.FromArgb(0, 150, 120);
+        private Color accentColor = Color.FromArgb(0, 180, 140);
 
         public ReportForm()
         {
             InitializeComponent();
+            InitializeForm();
+        }
 
-            // 1. ĐẶT TÊN TAB THEO YÊU CẦU
+        private void InitializeForm()
+        {
+            // 1. Set tab names
             tabPage1.Text = "Doanh Thu";
             tabPage2.Text = "Tồn kho";
             tabPage3.Text = "Công nợ KH";
             tabPage4.Text = "Công nợ NCC";
             tabPage5.Text = "Dashboard";
 
-            // 2. KẾT NỐI SỰ KIỆN NÚT BẤM (Fix lỗi bấm không chạy)
+            // 2. Wire up events
             this.btnViewRevenueReport.Click += new EventHandler(this.btnViewRevenueReport_Click);
             this.btnViewInventoryReport.Click += new EventHandler(this.btnViewInventoryReport_Click);
             this.btnViewCustomerDebtReport.Click += new EventHandler(this.btnViewCustomerDebtReport_Click);
             this.btnViewSupplierDebtReport.Click += new EventHandler(this.btnViewSupplierDebtReport_Click);
-            this.btnViewDashboard.Click += new EventHandler(this.btnViewDashboard_Click);
             this.btnExport.Click += new EventHandler(this.btnExport_Click);
 
-            // 3. Làm đẹp và khởi tạo dữ liệu
+            // 3. Apply professional styling
             ApplyProfessionalStyle();
             InitializeDefaults();
 
-            // QUAN TRỌNG KHI LÀM CHILDFORM:
-            // Đảm bảo Form tự động resize theo Panel cha
+            // 4. IMPORTANT: ChildForm configuration
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.Dock = DockStyle.Fill;
         }
@@ -46,100 +48,104 @@ namespace DoubleTRice.UI.ChildForms
             dtpStartDate.Value = DateTime.Now.AddDays(-30);
             dtpEndDate.Value = DateTime.Now;
 
-            nudMonth.Minimum = 1; nudMonth.Maximum = 12;
+            nudMonth.Minimum = 1;
+            nudMonth.Maximum = 12;
             nudMonth.Value = DateTime.Now.Month;
 
-            nudYear.Minimum = 2020; nudYear.Maximum = DateTime.Now.Year + 5;
+            nudYear.Minimum = 2020;
+            nudYear.Maximum = DateTime.Now.Year + 5;
             nudYear.Value = DateTime.Now.Year;
 
-            // Load Dashboard ngay khi mở form
             LoadDashboard();
         }
 
         private void ApplyProfessionalStyle()
         {
+            // Style main panels
+            pnlHeader.FillColor = Color.Transparent;
+            pnlContent.FillColor = Color.Transparent;
+
             // Style TabControl
             TabControl.TabButtonIdleState.FillColor = Color.White;
             TabControl.TabButtonIdleState.ForeColor = Color.Gray;
             TabControl.TabButtonSelectedState.FillColor = primaryColor;
             TabControl.TabButtonSelectedState.ForeColor = Color.White;
 
-            // Style Buttons
+            // Style all buttons
             StyleButton(btnViewRevenueReport);
             StyleButton(btnViewInventoryReport);
             StyleButton(btnViewCustomerDebtReport);
             StyleButton(btnViewSupplierDebtReport);
-            StyleButton(btnViewDashboard);
             StyleButton(btnExport);
 
-            // Style Grids
+            // Style all grids
             StyleGrid(dgvRevenueReport);
             StyleGrid(dgvInventoryReport);
             StyleGrid(dgvCustomerDebt);
             StyleGrid(dgvSupplierDebt);
 
-            // Style Labels Dashboard
+            // Style dashboard labels
             StyleDashboardLabel(lblDashboardRevenue);
             StyleDashboardLabel(lblDashboardProfit);
             StyleDashboardLabel(lblDashboardInvoices);
             StyleDashboardLabel(lblDashboardLowStock);
             StyleDashboardLabel(lblDashboardCustomerDebt);
             StyleDashboardLabel(lblDashboardSupplierDebt);
+
+            // Style title
+            lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblTitle.ForeColor = primaryColor;
         }
 
         private void StyleButton(Guna2Button btn)
         {
             if (btn == null) return;
-            btn.BorderRadius = 6;
+            btn.BorderRadius = 8;
             btn.FillColor = primaryColor;
             btn.ForeColor = Color.White;
-            btn.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btn.HoverState.FillColor = accentColor;
         }
 
         private void StyleGrid(Guna2DataGridView dgv)
         {
             if (dgv == null) return;
-            //dgv.ThemeStyle.HeaderStyle.BackColor = primaryColor;
-            //dgv.ThemeStyle.HeaderStyle.Height = 40;
-            //dgv.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            //dgv.RowTemplate.Height = 35;
-            //dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
 
-            // Header Style
+            // Header styling
             dgv.ThemeStyle.HeaderStyle.BackColor = primaryColor;
             dgv.ThemeStyle.HeaderStyle.Height = 40;
-            dgv.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgv.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dgv.ThemeStyle.HeaderStyle.ForeColor = Color.White;
 
-            // Row Style (FIX THE TEXT COLOR HERE)
-            dgv.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-            dgv.ThemeStyle.RowsStyle.ForeColor = Color.Black; // Force text to be Black
+            // Row styling - FIXED TEXT COLOR
+            dgv.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
+            dgv.ThemeStyle.RowsStyle.ForeColor = Color.Black;
             dgv.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dgv.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dgv.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
 
-            // Default Cell Style (Double check)
+            // Default cell style
             dgv.DefaultCellStyle.ForeColor = Color.Black;
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
 
-            // Alternating Rows
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+            // Alternating rows
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
             dgv.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
 
-            // Row Height
             dgv.RowTemplate.Height = 35;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = Color.FromArgb(230, 230, 230);
         }
 
         private void StyleDashboardLabel(Guna2HtmlLabel lbl)
         {
-            if (lbl != null)
-            {
-                lbl.ForeColor = primaryColor;
-                lbl.Font = new Font("Segoe UI", 14, FontStyle.Bold);
-            }
+            if (lbl == null) return;
+            lbl.ForeColor = primaryColor;
+            lbl.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
         }
 
-        #region Xử lý sự kiện
+        #region Event Handlers
 
-        // 1. DOANH THU
         private void btnViewRevenueReport_Click(object sender, EventArgs e)
         {
             var result = ReportService.GetRevenueReport(dtpStartDate.Value, dtpEndDate.Value);
@@ -157,15 +163,14 @@ namespace DoubleTRice.UI.ChildForms
                 FormatMoney(dgvRevenueReport, "TongGiaVon");
                 FormatMoney(dgvRevenueReport, "LoiNhuan");
 
-                lblTotalRevenue.Text = $"Doanh thu: {ReportService.CalculateTotalRevenue(result.data):N0} đ";
+                lblTotalRevenue.Text = $"Tổng doanh thu: {ReportService.CalculateTotalRevenue(result.data):N0} đ";
                 lblTotalRevenue.ForeColor = Color.Green;
-                lblTotalProfit.Text = $"Lợi nhuận: {ReportService.CalculateTotalProfit(result.data):N0} đ";
-                lblTotalProfit.ForeColor = Color.Blue; 
+                lblTotalProfit.Text = $"Tổng lợi nhuận: {ReportService.CalculateTotalProfit(result.data):N0} đ";
+                lblTotalProfit.ForeColor = Color.Blue;
             }
             else MessageBox.Show(result.message);
         }
 
-        // 2. TỒN KHO
         private void btnViewInventoryReport_Click(object sender, EventArgs e)
         {
             var result = ReportService.GetInventoryReport();
@@ -193,7 +198,6 @@ namespace DoubleTRice.UI.ChildForms
             else MessageBox.Show(result.message);
         }
 
-        // 3. CÔNG NỢ KH
         private void btnViewCustomerDebtReport_Click(object sender, EventArgs e)
         {
             var result = ReportService.GetCustomerDebtReport();
@@ -218,7 +222,6 @@ namespace DoubleTRice.UI.ChildForms
             }
         }
 
-        // 4. CÔNG NỢ NCC
         private void btnViewSupplierDebtReport_Click(object sender, EventArgs e)
         {
             var result = ReportService.GetSupplierDebtReport();
@@ -242,7 +245,6 @@ namespace DoubleTRice.UI.ChildForms
             }
         }
 
-        // 5. DASHBOARD
         private void btnViewDashboard_Click(object sender, EventArgs e) => LoadDashboard();
 
         private void LoadDashboard()
@@ -251,12 +253,12 @@ namespace DoubleTRice.UI.ChildForms
             if (result.success && result.data != null)
             {
                 var d = result.data;
-                lblDashboardRevenue.Text = $"Doanh thu: {d.TongDoanhThuThang:N0} đ";
-                lblDashboardProfit.Text = $"Lợi nhuận: {d.TongLoiNhuanThang:N0} đ";
-                lblDashboardCustomerDebt.Text = $"Nợ phải thu: {d.TongCongNoKhach:N0} đ";
-                lblDashboardSupplierDebt.Text = $"Nợ phải trả: {d.TongCongNoNCC:N0} đ";
-                lblDashboardLowStock.Text = $"Sắp hết hàng: {d.SoSanPhamSapHet} SP";
-                lblDashboardInvoices.Text = $"Tổng hóa đơn: {d.TongSoHoaDon}";
+                lblDashboardRevenue.Text = $"💰 Doanh thu: {d.TongDoanhThuThang:N0} đ";
+                lblDashboardProfit.Text = $"📈 Lợi nhuận: {d.TongLoiNhuanThang:N0} đ";
+                lblDashboardCustomerDebt.Text = $"👥 Nợ phải thu: {d.TongCongNoKhach:N0} đ";
+                lblDashboardSupplierDebt.Text = $"🏭 Nợ phải trả: {d.TongCongNoNCC:N0} đ";
+                lblDashboardLowStock.Text = $"⚠️ Sắp hết hàng: {d.SoSanPhamSapHet} SP";
+                lblDashboardInvoices.Text = $"📄 Tổng hóa đơn: {d.TongSoHoaDon}";
             }
         }
 
@@ -273,28 +275,35 @@ namespace DoubleTRice.UI.ChildForms
             if (target != null && target.DataSource != null)
                 ExportHelper.ExportToExcel(target, name);
             else
-                MessageBox.Show("Không có dữ liệu để xuất.");
+                MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
         #endregion
 
-        #region Helpers
+        #region Helper Methods
+
         private void SetHeader(DataGridView dgv, string col, string text)
         {
-            if (dgv.Columns[col] != null) dgv.Columns[col].HeaderText = text;
+            if (dgv.Columns[col] != null)
+                dgv.Columns[col].HeaderText = text;
         }
+
         private void FormatMoney(DataGridView dgv, string col)
         {
-            if (dgv.Columns[col] != null) dgv.Columns[col].DefaultCellStyle.Format = "N0";
+            if (dgv.Columns[col] != null)
+                dgv.Columns[col].DefaultCellStyle.Format = "N0";
         }
+
         private void HideCol(DataGridView dgv, string col)
         {
-            if (dgv.Columns[col] != null) dgv.Columns[col].Visible = false;
+            if (dgv.Columns[col] != null)
+                dgv.Columns[col].Visible = false;
         }
-        private void lblDashboardInvoices_Click(object sender, EventArgs e) { }
-        private void lblTitle_Click(object sender, EventArgs e) { }
+
         #endregion
 
-        private void btnExport_Click_1(object sender, EventArgs e)
+        private void lblTitle_Click(object sender, EventArgs e)
         {
 
         }

@@ -2392,7 +2392,7 @@ GO
 --PRINT '✅ STORED PROCEDURES CHO BÁN HÀNG ĐÃ ĐƯỢC TẠO THÀNH CÔNG!';
 
 
-
+/*
 -- Test kiểm tra tồn kho
 DECLARE @IsAvailable BIT, @TonHienTai FLOAT;
 
@@ -2410,7 +2410,7 @@ select * from ProductUnitConversions
 select * from Products
 
 select * from Pricelist
-
+*/
 -- ===================================================================
 -- Stored Procedure: Cập nhật Tổng tiền Phiếu nhập
 -- ===================================================================
@@ -2446,10 +2446,10 @@ GO
 -- TRIGGER TỰ ĐỘNG CẬP NHẬT GIÁ BÁN KHI NHẬP HÀNG
 -- Date: 02/12/2025
 -- ===================================================================
-
+/*
 USE QuanLyBanGao;
 GO
-
+*/
 -- ===================================================================
 -- 1. DROP TRIGGER CŨ (NẾU CÓ)
 -- ===================================================================
@@ -2912,8 +2912,8 @@ GO
 -- Date: 04/12/2025
 -- ===================================================================
 
-USE QuanLyBanGao;
-GO
+--USE QuanLyBanGao;
+--GO
 
 -- ===================================================================
 -- 1. SP LẤY DANH SÁCH NHÀ CUNG CẤP CÓ CÔNG NỢ

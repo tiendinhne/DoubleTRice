@@ -234,12 +234,13 @@ namespace DoubleTRice.UI
         {
             try
             {
-                var productsForm = new TrangChuUI();
-                OpenChildForm(productsForm);
+                //ReportForm form = new ReportForm();
+                //form.ShowDialog();
+                OpenChildForm(new ReportForm());
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi mở form Sản phẩm: {ex.Message}", "Lỗi",
+                MessageBox.Show($"Lỗi khi mở form báo cáo: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -748,9 +749,7 @@ namespace DoubleTRice.UI
 
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
-            //ReportForm form = new ReportForm();
-            //form.ShowDialog();
-            OpenChildForm(new ReportForm());
+
         }
 
         private void Panel1_Paint(object sender, PaintEventArgs e)

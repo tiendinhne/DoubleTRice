@@ -100,7 +100,7 @@ namespace DoubleTRice.UI.ChildForms
 
             this.lblTitle.Dock = DockStyle.Fill;
             this.lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            this.lblTitle.ForeColor = Color.White;
+            this.lblTitle.ForeColor = Color.Black;
             this.lblTitle.Text = "👁️ Chi Tiết Hóa Đơn Bán Hàng";
             this.lblTitle.TextAlign = ContentAlignment.MiddleCenter;
 
@@ -301,9 +301,9 @@ namespace DoubleTRice.UI.ChildForms
 
 
             this.AutoScaleDimensions = new SizeF(9F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.None;
             this.BackColor = Color.White;
-            this.ClientSize = new Size(1000, 700);
+            this.ClientSize = new Size(900, 700);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

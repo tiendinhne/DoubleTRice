@@ -341,7 +341,6 @@ namespace DoubleTRice.UI.ChildForms
             // 
             // cboTypeFilter
             // 
-            this.cboTypeFilter.AutoRoundedCorners = true;
             this.cboTypeFilter.BackColor = System.Drawing.Color.Transparent;
             this.cboTypeFilter.BorderRadius = 17;
             this.cboTypeFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -354,9 +353,9 @@ namespace DoubleTRice.UI.ChildForms
             "Tất cả",
             "Nhập thừa",
             "Xuất hủy"});
-            this.cboTypeFilter.Location = new System.Drawing.Point(674, 12);
+            this.cboTypeFilter.Location = new System.Drawing.Point(660, 6);
             this.cboTypeFilter.Name = "cboTypeFilter";
-            this.cboTypeFilter.Size = new System.Drawing.Size(200, 36);
+            this.cboTypeFilter.Size = new System.Drawing.Size(191, 36);
             this.cboTypeFilter.StartIndex = 0;
             this.cboTypeFilter.TabIndex = 0;
             this.cboTypeFilter.SelectedIndexChanged += new System.EventHandler(this.CboTypeFilter_SelectedIndexChanged);

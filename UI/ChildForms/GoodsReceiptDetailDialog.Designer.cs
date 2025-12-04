@@ -72,7 +72,7 @@ namespace DoubleTRice.UI.ChildForms
 
             this.lblTitle.Dock = DockStyle.Fill;
             this.lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            this.lblTitle.ForeColor = Color.White;
+            this.lblTitle.ForeColor = Color.Black;
             this.lblTitle.Text = "👁️ Chi Tiết Phiếu Nhập Kho";
             this.lblTitle.TextAlign = ContentAlignment.MiddleCenter;
 

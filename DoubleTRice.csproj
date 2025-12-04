@@ -148,6 +148,12 @@
     <Compile Include="UI\ChildForms\CustomerManagementUI.Designer.cs">
       <DependentUpon>CustomerManagementUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChildForms\CustomerSelectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ChildForms\CustomerSelectDialog.Designer.cs">
+      <DependentUpon>CustomerSelectDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ChildForms\DebtDetailDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -318,13 +324,12 @@
     </Compile>
     <Compile Include="UI\ChildForms\ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
-	</Compile>
+    </Compile>
     <Compile Include="UI\ChildForms\SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\ChildForms\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
-
     </Compile>
     <Compile Include="UI\TrangChuUI.cs">
       <SubType>Form</SubType>

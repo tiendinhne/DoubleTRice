@@ -363,9 +363,9 @@ namespace DoubleTRice.UI.ChildForms
 
             // Form
             this.AutoScaleDimensions = new SizeF(9F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.None;
             this.BackColor = Color.White;
-            this.ClientSize = new Size(900, 750);
+            this.ClientSize = new Size(850, 750);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
