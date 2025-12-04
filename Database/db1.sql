@@ -47,7 +47,7 @@ CREATE TABLE Units (
 
 
 
-CREATE TABLE  (
+CREATE TABLE Products (
     ProductID INT IDENTITY(1,1) PRIMARY KEY,
     TenSanPham NVARCHAR(255) NOT NULL,
     BaseUnitID INT NOT NULL, -- Đơn vị tính cơ sở (luôn là 'kg')
@@ -529,9 +529,9 @@ GO
 -- TEST STORED PROCEDURES
 -- ===================================================================
 
--- Test 1: Login thành công
---DECLARE @Result INT, @UserID INT, @HoTen NVARCHAR(255), @VaiTro NVARCHAR(100);
---EXEC sp_Login 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', @Result OUTPUT, @UserID OUTPUT, @HoTen OUTPUT, @VaiTro OUTPUT;
+--Test 1: Login thành công
+DECLARE @Result INT, @UserID INT, @HoTen NVARCHAR(255), @VaiTro NVARCHAR(100);
+EXEC sp_Login 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', @Result OUTPUT, @UserID OUTPUT, @HoTen OUTPUT, @VaiTro OUTPUT;
 PRINT 'Test Login - Result: ' + CAST(@Result AS VARCHAR) + ', UserID: ' + CAST(ISNULL(@UserID, 0) AS VARCHAR) + ', HoTen: ' + ISNULL(@HoTen, 'NULL');
 
 -- Test 2: Đổi mật khẩu

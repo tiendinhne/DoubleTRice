@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using DoubleTRice.DAO;
+﻿using DoubleTRice.DAO;
 using DoubleTRice.DT;
 using DoubleTRice.LOGIC;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DoubleTRice.UI.ChildForms
 {
@@ -658,13 +659,30 @@ namespace DoubleTRice.UI.ChildForms
             }
 
             // Lấy thông tin thanh toán
-            decimal tongTien = decimal.Parse(txtTongTien.Text.Replace(",", ""));
+            //decimal tongTien = decimal.Parse(txtTongTien.Text.Replace(",", ""));
+            //decimal tienKhachDua = 0;
+            // Parse tổng tiền an toàn
+            string tongTienText = txtTongTien.Text.Replace(",", "")
+                                                  .Replace("đ", "")
+                                                  .Trim();
+            if (!decimal.TryParse(tongTienText, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal tongTien))
+            {
+                MessageBox.Show("Số tiền tổng không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Parse tiền khách đưa (ví dụ tương tự)
+            //string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Replace("đ", "").Trim();
             decimal tienKhachDua = 0;
+            //decimal.TryParse(tienKhachDuaText, NumberStyles.Number, CultureInfo.InvariantCulture, out tienKhachDua);
+
 
             try
             {
-                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Trim();
-                tienKhachDua = string.IsNullOrEmpty(tienKhachDuaText) ? 0 : decimal.Parse(tienKhachDuaText);
+                //string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Trim();
+                //tienKhachDua = string.IsNullOrEmpty(tienKhachDuaText) ? 0 : decimal.Parse(tienKhachDuaText);
+                string tienKhachDuaText = txtTienKhachDua.Text.Replace(",", "").Replace("đ", "").Trim();
+                decimal.TryParse(tienKhachDuaText, NumberStyles.Number, CultureInfo.InvariantCulture, out tienKhachDua);
             }
             catch
             {

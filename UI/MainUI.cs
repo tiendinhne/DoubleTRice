@@ -745,7 +745,15 @@ namespace DoubleTRice.UI
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+
+        private void btnBaoCao_Click(object sender, EventArgs e)
+        {
+            //ReportForm form = new ReportForm();
+            //form.ShowDialog();
+            OpenChildForm(new ReportForm());
+        }
+
+        private void Panel1_Paint(object sender, PaintEventArgs e)
         {
            
         }
