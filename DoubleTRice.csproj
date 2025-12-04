@@ -318,7 +318,7 @@
     </Compile>
     <Compile Include="UI\ChildForms\ReportForm.Designer.cs">
       <DependentUpon>ReportForm.cs</DependentUpon>
-
+	</Compile>
     <Compile Include="UI\ChildForms\SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>

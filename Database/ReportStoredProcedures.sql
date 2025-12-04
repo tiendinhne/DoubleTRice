@@ -316,8 +316,8 @@ END
 GO
 */
 
-DROP PROCEDURE sp_GetDashboardSummary;
-GO
+--DROP PROCEDURE sp_GetDashboardSummary;
+--GO
 
 
 CREATE PROCEDURE sp_GetDashboardSummary
@@ -404,5 +404,3 @@ BEGIN
         @TongSoHD AS TongSoHoaDon;
 END
 GO
-
-PRINT '✅ Tạo stored procedures cho báo cáo thành công!';
