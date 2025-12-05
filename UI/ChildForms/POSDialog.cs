@@ -833,8 +833,29 @@ namespace DoubleTRice.UI.ChildForms
 
         private void PrintInvoice(int invoiceID)
         {
-            MessageBox.Show("Chức năng in hóa đơn đang được phát triển.\n\nID Hóa đơn: " + invoiceID,
-                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                // Tạo PDF
+                string filePath = InvoicePDFGenerator.GenerateInvoicePDF(invoiceID, autoOpen: true);
+
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    MessageBox.Show($"Đã tạo hóa đơn thành công!\n\nFile: {filePath}",
+                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi in hóa đơn: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+            
         }
         #endregion
 

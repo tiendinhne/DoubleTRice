@@ -111,6 +111,7 @@
     <Compile Include="LOGIC\AuthenticationService.cs" />
     <Compile Include="LOGIC\AuthenticationResult.cs" />
     <Compile Include="LOGIC\ExportHelper.cs" />
+    <Compile Include="LOGIC\InvoicePDFGenerator.cs" />
     <Compile Include="LOGIC\PasswordHelper.cs" />
     <Compile Include="LOGIC\ReportService.cs" />
     <Compile Include="LOGIC\UserSession.cs" />

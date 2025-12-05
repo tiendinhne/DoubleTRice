@@ -13,7 +13,7 @@ namespace DoubleTRice.UI.ChildForms
         #region Fields
         private List<Suppliers> allSuppliers;
         private List<Products> allProducts;
-        private List<Units> allUnits;
+        //private List<Units> allUnits;
         private List<GoodsReceiptDetailDisplay> receiptItems; // Danh sách hàng đang nhập (dùng cho hiển thị)
         private int currentUserID; // ID người dùng hiện tại
         #endregion

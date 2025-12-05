@@ -307,5 +307,10 @@ namespace DoubleTRice.UI.ChildForms
         {
 
         }
+
+        private void dtpStartDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

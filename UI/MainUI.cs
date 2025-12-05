@@ -395,11 +395,12 @@ namespace DoubleTRice.UI
         private void UpdateNavbarControlsPosition()
         {
             int rightX = pnlNavbar.Width - 320;
-           // btnNotification.Location = new Point(rightX, 38);
+            // btnNotification.Location = new Point(rightX, 38);
             //btnSettings.Location = new Point(rightX - 97, 38);
             //txtSearch.Location = new Point(15, 23);
             // Các nút bên phải (từ phải sang trái)
             pictureBox2.Location = new Point(pnlNavbar.Width-20, 0);
+            button1.Location = new Point(pnlNavbar.Width-85,0);
         }
         #endregion
 
@@ -409,6 +410,7 @@ namespace DoubleTRice.UI
         /// </summary>
         public void SetUserInfo(string username, string role, Image avatar = null)
         {
+            //label1.Text = "Xin chào buổi trưa "+ username;
             label2.Text = username;
             label3.Text = role;
 

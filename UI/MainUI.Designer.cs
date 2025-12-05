@@ -58,7 +58,6 @@ namespace DoubleTRice.UI
             this.pnlNavbar = new Guna.UI2.WinForms.Guna2Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.pnlBody = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
             this.pnlSidebar.SuspendLayout();
@@ -128,13 +127,13 @@ namespace DoubleTRice.UI
             this.guna2CirclePictureBox1.Image = global::DoubleTRice.Properties.Resources.smart_farm;
             this.guna2CirclePictureBox1.ImageRotate = 0F;
             this.guna2CirclePictureBox1.Location = new System.Drawing.Point(14, 65);
-            this.guna2CirclePictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
             this.guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(70, 70);
+            this.guna2CirclePictureBox1.Size = new System.Drawing.Size(80, 80);
             this.guna2CirclePictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.guna2CirclePictureBox1.TabIndex = 6;
             this.guna2CirclePictureBox1.TabStop = false;
+            this.guna2CirclePictureBox1.UseTransparentBackground = true;
             this.guna2CirclePictureBox1.Click += new System.EventHandler(this.guna2CirclePictureBox1_Click);
             // 
             // label3
@@ -409,21 +408,20 @@ namespace DoubleTRice.UI
             this.pnlNavbar.BackColor = System.Drawing.Color.LightSteelBlue;
             this.pnlNavbar.Controls.Add(this.button1);
             this.pnlNavbar.Controls.Add(this.pictureBox2);
-            this.pnlNavbar.Controls.Add(this.label4);
             this.pnlNavbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlNavbar.Location = new System.Drawing.Point(281, 0);
             this.pnlNavbar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlNavbar.Name = "pnlNavbar";
-            this.pnlNavbar.Size = new System.Drawing.Size(1181, 144);
+            this.pnlNavbar.Size = new System.Drawing.Size(1181, 74);
             this.pnlNavbar.TabIndex = 1;
             this.pnlNavbar.Resize += new System.EventHandler(this.PnlNavbar_Resize);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1152, 25);
+            this.button1.Location = new System.Drawing.Point(943, 4);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 42);
+            this.button1.Size = new System.Drawing.Size(75, 39);
             this.button1.TabIndex = 5;
             this.button1.Text = "Mode";
             this.button1.UseVisualStyleBackColor = true;
@@ -442,24 +440,14 @@ namespace DoubleTRice.UI
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(32, 11);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Tên trang";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
             // pnlBody
             // 
             this.pnlBody.BackColor = System.Drawing.Color.LavenderBlush;
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBody.Location = new System.Drawing.Point(281, 144);
+            this.pnlBody.Location = new System.Drawing.Point(281, 74);
             this.pnlBody.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.pnlBody.Name = "pnlBody";
-            this.pnlBody.Size = new System.Drawing.Size(1181, 781);
+            this.pnlBody.Size = new System.Drawing.Size(1181, 851);
             this.pnlBody.TabIndex = 2;
             // 
             // guna2BorderlessForm1
@@ -492,7 +480,6 @@ namespace DoubleTRice.UI
             this.pnlBrand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlNavbar.ResumeLayout(false);
-            this.pnlNavbar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
@@ -526,8 +513,7 @@ namespace DoubleTRice.UI
         private Button button1;
         private Guna2BorderlessForm guna2BorderlessForm1;
         private Guna2Button BtnUsers;
-        private Label label4;
-        private readonly PaintEventHandler panel1_Paint;
+       // private readonly PaintEventHandler panel1_Paint;
         private Label lblGroupDanhMuc;
         private Label lblGroupQuanLy;
     }
