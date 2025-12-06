@@ -3,6 +3,8 @@ using DoubleTRice.DT;
 using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Linq;
+
 
 namespace DoubleTRice.UI.ChildForms
 {
@@ -131,10 +133,27 @@ namespace DoubleTRice.UI.ChildForms
             // Validate số điện thoại nếu có nhập
             if (!string.IsNullOrWhiteSpace(txtSoDienThoai.Text))
             {
-                string phone = txtSoDienThoai.Text.Trim();
+                //string phone = txtSoDienThoai.Text.Trim();
+                //if (phone.Length < 10 || phone.Length > 11)
+                //{
+                //    ShowError("Số điện thoại phải có 10-11 chữ số");
+                //    txtSoDienThoai.Focus();
+                //    return false;
+                //}
+                string phone = txtSoDienThoai.Text.Trim().Replace(" ", "");
+
+                // Chỉ chứa số
+                if (phone.Any(c => !char.IsDigit(c)))
+                {
+                    ShowError("Số điện thoại chỉ được chứa chữ số");
+                    txtSoDienThoai.Focus();
+                    return false;
+                }
+
+                // Độ dài 10-11
                 if (phone.Length < 10 || phone.Length > 11)
                 {
-                    ShowError("Số điện thoại phải có 10-11 chữ số");
+                    ShowError("Số điện thoại phải dài 10-11 số");
                     txtSoDienThoai.Focus();
                     return false;
                 }

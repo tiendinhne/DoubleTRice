@@ -89,9 +89,9 @@ namespace DoubleTRice.UI.ChildForms
             "Còn hàng",
             "Sắp hết",
             "Hết hàng"});
-            this.cboStatusFilter.Location = new System.Drawing.Point(790, 20);
+            this.cboStatusFilter.Location = new System.Drawing.Point(824, 20);
             this.cboStatusFilter.Name = "cboStatusFilter";
-            this.cboStatusFilter.Size = new System.Drawing.Size(240, 36);
+            this.cboStatusFilter.Size = new System.Drawing.Size(206, 36);
             this.cboStatusFilter.StartIndex = 0;
             this.cboStatusFilter.TabIndex = 0;
             this.cboStatusFilter.SelectedIndexChanged += new System.EventHandler(this.CboStatusFilter_SelectedIndexChanged);
@@ -102,12 +102,12 @@ namespace DoubleTRice.UI.ChildForms
             this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSearch.DefaultText = "";
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtSearch.Location = new System.Drawing.Point(415, 20);
+            this.txtSearch.Location = new System.Drawing.Point(578, 20);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.PlaceholderText = "🔍 Tìm kiếm sản phẩm...";
             this.txtSearch.SelectedText = "";
-            this.txtSearch.Size = new System.Drawing.Size(365, 40);
+            this.txtSearch.Size = new System.Drawing.Size(202, 40);
             this.txtSearch.TabIndex = 1;
             this.txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
@@ -117,7 +117,7 @@ namespace DoubleTRice.UI.ChildForms
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTitle.Location = new System.Drawing.Point(20, 15);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(388, 50);
+            this.lblTitle.Size = new System.Drawing.Size(525, 50);
             this.lblTitle.TabIndex = 2;
             this.lblTitle.Text = "📦 Quản lý Sản phẩm";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

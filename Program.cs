@@ -145,7 +145,7 @@ namespace DoubleTRice
             }
             catch
             {
-                // Nếu không ghi được log, bỏ qua
+                // Nếu không ghi được log, bỏ quaa
             }
         }
     }
